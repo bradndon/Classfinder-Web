@@ -4,10 +4,123 @@ import urllib
 import urllib2
 import json
 
-def getClasses():
+def test(subject):
+    classes = getClasses(subject)
+    print subject + "\t" + str(classes[0] == classes[1])
+    if not classes[0] == classes[1]:
+        print getClasses(subject, True)
+
+def getClasses(subject, verbose=False):
     url = 'https://admin.wwu.edu/pls/wwis/wwsktime.ListClass' # write the url here
-    subjects = {"Spanish" : "SPAN", "Computer Science" : "CSCI", "Art History" : "A/HI", "Accounting" : "ACCT"}
-    values = {'sel_subj' : ['dummy', 'dummy', 'A/HI', 'ACCT','CSCI','SPAN'],
+    subjects = {
+    	"International Business": "IBUS",
+    	"Engineering Technology": "ETEC",
+    	"Canadian/American Studies": "C/AM",
+    	"Info Systms Security": "CISS",
+    	"Modern and Classical Language": "LANG",
+    	"Decision Sciences": "DSCI",
+    	"Philosophy": "PHIL",
+    	"American Cultural Studies": "AMST",
+    	"French": "FREN",
+    	"Entrepreneurship": "ENTR",
+    	"Anthropology": "ANTH",
+    	"Computer Science": "CSCI",
+    	"Communication Sci & Disorders": "CSD",
+    	"Kinesiology": "KIN",
+    	"Rehabilitation Counseling": "RC",
+    	"Italian": "ITAL",
+    	"Art": "ART",
+    	"Nursing": "NURS",
+    	"Early Childhood Education": "ECE",
+    	"Adult and Higher Ed": "AHE",
+    	"Electrical Engineering": "EE",
+    	"Education": "EDUC",
+    	"Sexuality Stdy": "WGSS",
+    	"Materials Science": "MSCI",
+    	"Management": "MGMT",
+    	"Industrial Design": "ID",
+    	"Manufacturing Engineering": "MFGE",
+    	"Secondary Education": "SEC",
+    	"Environmental Sciences": "ESCI",
+    	"Eurasian Studies": "EUS",
+    	"Health Education": "HLED",
+    	"Biology": "BIOL",
+    	"Latin": "LAT",
+    	"Compass to Campus": "C2C",
+    	"Astronomy": "ASTR",
+    	"Elementary Education": "ELED",
+    	"Liberal Studies": "LBRL",
+    	"Fairhaven": "FAIR",
+    	"Economics": "ECON",
+    	"English Language Learners": "ELL",
+    	"Instructional Technology": "I T",
+    	"Greek": "GREK",
+    	"Student Affairs Administration": "SAA",
+    	"English": "ENG",
+    	"Physical Education": "PE",
+    	"Chemistry": "CHEM",
+    	"Chinese": "CHIN",
+    	"Dance": "DNC",
+    	"Energy": "ENRG",
+    	"&": "WGSS",
+    	"Industrial Tech-Vehicle Design": "VHCL",
+    	"Design": "DSGN",
+    	"Arabic": "ARAB",
+    	"Leadership Studies": "LDST",
+    	"Honors": "HNRS",
+    	"Linguistics": "LING",
+    	"Psychology": "PSY",
+    	"Disorders": "CSD",
+    	"Music": "MUS",
+    	"Women, Gender & Sexuality Stdy ": "WGSS",
+    	"Political Science": "PLSC",
+    	"Korean": "KORE",
+    	"Theatre Arts": "THTR",
+    	"East Asian Studies": "EAST",
+    	"Finance": "FIN",
+    	"Geology": "GEOL",
+    	"Science Education": "SCED",
+    	"Russian": "RUSS",
+    	"Operations Management": "OPS",
+    	"History": "HIST",
+    	"Art History": "A/HI",
+    	"Plastics Engineering": "PCE",
+    	"German": "GERM",
+    	"Teaching Eng/Second Language": "TESL",
+    	"Educational Administration": "EDAD",
+    	"All Subjects ": "All",
+    	"Library": "LIBR",
+    	"Mathematics/Computer Science": "M/CS",
+    	"Engineering": "PCE",
+    	"Seminar": "SMNR",
+    	"Sociology": "SOC",
+    	"Management Information Systems": "MIS",
+    	"Mathematics": "MATH",
+    	"Marketing": "MKTG",
+    	"Communication Studies": "COMM",
+    	"Environmental Studies": "ENVS",
+    	"Continuing & College Education": "CCE",
+    	"Coaching Development": "CD",
+    	"Recreation": "RECR",
+    	"Master of Professional ACCT": "MPAC",
+    	"Human Resource Management": "HRM",
+    	"Journalism": "JOUR",
+    	"Classical Studies": "CLST",
+    	"Human Services": "HSP",
+    	"Master of Business Admin": "MBA",
+    	"Physics": "PHYS",
+    	"Portuguese": "PORT",
+    	"Special Education": "SPED",
+    	"College Education": "CCE",
+    	"Japanese": "JAPN",
+    	"Computr & Info Systms Security": "CISS",
+    	"Spanish": "SPAN",
+    	"Accounting": "ACCT",
+    	"International Studies": "INTL",
+    	"Multidisciplinary Studies": "MDS",
+    	"Geography": "EGEO"
+    }
+    values = {'sel_subj' : ['dummy', 'dummy', subject, subject],
             'sel_inst' : 'ANY',
             'sel_gur' : ['dummy', 'dummy', 'All'],
             'sel_day' : 'dummy',
@@ -22,7 +135,6 @@ def getClasses():
 
 
     data = urllib.urlencode(values, doseq=True)
-    print data
     req = urllib2.Request(url, data)
     response = urllib2.urlopen(req)
     the_page = response.read()
@@ -92,7 +204,7 @@ def getClasses():
                         classNames.append( currData)
                 except:
                     currClass.append(currData)
-                    print "FAILED"
+                    # print "FAILED"
                     continue
 
             if currClass:
@@ -108,16 +220,130 @@ def getClasses():
                 currClass.append(currData)
                 add = False
     allClasses.append(currClass)
-    print len(crns)
-    print len(classNames)
+    if verbose:
+        print len(crns)
+        print len(classNames)
     del allClasses[0]
+
     for index, c in enumerate(allClasses):
         if c:
-            c.append(crns[index])
-            print c
-        else:
-            print "EMPTY################################"
+            if verbose:
+                print c
+        # else:
+        #     print "EMPTY################################"
+    return (len(crns), len(classNames))
+
     return json.dumps(allClasses)
 
+
 if __name__ == "__main__":
-    getClasses()
+    subjects = {
+    	"International Business": "IBUS",
+    	"Engineering Technology": "ETEC",
+    	"Canadian/American Studies": "C/AM",
+    	"Info Systms Security": "CISS",
+    	"Modern and Classical Language": "LANG",
+    	"Decision Sciences": "DSCI",
+    	"Philosophy": "PHIL",
+    	"American Cultural Studies": "AMST",
+    	"French": "FREN",
+    	"Entrepreneurship": "ENTR",
+    	"Anthropology": "ANTH",
+    	"Computer Science": "CSCI",
+    	"Communication Sci & Disorders": "CSD",
+    	"Kinesiology": "KIN",
+    	"Rehabilitation Counseling": "RC",
+    	"Italian": "ITAL",
+    	"Art": "ART",
+    	"Nursing": "NURS",
+    	"Early Childhood Education": "ECE",
+    	"Adult and Higher Ed": "AHE",
+    	"Electrical Engineering": "EE",
+    	"Education": "EDUC",
+    	"Sexuality Stdy": "WGSS",
+    	"Materials Science": "MSCI",
+    	"Management": "MGMT",
+    	"Industrial Design": "ID",
+    	"Manufacturing Engineering": "MFGE",
+    	"Secondary Education": "SEC",
+    	"Environmental Sciences": "ESCI",
+    	"Eurasian Studies": "EUS",
+    	"Health Education": "HLED",
+    	"Biology": "BIOL",
+    	"Latin": "LAT",
+    	"Compass to Campus": "C2C",
+    	"Astronomy": "ASTR",
+    	"Elementary Education": "ELED",
+    	"Liberal Studies": "LBRL",
+    	"Fairhaven": "FAIR",
+    	"Economics": "ECON",
+    	"English Language Learners": "ELL",
+    	"Instructional Technology": "I T",
+    	"Greek": "GREK",
+    	"Student Affairs Administration": "SAA",
+    	"English": "ENG",
+    	"Physical Education": "PE",
+    	"Chemistry": "CHEM",
+    	"Chinese": "CHIN",
+    	"Dance": "DNC",
+    	"Energy": "ENRG",
+    	"&": "WGSS",
+    	"Industrial Tech-Vehicle Design": "VHCL",
+    	"Design": "DSGN",
+    	"Arabic": "ARAB",
+    	"Leadership Studies": "LDST",
+    	"Honors": "HNRS",
+    	"Linguistics": "LING",
+    	"Psychology": "PSY",
+    	"Disorders": "CSD",
+    	"Music": "MUS",
+    	"Women, Gender & Sexuality Stdy ": "WGSS",
+    	"Political Science": "PLSC",
+    	"Korean": "KORE",
+    	"Theatre Arts": "THTR",
+    	"East Asian Studies": "EAST",
+    	"Finance": "FIN",
+    	"Geology": "GEOL",
+    	"Science Education": "SCED",
+    	"Russian": "RUSS",
+    	"Operations Management": "OPS",
+    	"History": "HIST",
+    	"Art History": "A/HI",
+    	"Plastics Engineering": "PCE",
+    	"German": "GERM",
+    	"Teaching Eng/Second Language": "TESL",
+    	"Educational Administration": "EDAD",
+    	"All Subjects ": "All",
+    	"Library": "LIBR",
+    	"Mathematics/Computer Science": "M/CS",
+    	"Engineering": "PCE",
+    	"Seminar": "SMNR",
+    	"Sociology": "SOC",
+    	"Management Information Systems": "MIS",
+    	"Mathematics": "MATH",
+    	"Marketing": "MKTG",
+    	"Communication Studies": "COMM",
+    	"Environmental Studies": "ENVS",
+    	"Continuing & College Education": "CCE",
+    	"Coaching Development": "CD",
+    	"Recreation": "RECR",
+    	"Master of Professional ACCT": "MPAC",
+    	"Human Resource Management": "HRM",
+    	"Journalism": "JOUR",
+    	"Classical Studies": "CLST",
+    	"Human Services": "HSP",
+    	"Master of Business Admin": "MBA",
+    	"Physics": "PHYS",
+    	"Portuguese": "PORT",
+    	"Special Education": "SPED",
+    	"College Education": "CCE",
+    	"Japanese": "JAPN",
+    	"Computr & Info Systms Security": "CISS",
+    	"Spanish": "SPAN",
+    	"Accounting": "ACCT",
+    	"International Studies": "INTL",
+    	"Multidisciplinary Studies": "MDS",
+    	"Geography": "EGEO"
+    }
+    for k,v in subjects.iteritems():
+        test(v)

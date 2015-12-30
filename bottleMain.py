@@ -8,8 +8,7 @@ app = bottle.Bottle()
 
 @app.get('/menu')
 def getLighter():
-    return menu.getHTTP()
-
+    return menu.extractData(menu.getHTTP())
 
 
 run(
