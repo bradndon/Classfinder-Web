@@ -34,3 +34,33 @@ class menuHTMLParser(HTMLParser):
         self.NEWATTRS = []
         self.HTMLDATA = []
         self.currentOption = []
+
+class classesHTMLParser(HTMLParser):
+    def __init__(self):
+        self.reset()
+        self.NEWTAGS = []
+        self.NEWATTRS = []
+        self.HTMLDATA = []
+        self.lastData = ""
+    def handle_starttag(self, tag, attrs):
+        # print "START " + tag
+        self.NEWTAGS.append(tag)
+        self.NEWATTRS.append(attrs)
+    # def handle_endtag(self, tag):
+    #     print "END " + tag
+    def handle_data(self, data):
+        if self.NEWTAGS[-1] == "a" and data.strip() and "table" in self.NEWTAGS:
+            self.HTMLDATA.append([])
+            if "CLOSED" in self.lastData:
+                self.HTMLDATA[-1].append(self.lastData)
+                if len(self.HTMLDATA) > 1:
+                    self.HTMLDATA[-2].pop()
+            self.HTMLDATA[-1].append(data.strip())
+        elif data.strip() and len(self.HTMLDATA) > 0:
+            self.HTMLDATA[-1].append(data.strip())
+        if data.strip():
+            self.lastData = data.strip()
+    def clean(self):
+        self.NEWTAGS = []
+        self.NEWATTRS = []
+        self.HTMLDATA = []

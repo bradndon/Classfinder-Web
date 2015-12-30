@@ -1,6 +1,6 @@
 import urllib2
 import json
-from menuHTMLParser import menuHTMLParser
+from classFinderHTMLParsers import menuHTMLParser
 
 def getHTTP():
     url = 'https://admin.wwu.edu/pls/wwis/wwsktime.SelClass'
@@ -17,7 +17,7 @@ def extractData(http):
     # Clean the parser
     parser.clean()
     data = dict((k, v) for k, v in data.iteritems() if v)
-    
+
     return json.dumps(data)
 
 
