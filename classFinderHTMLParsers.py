@@ -25,7 +25,6 @@ class menuHTMLParser(HTMLParser):
             else:
                 self.HTMLDATA[self.currentOption[-2]][data.strip()] = self.NEWATTRS[-1][-1][1]
                 self.lastData = data.strip()
-
         if self.NEWTAGS[-1] == "b":
             self.HTMLDATA[data.strip()[:-1]] = {}
             self.currentOption.append(data.strip()[:-1])
@@ -40,25 +39,41 @@ class classesHTMLParser(HTMLParser):
         self.reset()
         self.NEWTAGS = []
         self.NEWATTRS = []
-        self.HTMLDATA = []
+        self.HTMLDATA = {}
+        self.ALL = []
+        self.CLASSATTRS = {}
         self.lastData = ""
+        self.currSubj = ""
     def handle_starttag(self, tag, attrs):
-        # print "START " + tag
         self.NEWTAGS.append(tag)
         self.NEWATTRS.append(attrs)
-    # def handle_endtag(self, tag):
-    #     print "END " + tag
     def handle_data(self, data):
         if self.NEWTAGS[-1] == "a" and data.strip() and "table" in self.NEWTAGS:
-            self.HTMLDATA.append([])
+            if self.HTMLDATA and "Addl Chrgs" in self.HTMLDATA[self.currSubj][-1]:
+                pastSub = self.currSubj
+                index = self.HTMLDATA[pastSub][-1].index("Class")
+                self.currSubj = self.HTMLDATA[pastSub][-1][index-1]
+                self.HTMLDATA[self.currSubj] = []
+                self.CLASSATTRS[self.currSubj] = []
+                self.HTMLDATA[pastSub][-1] = self.HTMLDATA[pastSub][-1][:index-1]
+            elif not self.HTMLDATA:
+                self.currSubj = self.ALL[self.ALL.index("Class") - 1]
+                self.HTMLDATA[self.currSubj] = []
+                self.CLASSATTRS[self.currSubj] = []
+            self.HTMLDATA[self.currSubj].append([])
+            self.CLASSATTRS[self.currSubj].append([])
             if "CLOSED" in self.lastData:
-                self.HTMLDATA[-1].append(self.lastData)
-                if len(self.HTMLDATA) > 1:
-                    self.HTMLDATA[-2].pop()
-            self.HTMLDATA[-1].append(data.strip())
+                self.HTMLDATA[self.currSubj][-1].append(self.lastData)
+                self.CLASSATTRS[self.currSubj][-1].append(())
+                if len(self.HTMLDATA[self.currSubj]) > 1:
+                    self.HTMLDATA[self.currSubj][-2].pop()
+            self.HTMLDATA[self.currSubj][-1].append(data.strip())
+            self.CLASSATTRS[self.currSubj][-1].append(self.NEWATTRS[-1])
         elif data.strip() and len(self.HTMLDATA) > 0:
-            self.HTMLDATA[-1].append(data.strip())
+            self.HTMLDATA[self.currSubj][-1].append(data.strip())
+            self.CLASSATTRS[self.currSubj][-1].append(self.NEWATTRS[-1])
         if data.strip():
+            self.ALL.append(data.strip())
             self.lastData = data.strip()
     def clean(self):
         self.NEWTAGS = []

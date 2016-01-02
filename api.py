@@ -7,14 +7,20 @@ import sys
 from classFinderHTMLParsers import classesHTMLParser
 
 def test(subject, verbose=False):
-    if subject != "All":
-        number = getNumClasses(subject)
-        classes = getClasses(subject, verbose)
+    number = getNumClasses(subject)
+    classes = getClasses(subject, verbose, True)
 
-        print subject + "\t" + str(number == classes)
-        assert classes == number, subject + " is not the correct amount of classes\nCorrect number: " + str(number) + "\nYour number: " + str(classes)
+    print subject + "\t" + str(number == classes)
+    assert classes == number, subject + " is not the correct amount of classes\nCorrect number: " + str(number) + "\nYour number: " + str(classes)
 
-def getClasses(subject, verbose=False):
+def RepresentsInt(s):
+    try:
+        int(s)
+        return True
+    except ValueError:
+        return False
+
+def getClasses(subject, verbose=False, test=False):
     url = 'https://admin.wwu.edu/pls/wwis/wwsktime.ListClass' # write the url here
     subjects = {
     	"International Business": "IBUS",
@@ -124,7 +130,7 @@ def getClasses(subject, verbose=False):
     	"Multidisciplinary Studies": "MDS",
     	"Geography": "EGEO"
     }
-    values = {'sel_subj' : ['dummy', 'dummy', subject, subject],
+    values = {'sel_subj' : ['dummy', 'dummy', "All", "All"],
             'sel_inst' : 'ANY',
             'sel_gur' : ['dummy', 'dummy', 'All'],
             'sel_day' : 'dummy',
@@ -137,7 +143,7 @@ def getClasses(subject, verbose=False):
             'sel_cdts': 'All',
             'term': '201610'}
 
-
+    parts = ["addl", "restrictions", "prerequisites", "other", "time2", "room2"]
     data = urllib.urlencode(values, doseq=True)
     req = urllib2.Request(url, data)
     response = urllib2.urlopen(req)
@@ -148,109 +154,105 @@ def getClasses(subject, verbose=False):
     tags  = parser.NEWTAGS
     attrs = parser.NEWATTRS
     data  = parser.HTMLDATA
-
+    classattr = parser.CLASSATTRS
     # Clean the parser
     parser.clean()
+
+    crns = []
+    for attr in attrs:
+        if ('type', 'submit') in attr:
+            crns.append(attr[2][1])
     count = 0
     if verbose:
-        for index, d in enumerate(data):
-            for s in d:
-                print s
-            print "--------------------------------------"
-    return len(data)
-    # class myhtmlparser(HTMLParser):
-    #     def __init__(self):
-    #         self.reset()
-    #         self.NEWTAGS = []
-    #         self.NEWATTRS = []
-    #         self.HTMLDATA = []
-    #     def handle_starttag(self, tag, attrs):
-    #         self.NEWTAGS.append(tag)
-    #         self.NEWATTRS.append(attrs)
-    #     def handle_data(self, data):
-    #         self.HTMLDATA.append(data)
-    #     def clean(self):
-    #         self.NEWTAGS = []
-    #         self.NEWATTRS = []
-    #         self.HTMLDATA = []
-    #
-    # parser = myhtmlparser()
-    # parser.feed(the_page)
-    #
-    # # Extract data from parser
-    # tags  = parser.NEWTAGS
-    # attrs = parser.NEWATTRS
-    # data  = parser.HTMLDATA
-    #
-    # # Clean the parser
-    # parser.clean()
-    #
-    # #Print out our data
-    # #print tags
-    # # print attrs
-    # currClass = []
-    # crns = []
-    # allClasses = []
-    # classNames = []
-    #
-    #
-    # for attr in attrs:
-    #     if ('type', 'submit') in attr:
-    #         crns.append(attr[2][1])
-    # currSubj = ""
-    # add = False
-    # currClass.append(data[0])
-    # for s in data:
-    #     currData = s.strip()
-    #     if currData:
-    #         parts = currData.split(" ")
-    #         if currClass and currSubj == parts[0] and len(parts) == 2:
-    #             index = 0
-    #             while index != len(currClass) - 1  and currSubj not in currClass[index]:
-    #                 index += 1
-    #             currParts = currClass[index].split(" ")
-    #             try:
-    #                 if int(currParts[1][0:3]) <= int(parts[1][0:3]) and "co-requisit" not in currClass[-1]:
-    #                     lastClass = currClass
-    #                     if "CLOSED" in currClass[1:] or "CLOSED:   Waitlist Available" in currClass[1:]:
-    #                         currClass = lastClass[-1:]
-    #                         del lastClass[-1]
-    #                     else:
-    #                         currClass = []
-    #                     allClasses.append(lastClass)
-    #                     currClass.append(currData)
-    #                     classNames.append( currData)
-    #             except:
-    #                 currClass.append(currData)
-    #                 # print "FAILED"
-    #                 continue
-    #
-    #         if currClass:
-    #             currClass.append(currData)
-    #         if not add and currData == "Addl Chrgs":
-    #             if len(currClass) > 0:
-    #                 currSubj =  subjects[currClass[-14]]
-    #                 allClasses.append(currClass[0:-14])
-    #                 currClass = []
-    #             add = True
-    #         elif add:
-    #             classNames.append(currData)
-    #             currClass.append(currData)
-    #             add = False
-    # allClasses.append(currClass)
-    # if verbose:
-    #     print len(crns)
-    #     print len(classNames)
-    # del allClasses[0]
-    # for index, c in enumerate(allClasses):
-    #     if c:
-    #         if verbose:
-    #             print c
-    #     # else:
-    #     #     print "EMPTY################################"
-    # return len(classNames)
-    #
-    # return json.dumps(allClasses)
+        for k, v in data.iteritems():
+            for index, d in enumerate(v):
+                for ind, s in enumerate(d):
+                    print s + "\t\t\t" +  str(classattr[k][index][ind])
+                print "--------------------------------------"
+    allReturns = {}
+    returns = []
+    for k,v in data.iteritems():
+        print k
+        for index, aClass in enumerate(v):
+            rest = False
+            prereq = False
+            other = False
+            added = False
+            returns.append({})
+            if "CLOSED" in aClass[0]:
+                returns[-1]["open"] = False
+                del aClass[0]
+                del classattr[k][index][0]
+            else:
+                returns[-1]["open"] = True
+            returns[-1]["class"] = aClass[0]
+            counter =  2
+            returns[-1]["title"] = aClass[1]
+            while not RepresentsInt(aClass[counter]):
+                returns[-1]["title"] +=  " " + aClass[counter]
+                counter += 1
+            returns[-1]["cap"] = int(aClass[counter])
+            returns[-1]["enrol"] = int(aClass[counter + 1])
+            returns[-1]["avail"] = int(aClass[counter + 2])
+            returns[-1]["inst"] = aClass[counter + 3]
+            returns[-1]["dates"] = aClass[counter + 4]
+            returns[-1]["crn"] = crns[index]
+            if ('color', 'black') in classattr[k][index][counter + 5]:
+                returns[-1]["gur"] = aClass[counter + 5]
+                counter += 1
+            else:
+                returns[-1]["gur"] = None
+            returns[-1]["time1"] = aClass[counter + 5]
+            returns[-1]["room1"] = aClass[counter + 6]
+            returns[-1]["crenum"] = aClass[counter + 7]
+            length = len(aClass)
+            while length > counter + 8:
+                added = False
+                if aClass[counter + 8][0] == "$":
+                    returns[-1]["addl"] = aClass[counter + 8]
+                    added = True
+                if "Restrictions:" in aClass[counter + 8]:
+                    rest = True
+                    added = True
+                    counter += 1
+                    returns[-1]["restrictions"] = aClass[counter + 8]
+                if "Prerequisites:" in aClass[counter + 8]:
+                    prereq = True
+                    rest = False
+                    added = True
+                    counter += 1
+                    returns[-1]["prerequisites"] = aClass[counter + 8]
+                if not other and ([('size', '-2')] == classattr[k][index][counter + 8] or [('size', '-1')] == classattr[k][index][counter + 8]):
+                    prereq = False
+                    rest = False
+                    other = True
+                    added = True
+                    returns[-1]["other"] = aClass[counter + 8]
+                if not added:
+                    if rest:
+                        returns[-1]["restrictions"] += " " + aClass[counter + 8]
+                    elif prereq:
+                        returns[-1]["prerequisites"] += " " + aClass[counter + 8]
+                    elif other:
+                        returns[-1]["other"] += " " + aClass[counter + 8]
+                    else:
+                        returns[-1]["time2"] = aClass[counter + 8]
+                        counter += 1
+                        returns[-1]["room2"] = aClass[counter + 8]
+                counter += 1
+            for part in parts:
+                if part not in returns[-1]:
+                    returns[-1][part] = None
+        allReturns[k] = returns
+        returns = []
+    print json.dumps(allReturns)
+    if test:
+        for k,v in data.iteritems():
+            if subjects[k] == subject:
+                return len(data[k])
+    else:
+        return json.dumps(allReturns)
+
 
 
 def getNumClasses(subject):
