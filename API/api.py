@@ -8,7 +8,7 @@ from classFinderHTMLParsers import classesHTMLParser
 
 def test(subject, verbose=False):
     number = getNumClasses(subject)
-    classes = getClasses(subject, verbose, True)
+    classes = getClasses(subject, 201610, verbose, True)
 
     print subject + "\t" + str(number == classes)
     assert classes == number, subject + " is not the correct amount of classes\nCorrect number: " + str(number) + "\nYour number: " + str(classes)
@@ -20,7 +20,7 @@ def RepresentsInt(s):
     except ValueError:
         return False
 
-def getClasses(subject, verbose=False, test=False):
+def getClasses(subject, term, verbose=False, test=False):
     url = 'https://admin.wwu.edu/pls/wwis/wwsktime.ListClass' # write the url here
     subjects = {
     	"International Business": "IBUS",
@@ -130,7 +130,7 @@ def getClasses(subject, verbose=False, test=False):
     	"Multidisciplinary Studies": "MDS",
     	"Geography": "EGEO"
     }
-    values = {'sel_subj' : ['dummy', 'dummy', "All", "All"],
+    values = {'sel_subj' : ['dummy', 'dummy', subject, subject],
             'sel_inst' : 'ANY',
             'sel_gur' : ['dummy', 'dummy', 'All'],
             'sel_day' : 'dummy',
@@ -141,7 +141,7 @@ def getClasses(subject, verbose=False, test=False):
             'end_hh': '00',
             'end_mi': 'A',
             'sel_cdts': 'All',
-            'term': '201610'}
+            'term': term}
 
     parts = ["addl", "restrictions", "prerequisites", "other", "time2", "room2"]
     data = urllib.urlencode(values, doseq=True)
@@ -172,7 +172,6 @@ def getClasses(subject, verbose=False, test=False):
     allReturns = {}
     returns = []
     for k,v in data.iteritems():
-        print k
         for index, aClass in enumerate(v):
             rest = False
             prereq = False
@@ -245,7 +244,8 @@ def getClasses(subject, verbose=False, test=False):
                     returns[-1][part] = None
         allReturns[k] = returns
         returns = []
-    print json.dumps(allReturns)
+    if verbose:
+        print json.dumps(allReturns)
     if test:
         for k,v in data.iteritems():
             if subjects[k] == subject:
