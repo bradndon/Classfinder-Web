@@ -1,0 +1,7 @@
+{
+  "name": "ClassFinder API",
+  "version": "0.1.0",
+  "description": "apiDoc basic example",
+  "title": "WWU ClassFinder API Documentation",
+  "url" : "https://api.wwuclassfinder.com/v1"
+}

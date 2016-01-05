@@ -4,7 +4,12 @@ import urllib
 import urllib2
 import json
 import sys
+import random
+import string
 from classFinderHTMLParsers import classesHTMLParser
+
+def id_generator(size=36, chars=string.ascii_uppercase + string.digits):
+    return ''.join(random.choice(chars) for _ in range(size))
 
 def test(subject, verbose=False):
     number = getNumClasses(subject)
@@ -415,6 +420,7 @@ if __name__ == "__main__":
         verbose = True
         args.remove("--verbose")
     print args
+    print id_generator()
     if len(args) >= 2:
         test(args[1], verbose)
     else:
