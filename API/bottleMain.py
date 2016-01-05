@@ -42,12 +42,19 @@ def mainPage():
     return static_file('index.html', root='./docs/')
 
 
+"""
+ @apiDefine ApikeyNeeded
+ @apiParam {String} apikey  A required private Apikey distrubted by this site
+"""
+
 
 """
 @api {get} /menu Request Menu information
 @apiName GetWholeMenu
 @apiVersion 0.1.0
 @apiGroup Menu
+
+@apiUse ApikeyNeeded
 
 @apiSuccess {String[]} Term  Dictionary of the terms and their associated term number
 @apiSuccess {String[]} End  Time options for when classes can end
@@ -77,6 +84,7 @@ def getMenu(db):
 @apiGroup Classes
 
 @apiParam {Number} term Class term unique ID.
+@apiUse ApikeyNeeded
 
 @apiSuccess {Object[]} Classes  Dictionary of classes sorted by class
 @apiSuccess {Object[]} Classes.Class  Class object that has all the information for a class
