@@ -11,8 +11,40 @@ pip install mod_wsgi
 pip install bottle
 sudo apt-get install libapache2-mod-wsgi
 sudo a2enmod wsgi
-sudo service apache2 restart
+sudo a2enmod headers
+sudo pip install pymysql
+echo '
+<VirtualHost *:80>
+  ServerName sub.localhost
+  DocumentRoot /var/www/html
+</VirtualHost>
+<VirtualHost *:80>
+    Header set Access-Control-Allow-Origin "*"
+    ServerName localhost
 
+    ServerAdmin webmaster@localhost
+    WSGIDaemonProcess API user=www-data group=www-data
+    WSGIScriptAlias / /var/www/API/app.wsgi
+
+    <Directory /var/www/API>
+           WSGIProcessGroup API
+           WSGIApplicationGroup %{GLOBAL}
+           Order deny,allow
+           Allow from all
+    </Directory>
+    ErrorLog ${APACHE_LOG_DIR}/error.log
+    CustomLog ${APACHE_LOG_DIR}/access.log combined
+</VirtualHost>
+
+# vim: syntax=apache ts=4 sw=4 sts=4 sr noet' > /etc/apache2/sites-enabled/000-default.conf
+sudo debconf-set-selections <<< 'mysql-server mysql-server/root_password password 7rebrahuxetrewuc'
+sudo debconf-set-selections <<< 'mysql-server mysql-server/root_password_again password 7rebrahuxetrewuc'
+sudo apt-get -y install mysql-server
+sudo pip install bottle-sqlalchemy
+mysql -u root -p7rebrahuxetrewuc -Bse "drop database apidb;"
+mysql -u root -p7rebrahuxetrewuc -Bse "create database apidb;"
+python /vagrant/backend/sql_ex.py
+sudo service apache2 restart
 
 if ! [ -L /var/www ]; then
   rm -rf /var/www
