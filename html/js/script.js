@@ -1,8 +1,6 @@
 var classApp = angular.module('classApp', []);
 classApp.controller('HomeCtrl', function($scope) {
-  $scope.selected = [];
-  $scope.selectedGur = [];
-  $scope.ruleset = {"class": [], gur: []};
+  $scope.ruleset = {"class": [], gur: [], day: []};
   $scope.filter = function(currClass) {
     var index = 0;
     var returns = Array.apply(null, Array(2)).map(String.prototype.valueOf,"false");
@@ -22,6 +20,15 @@ classApp.controller('HomeCtrl', function($scope) {
       return false;
     }
     return true;
+  }
+  $scope.dayClicked = function(day){
+    var index = $scope.ruleset.day.indexOf(day)
+    if (index > -1){
+      $scope.ruleset.day.splice(index,1);
+    } else {
+      $scope.ruleset.day.push(day);
+    }
+    console.log($scope.ruleset.day);
   }
   $.getJSON("http://localhost:4568/v1/class/201610?apikey=mine", function(data) {
     $scope.allData = data;
