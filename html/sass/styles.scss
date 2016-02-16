@@ -12,7 +12,7 @@ html {
 }
 body {
   margin: 0;
-  padding: 0 0 0 22em;
+  padding: 0 0 0 23em;
 }
 .sidebar {
   background-color: $western-blue;
@@ -20,14 +20,43 @@ body {
   top: 0;
   left: 0;
   height: 100%;
-  width: 22.0em;
+  width: 23.0em;
   -webkit-box-shadow: 3px 0 8px 0 rgba(0,0,0,0.75);
   -moz-box-shadow: 3px 0 8px 0 rgba(0,0,0,0.75);
   box-shadow: 3px 0 8px 0 rgba(0,0,0,0.75);
   &__subject {
     width: 100%;
   }
+  &__text {
+    color: white;
+    margin: 5px;
+  }
+  &__check {
+    position: absolute;
+    left:-10000;
+    &:checked + .sidebar__checklbl {
+      background-color: $western-light-blue;
+    }
+  }
+  &__checklbl {
+    float: left;
+    color: white;
+    width: 28px;
+    height: 28px;
+    font-size: 1.5em;
+    border-radius: 15px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    margin-left: 4px;
+    &:hover {
+      cursor: pointer;
+    }
+  }
+
+
 }
+
 .content {
   background-color: #EEEEEE;
   float: left;
@@ -83,7 +112,6 @@ body {
   border-radius: 0 !important;
 }
 .select2-selection--multiple {
-  margin-top: 20px;
   background-color: $western-light-blue !important;
   border: none !important;
 }
