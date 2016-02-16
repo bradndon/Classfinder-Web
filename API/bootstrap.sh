@@ -1,19 +1,19 @@
 #!/usr/bin/env bash
 
-apt-get update
-apt-get install -y apache2
+sudo apt-get update
+sudo apt-get install -y apache2
 sudo apt-get install -y libssl-dev
 sudo apt-get install -y python-dev
 sudo apt-get install -y python-pip
 sudo apt-get install -y apache2-mpm-prefork
 sudo apt-get install -y apache2-threaded-dev
-pip install mod_wsgi
-pip install bottle
+sudo pip install mod_wsgi
+sudo pip install bottle
 sudo apt-get install libapache2-mod-wsgi
 sudo a2enmod wsgi
 sudo a2enmod headers
 sudo pip install pymysql
-echo '
+sudo echo '
 <VirtualHost *:80>
   ServerName sub.localhost
   DocumentRoot /var/www/html
