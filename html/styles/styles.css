@@ -63,6 +63,13 @@ body {
     margin-left: 4px; }
     .sidebar__checklbl:hover {
       cursor: pointer; }
+  .sidebar__input {
+    width: 100%;
+    padding: .5em;
+    font-size: 1.5em !important;
+    color: white; }
+    .sidebar__input:focus {
+      outline: none; }
 
 .content {
   background-color: #EEEEEE;
@@ -109,6 +116,7 @@ body {
 .select2-selection--multiple {
   border-radius: 0 !important; }
 
+.sidebar__input,
 .select2-selection--multiple {
   background-color: #0083D6 !important;
   border: none !important; }
