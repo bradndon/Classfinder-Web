@@ -32,6 +32,24 @@ body {
     left: -10000; }
     .sidebar__check:checked + .sidebar__checklbl {
       background-color: #0083D6; }
+  .sidebar__radio {
+    position: absolute;
+    left: -10000; }
+    .sidebar__radio:checked + .sidebar__radiolbl > .sidebar__radiodiv {
+      background-color: #0083D6; }
+  .sidebar__radiolbl {
+    font-size: 1.5em;
+    color: white; }
+    .sidebar__radiolbl:hover {
+      cursor: pointer; }
+  .sidebar__radiodiv {
+    background-color: white;
+    border: 0.2em solid white;
+    margin-left: 4px;
+    width: 30px;
+    height: 30px;
+    border-radius: 15px;
+    float: left; }
   .sidebar__checklbl {
     float: left;
     color: white;

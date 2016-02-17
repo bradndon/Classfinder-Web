@@ -38,6 +38,29 @@ body {
       background-color: $western-light-blue;
     }
   }
+  &__radio {
+    position: absolute;
+    left:-10000;
+    &:checked + .sidebar__radiolbl > .sidebar__radiodiv {
+      background-color: $western-light-blue;
+    }
+  }
+  &__radiolbl {
+    font-size: 1.5em;
+    color: white;
+    &:hover {
+      cursor: pointer;
+    }
+  }
+  &__radiodiv{
+    background-color: white;
+    border: 0.2em solid white;
+    margin-left: 4px;
+    width: 30px;
+    height:30px;
+    border-radius: 15px;
+    float: left;
+  }
   &__checklbl {
     float: left;
     color: white;
