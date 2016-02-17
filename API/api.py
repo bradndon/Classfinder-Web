@@ -190,6 +190,7 @@ def getClasses(subject, term, verbose=False, test=False):
             else:
                 returns[-1]["open"] = True
             returns[-1]["class"] = aClass[0]
+            returns[-1]["courseNum"] = aClass[0].split(" ")[-1]
             counter =  2
             returns[-1]["title"] = aClass[1]
             while not RepresentsInt(aClass[counter]):

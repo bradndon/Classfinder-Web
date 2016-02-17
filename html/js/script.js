@@ -7,7 +7,13 @@ classApp.controller('HomeCtrl', function($scope) {
   };
   $scope.showTitle = {};
   $scope.exclusive = true;
+  $scope.courseNum = "";
   $scope.$watch('exclusive', function(newValue, oldValue) {
+    for (obj in $scope.showTitle) {
+      $scope.showTitle[obj] = false;
+    }
+  });
+  $scope.$watch('courseNum', function(newValue, oldValue) {
     for (obj in $scope.showTitle) {
       $scope.showTitle[obj] = false;
     }
@@ -16,6 +22,9 @@ classApp.controller('HomeCtrl', function($scope) {
     var days = [];
     var day1 = currClass.time1.split(" ")[0];
     var day2 = "";
+    if ($scope.courseNum != currClass.courseNum.substring(0,$scope.courseNum.length)){
+      return false;
+    }
     if (currClass.time2 != null) {
       day2 = currClass.time2.split(" ")[0];
     }
