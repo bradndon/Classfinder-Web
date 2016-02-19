@@ -36,14 +36,14 @@ body {
     position: absolute;
     left: -10000; }
     .sidebar__radio:checked + .sidebar__radiolbl > .sidebar__radiodiv {
-      background-color: #0083D6; }
+      background-color: white; }
   .sidebar__radiolbl {
     font-size: 1.5em;
     color: white; }
     .sidebar__radiolbl:hover {
       cursor: pointer; }
   .sidebar__radiodiv {
-    background-color: white;
+    background-color: #003F87;
     border: 0.2em solid white;
     margin-left: 4px;
     width: 30px;
@@ -73,9 +73,7 @@ body {
 
 .content {
   background-color: #EEEEEE;
-  float: left;
-  width: 100%;
-  height: 100%; }
+  width: 100%; }
   .content__class {
     padding: 1em;
     background-color: white;

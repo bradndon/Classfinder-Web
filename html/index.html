@@ -2,11 +2,12 @@
 
 <head>
   <title>WWU ClassFinder</title>
-  <script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.2.25/angular.min.js"></script>
   <script src="https://code.jquery.com/jquery-1.12.0.min.js"></script>
+  <script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.2.25/angular.min.js"></script>
   <link href='https://fonts.googleapis.com/css?family=Lato:700,300' rel='stylesheet' type='text/css'>
   <link href="//cdnjs.cloudflare.com/ajax/libs/select2/4.0.1/css/select2.min.css" rel="stylesheet" />
   <script src="//cdnjs.cloudflare.com/ajax/libs/select2/4.0.1/js/select2.min.js"></script>
+  <script src="js/ng-infinite-scroll.min.js"></script>
   <script src="js/script.js"></script>
   <link rel="stylesheet" type="text/css" href="styles/styles.css">
 </head>
@@ -59,11 +60,23 @@
     <div style="clear:both; padding:4px;"></div>
     <h1 class="sidebar__text">Course Number</h1>
     <input type="text" ng-model="courseNum" class="sidebar__input">
+    <!-- <select>
+      <option value="6">6am</option>
+      <option value="7">7am</option>
+      <option value="8">8am</option>
+      <option value="9">9am</option>
+      <option value="10">10am</option>
+      <option value="11">11am</option>
+      <option value="12">12pm</option>
+      <option value="13">1pm</option>
+    </select> -->
+
   </div>
-  <div class="content">
+  <div style="height:100%">
+  <div class="content" infinite-scroll="addMoreClasses()" infinite-scroll-distance="4" infinite-scroll-listen-for-event="filtered">
     <div ng-repeat="(subject,classes) in data">
       <h1 ng-show="$parent.showTitle[subject]"  style="margin-left:0.6em; font-size: 3.0em;">{{subject}}</h1>
-      <div ng-show="filter(subject, class)" ng-repeat="class in classes" class="content__class">
+      <div ng-repeat="class in classes" class="content__class">
         <div style="float:left; width: 40%;">
           <h2 class="content__text content__text--title">{{class.class}} - {{class.title}}</h1>
           <h3 ng-if="class.gur" class="content__text content__text--subtitle">GURS: {{class.gur}}</h2>
@@ -97,5 +110,7 @@
       </div>
     </div>
   </div>
-</body>
+  <div style='clear: both;'></div></body>
+
+</div>
 </html>
