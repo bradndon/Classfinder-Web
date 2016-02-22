@@ -1,14 +1,36 @@
 var classApp = angular.module('classApp', ['infinite-scroll']);
 classApp.controller('HomeCtrl', function($scope, $rootScope) {
+  $scope.loaded = true;
+  $scope.begin = 0;
+  $scope.end = 2500;
   $scope.ruleset = {
     "class": [],
     gur: [],
-    day: []
+    day: [],
+    time: []
   };
   $scope.showTitle = {};
   $scope.exclusive = true;
   $scope.courseNum = "";
   $scope.$watch('exclusive', function(newValue, oldValue) {
+    for (obj in $scope.showTitle) {
+      $scope.showTitle[obj] = false;
+    }
+    $scope.data = {"Accounting":[]};
+    $scope.currSubject = 2;
+    $scope.numShown = 0;
+    $scope.$emit('list:filtered')
+  });
+  $scope.$watch('begin', function(newValue, oldValue) {
+    for (obj in $scope.showTitle) {
+      $scope.showTitle[obj] = false;
+    }
+    $scope.data = {"Accounting":[]};
+    $scope.currSubject = 2;
+    $scope.numShown = 0;
+    $scope.$emit('list:filtered')
+  });
+  $scope.$watch('end', function(newValue, oldValue) {
     for (obj in $scope.showTitle) {
       $scope.showTitle[obj] = false;
     }
@@ -25,11 +47,12 @@ classApp.controller('HomeCtrl', function($scope, $rootScope) {
       $scope.showTitle[obj] = false;
     }
     $scope.data = {"Accounting": []};
+    $scope.currSubject = 2;
     $scope.numShown = 0;
     $scope.$emit('list:filtered');
   });
   $scope.addMoreClasses = function() {
-    console.log($scope.subData[$scope.currSubject].text);
+    if (!$scope.loaded){
     var j = 0;
     for (var i = 0; i < 10; i ++) {
       if ($scope.numShown + i + j >= $scope.dataToShow[$scope.subData[$scope.currSubject].text].length){
@@ -52,6 +75,7 @@ classApp.controller('HomeCtrl', function($scope, $rootScope) {
     }
     $scope.numShown += i+j;
   }
+  }
   $scope.filter = function(subject, currClass) {
     var days = [];
     var day1 = currClass.time1.split(" ")[0];
@@ -59,6 +83,7 @@ classApp.controller('HomeCtrl', function($scope, $rootScope) {
     if ($scope.courseNum != currClass.courseNum.substring(0,$scope.courseNum.length)){
       return false;
     }
+    console.log(currClass.beginTime);
     if (currClass.time2 != null) {
       day2 = currClass.time2.split(" ")[0];
     }
@@ -70,20 +95,35 @@ classApp.controller('HomeCtrl', function($scope, $rootScope) {
     }
     var index = 0;
     currClass.day = days.sort();
-    var returns = Array.apply(null, Array(3)).map(String.prototype.valueOf, "false");
+    var returns = Array.apply(null, Array(4)).map(String.prototype.valueOf, "false");
     for (var rule in $scope.ruleset) {
       if ($scope.ruleset[rule].length == 0) {
         returns[index] = true;
       }
-      if (rule == "day" && $scope.exclusive && $scope.ruleset[rule].length != 0) {
-        var is_same = ($scope.ruleset[rule].length == currClass[rule].length) && $scope.ruleset[rule].every(function(element, index) {
-            return element === currClass[rule][index];
-        });
-        if (is_same){
-          returns[index] = true;
+      if (rule == "day" && $scope.ruleset[rule].length != 0) {
+        if($scope.exclusive){
+          var is_same = ($scope.ruleset[rule].length == currClass[rule].length) && $scope.ruleset[rule].every(function(element, index) {
+              return element === currClass[rule][index];
+          });
+          if (is_same){
+            returns[index] = true;
+          } else {
+            return false;
+          }
         } else {
-          return false;
+          for (var x in $scope.ruleset[rule]) {
+            if ($scope.ruleset[rule].length != 0 && currClass[rule] == null || (currClass[rule] != null && currClass[rule].indexOf($scope.ruleset[rule][x]) <= -1)) {
+              return false
+            }
+          }
+          returns[index] = true;
         }
+      } else if(rule=="time" && ($scope.begin > 0 || $scope.end < 2500)){
+          if (currClass.beginTime >= $scope.begin && currClass.endTime <= $scope.end){
+            returns[index] = true;
+          } else {
+            return false;
+          }
       } else {
         for (var x in $scope.ruleset[rule]) {
           if ($scope.ruleset[rule].length != 0 && currClass[rule] == null || (currClass[rule] != null && currClass[rule].indexOf($scope.ruleset[rule][x]) <= -1)) {} else {
@@ -116,12 +156,16 @@ classApp.controller('HomeCtrl', function($scope, $rootScope) {
     $scope.numShown = 0;
     $scope.$emit('list:filtered')
   }
-  $.getJSON("http://localhost:4568/v1/class/201610?apikey=mine", function(data) {
+  $.getJSON("http://localhost:4568/v1/class/201620?apikey=mine", function(data) {
     $scope.allData = data;
     $scope.dataToShow = data;
-    $scope.numShown = 10;
-    $scope.data = {"Accounting": data["Accounting"].slice(0,10)};
+    $scope.currSubject = 2;
+    $scope.data = {"Accounting": []};
+    $scope.numShown = 0;
+    $scope.$emit('list:filtered')
+    $scope.loaded = false;
     $scope.$apply();
+
 
   });
   $.getJSON("http://localhost:4568/v1/menu?apikey=mine", function(data) {
@@ -133,7 +177,7 @@ classApp.controller('HomeCtrl', function($scope, $rootScope) {
         id: data.Subject[obj],
         text: obj
       });
-      $scope.showTitle[obj] = true;
+      $scope.showTitle[obj] = false;
     }
     for (obj in data["GUR/Course Attribute"]) {
       gurData.push({

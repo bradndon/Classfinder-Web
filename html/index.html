@@ -60,20 +60,55 @@
     <div style="clear:both; padding:4px;"></div>
     <h1 class="sidebar__text">Course Number</h1>
     <input type="text" ng-model="courseNum" class="sidebar__input">
-    <!-- <select>
-      <option value="6">6am</option>
-      <option value="7">7am</option>
-      <option value="8">8am</option>
-      <option value="9">9am</option>
-      <option value="10">10am</option>
-      <option value="11">11am</option>
-      <option value="12">12pm</option>
-      <option value="13">1pm</option>
-    </select> -->
+    <h1 class="sidebar__text">Begin Time</h1>
+    <select ng-model="begin">
+      <option value="0" selected>Any</option>
+      <option value="600">6 am</option>
+      <option value="700">7 am</option>
+      <option value="800">8 am</option>
+      <option value="900">9 am</option>
+      <option value="1000">10 am</option>
+      <option value="1100">11 am</option>
+      <option value="1200">12 pm</option>
+      <option value="1300">1 pm</option>
+      <option value="1400">2 pm</option>
+      <option value="1500">3 pm</option>
+      <option value="1600">4 pm</option>
+      <option value="1700">5 pm</option>
+      <option value="1800">6 pm</option>
+      <option value="1900">7 pm</option>
+      <option value="2000">8 pm</option>
+      <option value="2100">9 pm</option>
+      <option value="2200">10 pm</option>
+      <option value="2300">11 pm</option>
+    </select>
+    <h1 class="sidebar__text">End Time</h1>
+    <select ng-model="end">
+      <option value="2500" selected>Any</option>
+      <option value="600">6 am</option>
+      <option value="700">7 am</option>
+      <option value="800">8 am</option>
+      <option value="900">9 am</option>
+      <option value="1000">10 am</option>
+      <option value="1100">11 am</option>
+      <option value="1200">12 pm</option>
+      <option value="1300">1 pm</option>
+      <option value="1400">2 pm</option>
+      <option value="1500">3 pm</option>
+      <option value="1600">4 pm</option>
+      <option value="1700">5 pm</option>
+      <option value="1800">6 pm</option>
+      <option value="1900">7 pm</option>
+      <option value="2000">8 pm</option>
+      <option value="2100">9 pm</option>
+      <option value="2200">10 pm</option>
+      <option value="2300">11 pm</option>
+    </select>
 
   </div>
-  <div style="height:100%">
-  <div class="content" infinite-scroll="addMoreClasses()" infinite-scroll-distance="4" infinite-scroll-listen-for-event="filtered">
+  <div style="height:100%" ng-switch="loaded">
+  <div ng-switch-when="true">LOADING</div>
+  <div ng-switch-when="false" class="content" infinte-scroll-disabled="$parent.loaded" infinite-scroll="addMoreClasses()" infinite-scroll-distance="4" infinite-scroll-listen-for-event="filtered">
     <div ng-repeat="(subject,classes) in data">
       <h1 ng-show="$parent.showTitle[subject]"  style="margin-left:0.6em; font-size: 3.0em;">{{subject}}</h1>
       <div ng-repeat="class in classes" class="content__class">
