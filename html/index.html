@@ -113,6 +113,24 @@
       <div class="sidebar__radiodiv"></div>
       <p style="float:left; margin-top:5px; margin-left: 5px;">Only Open Courses</p>
     </label>
+    <div style="clear:both; padding:4px;"></div>
+
+    <h1 class="sidebar__text">Credit Hours</h1>
+    <input type="range" style="float:left" min="0" max="18" ng-model="ruleset.crenum" />
+    <p style="float: left; margin-top:2px; margin-left: 5px; font-size: 1.8em;
+    color: white;">{{ruleset.crenum}}</p>
+    <div style="clear:both; padding:4px;"></div>
+    <input class="sidebar__radio" ng-model="atLeast" type="radio" id="AtLeast" ng-value="true">
+    <label for="AtLeast" class="sidebar__radiolbl">
+      <div class="sidebar__radiodiv"></div>
+      <p style="float:left; margin-top:5px; margin-left: 5px;">At Least this many</p>
+    </label>
+    <div style="clear:both; padding:4px;"></div>
+    <input class="sidebar__radio" ng-model="atLeast" type="radio" id="Exactly" ng-value="false">
+    <label for="Exactly" class="sidebar__radiolbl">
+      <div class="sidebar__radiodiv"></div>
+      <p style="float:left; margin-top:5px; margin-left: 5px;">Exactly this many</p>
+    </label>
   </div>
   <div style="height:100%" ng-switch="loaded">
     <div ng-switch-when="true">LOADING</div>

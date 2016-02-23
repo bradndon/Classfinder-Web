@@ -9,11 +9,24 @@ classApp.controller('HomeCtrl', function($scope, $rootScope) {
     gur: [],
     day: [],
     time: [],
-    open: ""
+    open: "",
+    crenum: "0"
   };
   $scope.showTitle = {};
   $scope.exclusive = true;
+  $scope.atLeast = true;
   $scope.courseNum = "";
+  $scope.$watch('atLeast', function(newValue, oldValue) {
+    for (obj in $scope.showTitle) {
+      $scope.showTitle[obj] = false;
+    }
+    $scope.data = {
+      "Accounting": []
+    };
+    $scope.currSubject = 2;
+    $scope.numShown = 0;
+    $scope.$emit('list:filtered')
+  });
   $scope.$watch('exclusive', function(newValue, oldValue) {
     for (obj in $scope.showTitle) {
       $scope.showTitle[obj] = false;
@@ -72,10 +85,21 @@ classApp.controller('HomeCtrl', function($scope, $rootScope) {
     $scope.numShown = 0;
     $scope.$emit('list:filtered');
   });
+  $scope.$watch('ruleset.crenum', function(newValue, oldValue) {
+    for (obj in $scope.showTitle) {
+      $scope.showTitle[obj] = false;
+    }
+    $scope.data = {
+      "Accounting": []
+    };
+    $scope.currSubject = 2;
+    $scope.numShown = 0;
+    $scope.$emit('list:filtered');
+  });
   $scope.addMoreClasses = function() {
     if (!$scope.loaded && $scope.currSubject < $scope.subData.length) {
       var j = 0;
-      for (var i = 0; i < 10; i++) {
+      for (var i = 0; i < 15; i++) {
         if ($scope.numShown + i + j >= $scope.dataToShow[$scope.subData[$scope.currSubject].text].length) {
           $scope.currSubject++;
           while ($scope.dataToShow[$scope.subData[$scope.currSubject].text] == null) {
@@ -98,10 +122,6 @@ classApp.controller('HomeCtrl', function($scope, $rootScope) {
     }
   }
   $scope.filter = function(subject, currClass) {
-    if (currClass.crn == "New Section") {
-
-      console.log(currClass)
-    }
     var days = [];
     var day1 = currClass.time1.split(" ")[0];
     var day2 = "";
@@ -119,9 +139,12 @@ classApp.controller('HomeCtrl', function($scope, $rootScope) {
     }
     var index = 0;
     currClass.day = days.sort();
-    var returns = Array.apply(null, Array(5)).map(String.prototype.valueOf, "false");
+    var returns = Array.apply(null, Array(6)).map(String.prototype.valueOf, "false");
     for (var rule in $scope.ruleset) {
       if ($scope.ruleset[rule].length == 0) {
+        if (rule == "crenum"){
+          console.log("FOUND");
+        }
         returns[index] = true;
       }
       if (rule == "day" && $scope.ruleset[rule].length != 0) {
@@ -147,6 +170,34 @@ classApp.controller('HomeCtrl', function($scope, $rootScope) {
           returns[index] = true;
         } else {
           return false;
+        }
+      } else if (rule == "crenum") {
+        if($scope.atLeast){
+          if (currClass.crenum.indexOf("-") <= -1){
+            if (parseInt(currClass.crenum) >= parseInt($scope.ruleset.crenum)) {
+              returns[index] = true;
+            } else {
+              return false;
+            }
+          } else {
+            var range = currClass.crenum.split("-");
+            if (parseInt($scope.ruleset.crenum) >= parseInt(range[0]) && parseInt($scope.ruleset.crenum) <= parseInt(range[1])) {
+              console.log(currClass.crenum + " " + $scope.ruleset.crenum);
+              returns[index] = true;
+            } else {
+              return false;
+            }
+          }
+        } else {
+          if (currClass.crenum.indexOf("-") <= -1){
+            if (parseInt(currClass.crenum) == parseInt($scope.ruleset.crenum)) {
+              returns[index] = true;
+            } else {
+              return false;
+            }
+          } else {
+            return false;
+          }
         }
       } else {
         if (typeof $scope.ruleset[rule] === 'object') {

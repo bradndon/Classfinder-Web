@@ -22,7 +22,8 @@ body {
   -webkit-box-shadow: 3px 0 8px 0 rgba(0, 0, 0, 0.75);
   -moz-box-shadow: 3px 0 8px 0 rgba(0, 0, 0, 0.75);
   box-shadow: 3px 0 8px 0 rgba(0, 0, 0, 0.75);
-  overflow-y: auto; }
+  overflow-y: auto;
+  overflow-x: hidden; }
   .sidebar__subject {
     width: 100%; }
   .sidebar__text {
@@ -43,6 +44,11 @@ body {
     color: white; }
     .sidebar__radiolbl:hover {
       cursor: pointer; }
+  .sidebar__slider {
+    width: 90%;
+    margin-left: 10px;
+    font-size: 1.8em;
+    color: white; }
   .sidebar__radiodiv {
     background-color: #003F87;
     border: 0.2em solid white;
@@ -122,5 +128,82 @@ body {
 .select2-selection--multiple {
   background-color: #0083D6 !important;
   border: none !important; }
+
+input[type=range] {
+  -webkit-appearance: none;
+  margin: 4px;
+  width: 80%;
+  margin-bottom: 20px;
+  margin-top: 10px; }
+
+input[type=range]:focus {
+  outline: none; }
+
+input[type=range]::-webkit-slider-runnable-track {
+  width: 100%;
+  height: 8.4px;
+  cursor: pointer;
+  animate: 0.2s;
+  background: white;
+  border-radius: 1.3px; }
+
+input[type=range]::-webkit-slider-thumb {
+  height: 28px;
+  width: 28px;
+  border-radius: 14px;
+  background: #0083D6;
+  cursor: pointer;
+  -webkit-appearance: none;
+  margin-top: -12px; }
+
+input[type=range]:focus::-webkit-slider-runnable-track {
+  background: white; }
+
+input[type=range]::-moz-range-track {
+  width: 100%;
+  height: 8.4px;
+  cursor: pointer;
+  animate: 0.2s;
+  background: white;
+  border-radius: 1.3px; }
+
+input[type=range]::-moz-range-thumb {
+  height: 28px;
+  width: 28px;
+  border-radius: 14px;
+  background: #0083D6;
+  cursor: pointer; }
+
+input[type=range]::-ms-track {
+  width: 100%;
+  height: 8.4px;
+  cursor: pointer;
+  animate: 0.2s;
+  background: transparent;
+  border-color: transparent;
+  border-width: 16px 0;
+  color: transparent; }
+
+input[type=range]::-ms-fill-lower {
+  background: #2a6495;
+  border-radius: 2.6px; }
+
+input[type=range]::-ms-fill-upper {
+  background: #3071a9;
+  border-radius: 2.6px;
+  box-shadow: 1px 1px 1px #000000, 0px 0px 1px #0d0d0d; }
+
+input[type=range]::-ms-thumb {
+  height: 28px;
+  width: 28px;
+  border-radius: 14px;
+  background: #0083D6;
+  cursor: pointer; }
+
+input[type=range]:focus::-ms-fill-lower {
+  background: white; }
+
+input[type=range]:focus::-ms-fill-upper {
+  background: white; }
 
 /*# sourceMappingURL=styles.css.map */
