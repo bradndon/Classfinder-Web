@@ -16,7 +16,7 @@ def test(subject, verbose=False):
     classes = getClasses(subject, 201620, verbose, True)
 
     print subject + "\t" + str(number == classes)
-    # assert classes == number, subject + " is not the correct amount of classes\nCorrect number: " + str(number) + "\nYour number: " + str(classes)
+    assert classes == number, subject + " is not the correct amount of classes\nCorrect number: " + str(number) + "\nYour number: " + str(classes)
 
 def RepresentsInt(s):
     try:
@@ -159,6 +159,7 @@ def getClasses(subject, term, verbose=False, test=False):
     attrs = parser.NEWATTRS
     data  = parser.HTMLDATA
     classattr = parser.CLASSATTRS
+    crn = parser.crn
     # Clean the parser
     parser.clean()
 
@@ -175,19 +176,21 @@ def getClasses(subject, term, verbose=False, test=False):
                 print "--------------------------------------"
     allReturns = {}
     returns = []
-    for k,v in data.iteritems():
+    totalIndex = 0
+    for k,v in sorted(data.iteritems()):
         for index, aClass in enumerate(v):
+            print aClass
             rest = False
             prereq = False
             other = False
             added = False
             returns.append({})
             if "CLOSED" in aClass[0]:
-                returns[-1]["open"] = False
+                returns[-1]["open"] = "false"
                 del aClass[0]
                 del classattr[k][index][0]
             else:
-                returns[-1]["open"] = True
+                returns[-1]["open"] = "true"
             returns[-1]["class"] = aClass[0]
             returns[-1]["courseNum"] = aClass[0].split(" ")[-1]
             counter =  2
@@ -200,7 +203,6 @@ def getClasses(subject, term, verbose=False, test=False):
             returns[-1]["avail"] = int(aClass[counter + 2])
             returns[-1]["inst"] = aClass[counter + 3]
             returns[-1]["dates"] = aClass[counter + 4]
-            returns[-1]["crn"] = crns[index]
             if ('color', 'black') in classattr[k][index][counter + 5]:
                 returns[-1]["gur"] = aClass[counter + 5]
                 counter += 1
@@ -216,6 +218,7 @@ def getClasses(subject, term, verbose=False, test=False):
                         beginTime = int(beginTime)
                         endTime = int(endTime)
                         if "pm" in aClass[counter + 5].split(" ")[-1] and endTime < 1200:
+
                             if beginTime <= endTime:
                                 beginTime += 1200
                             endTime += 1200
@@ -226,7 +229,7 @@ def getClasses(subject, term, verbose=False, test=False):
             returns[-1]["room1"] = aClass[counter + 6]
             returns[-1]["crenum"] = aClass[counter + 7]
             length = len(aClass)
-            while length > counter + 8:
+            while length -1 > counter + 8:
                 added = False
                 if aClass[counter + 8][0] == "$":
                     returns[-1]["addl"] = aClass[counter + 8]
@@ -284,12 +287,16 @@ def getClasses(subject, term, verbose=False, test=False):
                                     continue
                         counter += 1
                         returns[-1]["room2"] = aClass[counter + 8]
+
                 counter += 1
+            returns[-1]["crn"] = aClass[len(aClass) - 1]
+            totalIndex += 1
             for part in parts:
                 if part not in returns[-1]:
                     returns[-1][part] = None
         allReturns[k] = returns
         returns = []
+    allReturns[k][-1]["crn"] = crn
     if verbose:
         print json.dumps(allReturns)
     if test:

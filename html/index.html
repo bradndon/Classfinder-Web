@@ -50,12 +50,14 @@
     <div style="clear:both; padding:4px;"></div>
     <input class="sidebar__radio" ng-model="exclusive" type="radio" id="Exclusive" ng-value="true">
     <label for="Exclusive" class="sidebar__radiolbl">
-      <div class="sidebar__radiodiv"></div><p style="float:left; margin-top:5px; margin-left: 5px;">Exclusive to these days</p>
+      <div class="sidebar__radiodiv"></div>
+      <p style="float:left; margin-top:5px; margin-left: 5px;">Exclusive to these days</p>
     </label>
     <div style="clear:both; padding:4px;"></div>
     <input class="sidebar__radio" ng-model="exclusive" type="radio" id="Included" ng-value="false">
     <label for="Included" class="sidebar__radiolbl">
-      <div class="sidebar__radiodiv"></div><p style="float:left; margin-top:5px; margin-left: 5px;">Including these days</p>
+      <div class="sidebar__radiodiv"></div>
+      <p style="float:left; margin-top:5px; margin-left: 5px;">Including these days</p>
     </label>
     <div style="clear:both; padding:4px;"></div>
     <h1 class="sidebar__text">Course Number</h1>
@@ -104,18 +106,24 @@
       <option value="2200">10 pm</option>
       <option value="2300">11 pm</option>
     </select>
+    <div style="clear:both; padding:4px;"></div>
 
+    <input class="sidebar__radio" ng-model="ruleset.open" ng-true-value="true" ng-false-value="" type="checkbox" id="onlyOpen">
+    <label for="onlyOpen" class="sidebar__radiolbl">
+      <div class="sidebar__radiodiv"></div>
+      <p style="float:left; margin-top:5px; margin-left: 5px;">Only Open Courses</p>
+    </label>
   </div>
   <div style="height:100%" ng-switch="loaded">
-  <div ng-switch-when="true">LOADING</div>
-  <div ng-switch-when="false" class="content" infinte-scroll-disabled="$parent.loaded" infinite-scroll="addMoreClasses()" infinite-scroll-distance="4" infinite-scroll-listen-for-event="filtered">
-    <div ng-repeat="(subject,classes) in data">
-      <h1 ng-show="$parent.showTitle[subject]"  style="margin-left:0.6em; font-size: 3.0em;">{{subject}}</h1>
-      <div ng-repeat="class in classes" class="content__class">
-        <div style="float:left; width: 40%;">
-          <h2 class="content__text content__text--title">{{class.class}} - {{class.title}}</h1>
+    <div ng-switch-when="true">LOADING</div>
+    <div ng-switch-when="false" class="content" infinte-scroll-disabled="$parent.loaded" infinite-scroll="addMoreClasses()" infinite-scroll-distance="4" infinite-scroll-listen-for-event="filtered">
+      <div ng-repeat="(subject,classes) in data">
+        <h1 ng-show="$parent.showTitle[subject]" style="margin-left:0.6em; font-size: 3.0em;">{{subject}}</h1>
+        <div ng-repeat="class in classes" class="content__class">
+          <div style="float:left; width: 40%;">
+            <h2 class="content__text content__text--title" ng-class="class.open">{{class.class}} - {{class.title}}</h1>
           <h3 ng-if="class.gur" class="content__text content__text--subtitle">GURS: {{class.gur}}</h2>
-          <h3 ng-if="class.restrictions" class="content__text content__text--subtitle">Restrictions: {{class.restrictions}}</h2>
+            <h3 ng-if="class.restrictions" class="content__text content__text--subtitle">Restrictions: {{class.restrictions}}</h2>
           <h3 ng-if="class.prerequisites" class="content__text content__text--subtitle">Prerequisites: {{class.prerequisites}}</h2>
         </div>
         <div style="float:left; display: flex; flex-direction: column;width: 60%;">

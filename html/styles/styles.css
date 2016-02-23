@@ -21,7 +21,8 @@ body {
   width: 23.0em;
   -webkit-box-shadow: 3px 0 8px 0 rgba(0, 0, 0, 0.75);
   -moz-box-shadow: 3px 0 8px 0 rgba(0, 0, 0, 0.75);
-  box-shadow: 3px 0 8px 0 rgba(0, 0, 0, 0.75); }
+  box-shadow: 3px 0 8px 0 rgba(0, 0, 0, 0.75);
+  overflow-y: auto; }
   .sidebar__subject {
     width: 100%; }
   .sidebar__text {
@@ -102,6 +103,9 @@ body {
       font-size: 2.0em;
       float: none;
       padding-left: 0.4em; }
+
+.false {
+  color: #c40806 !important; }
 
 .select2-container {
   font-size: 1.5em !important;

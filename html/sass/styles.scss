@@ -24,6 +24,7 @@ body {
   -webkit-box-shadow: 3px 0 8px 0 rgba(0,0,0,0.75);
   -moz-box-shadow: 3px 0 8px 0 rgba(0,0,0,0.75);
   box-shadow: 3px 0 8px 0 rgba(0,0,0,0.75);
+  overflow-y: auto;
   &__subject {
     width: 100%;
   }
@@ -126,6 +127,10 @@ body {
 
     }
   }
+}
+
+.false {
+  color: rgb(196, 8, 6) !important;
 }
 
 .select2-container {
