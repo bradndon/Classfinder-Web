@@ -1,3 +1,5 @@
+#Copyright (C) Brandon Fox 2016
+
 import os
 import sys
 import datetime

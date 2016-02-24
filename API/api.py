@@ -1,3 +1,5 @@
+#Copyright (C) Brandon Fox 2016
+
 from HTMLParser import HTMLParser
 
 import urllib

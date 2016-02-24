@@ -1,9 +1,14 @@
+//Copyright (C) Brandon Fox 2016
 var classApp = angular.module('classApp', ['infinite-scroll']);
 classApp.controller('HomeCtrl', function($scope, $rootScope) {
   $scope.loaded = true;
   $scope.begin = 0;
   $scope.end = 2500;
   $scope.open = false;
+  $scope.showTitle = {};
+  $scope.exclusive = true;
+  $scope.atLeast = true;
+  $scope.courseNum = "";
   $scope.ruleset = {
     "class": [],
     gur: [],
@@ -12,107 +17,33 @@ classApp.controller('HomeCtrl', function($scope, $rootScope) {
     open: "",
     crenum: "0"
   };
-  $scope.showTitle = {};
-  $scope.exclusive = true;
-  $scope.atLeast = true;
-  $scope.courseNum = "";
-  $scope.$watch('atLeast', function(newValue, oldValue) {
-    for (obj in $scope.showTitle) {
-      $scope.showTitle[obj] = false;
-    }
-    $scope.data = {
-      "Accounting": []
-    };
-    $scope.currSubject = 2;
-    $scope.numShown = 0;
-    $scope.$emit('list:filtered')
-  });
-  $scope.$watch('exclusive', function(newValue, oldValue) {
-    for (obj in $scope.showTitle) {
-      $scope.showTitle[obj] = false;
-    }
-    $scope.data = {
-      "Accounting": []
-    };
-    $scope.currSubject = 2;
-    $scope.numShown = 0;
-    $scope.$emit('list:filtered')
-  });
-  $scope.$watch('begin', function(newValue, oldValue) {
-    for (obj in $scope.showTitle) {
-      $scope.showTitle[obj] = false;
-    }
-    $scope.data = {
-      "Accounting": []
-    };
-    $scope.currSubject = 2;
-    $scope.numShown = 0;
-    $scope.$emit('list:filtered')
-  });
-  $scope.$watch('end', function(newValue, oldValue) {
-    for (obj in $scope.showTitle) {
-      $scope.showTitle[obj] = false;
-    }
-    $scope.data = {
-      "Accounting": []
-    };
-    $scope.currSubject = 2;
-    $scope.numShown = 0;
-    $scope.$emit('list:filtered')
-  });
-  $scope.$on('list:filtered', function(event, data) {
-    $scope.addMoreClasses();
-  });
-  $scope.$watch('courseNum', function(newValue, oldValue) {
-    for (obj in $scope.showTitle) {
-      $scope.showTitle[obj] = false;
-    }
-    $scope.data = {
-      "Accounting": []
-    };
-    $scope.currSubject = 2;
-    $scope.numShown = 0;
-    $scope.$emit('list:filtered');
-  });
-  $scope.$watch('ruleset.open', function(newValue, oldValue) {
-    for (obj in $scope.showTitle) {
-      $scope.showTitle[obj] = false;
-    }
-    $scope.data = {
-      "Accounting": []
-    };
-    $scope.currSubject = 2;
-    $scope.numShown = 0;
-    $scope.$emit('list:filtered');
-  });
-  $scope.$watch('ruleset.crenum', function(newValue, oldValue) {
-    for (obj in $scope.showTitle) {
-      $scope.showTitle[obj] = false;
-    }
-    $scope.data = {
-      "Accounting": []
-    };
-    $scope.currSubject = 2;
-    $scope.numShown = 0;
-    $scope.$emit('list:filtered');
-  });
+  $scope.$watch('atLeast', $scope.reset);
+  $scope.$watch('exclusive', $scope.reset);
+  $scope.$watch('begin', $scope.reset);
+  $scope.$watch('end', $scope.reset);
+  $scope.$watch('courseNum', $scope.reset);
+  $scope.$watch('ruleset.open', $scope.reset);
+  $scope.$watch('ruleset.crenum', $scope.reset);
   $scope.addMoreClasses = function() {
     if (!$scope.loaded && $scope.currSubject < $scope.subData.length) {
       var j = 0;
+      var currSubText = $scope.subData[$scope.currSubject].text;
       for (var i = 0; i < 15; i++) {
-        if ($scope.numShown + i + j >= $scope.dataToShow[$scope.subData[$scope.currSubject].text].length) {
+        if ($scope.numShown + i + j >= $scope.allData[currSubText].length) {
           $scope.currSubject++;
-          while ($scope.dataToShow[$scope.subData[$scope.currSubject].text] == null) {
+          currSubText = $scope.subData[$scope.currSubject].text;
+          while ($scope.allData[currSubText] == null) {
             $scope.currSubject++;
+            currSubText = $scope.subData[$scope.currSubject].text;
           }
-
-          $scope.data[$scope.subData[$scope.currSubject].text] = [];
+          currSubText = $scope.subData[$scope.currSubject].text;
+          $scope.data[currSubText] = [];
           i = 0;
-          $scope.numShown = 0;
           j = 0;
+          $scope.numShown = 0;
         }
-        if ($scope.filter($scope.subData[$scope.currSubject].text, $scope.dataToShow[$scope.subData[$scope.currSubject].text][$scope.numShown + i + j])) {
-          $scope.data[$scope.subData[$scope.currSubject].text].push($scope.dataToShow[$scope.subData[$scope.currSubject].text][$scope.numShown + i + j]);
+        if ($scope.filter(currSubText, $scope.allData[currSubText][$scope.numShown + i + j])) {
+          $scope.data[currSubText].push($scope.allData[currSubText][$scope.numShown + i + j]);
         } else {
           i--;
           j++;
@@ -121,6 +52,8 @@ classApp.controller('HomeCtrl', function($scope, $rootScope) {
       $scope.numShown += i + j;
     }
   }
+  $scope.$on('list:filtered', $scope.addMoreClasses);
+
   $scope.filter = function(subject, currClass) {
     var days = [];
     var day1 = currClass.time1.split(" ")[0];
@@ -142,9 +75,6 @@ classApp.controller('HomeCtrl', function($scope, $rootScope) {
     var returns = Array.apply(null, Array(6)).map(String.prototype.valueOf, "false");
     for (var rule in $scope.ruleset) {
       if ($scope.ruleset[rule].length == 0) {
-        if (rule == "crenum"){
-          console.log("FOUND");
-        }
         returns[index] = true;
       }
       if (rule == "day" && $scope.ruleset[rule].length != 0) {
@@ -172,8 +102,8 @@ classApp.controller('HomeCtrl', function($scope, $rootScope) {
           return false;
         }
       } else if (rule == "crenum") {
-        if($scope.atLeast){
-          if (currClass.crenum.indexOf("-") <= -1){
+        if ($scope.atLeast) {
+          if (currClass.crenum.indexOf("-") <= -1) {
             if (parseInt(currClass.crenum) >= parseInt($scope.ruleset.crenum)) {
               returns[index] = true;
             } else {
@@ -182,14 +112,13 @@ classApp.controller('HomeCtrl', function($scope, $rootScope) {
           } else {
             var range = currClass.crenum.split("-");
             if (parseInt($scope.ruleset.crenum) >= parseInt(range[0]) && parseInt($scope.ruleset.crenum) <= parseInt(range[1])) {
-              console.log(currClass.crenum + " " + $scope.ruleset.crenum);
               returns[index] = true;
             } else {
               return false;
             }
           }
         } else {
-          if (currClass.crenum.indexOf("-") <= -1){
+          if (currClass.crenum.indexOf("-") <= -1) {
             if (parseInt(currClass.crenum) == parseInt($scope.ruleset.crenum)) {
               returns[index] = true;
             } else {
@@ -204,9 +133,6 @@ classApp.controller('HomeCtrl', function($scope, $rootScope) {
           for (var x in $scope.ruleset[rule]) {
 
             if ($scope.ruleset[rule].length != 0 && currClass[rule] == null || (currClass[rule] != null && currClass[rule].indexOf($scope.ruleset[rule][x]) <= -1)) {} else {
-              if (rule == "open") {
-                console.log(currClass[rule] + " " + $scope.ruleset[rule][x]);
-              }
               returns[index] = true;
             }
           }
@@ -233,28 +159,19 @@ classApp.controller('HomeCtrl', function($scope, $rootScope) {
       $scope.ruleset.day.push(day);
     }
     $scope.ruleset.day.sort();
-    for (obj in $scope.showTitle) {
-      $scope.showTitle[obj] = false;
-    }
-    $scope.currSubject = 2;
-    $scope.data = {
-      "Accounting": []
-    };
-    $scope.numShown = 0;
-    $scope.$emit('list:filtered')
+    $scope.reset();
   }
+  $.getJSON("js/rmpFixed.json", function(data) {
+    $scope.scores = {};
+    for (score in data) {
+      $scope.scores[data[score].name] = data[score].rating;
+    }
+  });
   $.getJSON("http://localhost:4568/v1/class/201620?apikey=mine", function(data) {
     $scope.allData = data;
-    $scope.dataToShow = data;
-    $scope.currSubject = 2;
-    $scope.data = {
-      "Accounting": []
-    };
-    $scope.numShown = 0;
-    $scope.$emit('list:filtered')
     $scope.loaded = false;
     $scope.$apply();
-
+    $scope.reset();
   });
   $.getJSON("http://localhost:4568/v1/menu?apikey=mine", function(data) {
     $scope.menuData = data;
@@ -286,65 +203,40 @@ classApp.controller('HomeCtrl', function($scope, $rootScope) {
     });
     $('.subjectSelect').on("select2:select", function(e) {
       $scope.ruleset["class"].push(e.params.data.id);
-      for (obj in $scope.showTitle) {
-        $scope.showTitle[obj] = false;
-      }
-      $scope.currSubject = 2;
-      $scope.data = {
-        "Accounting": []
-      };
-      $scope.numShown = 0;
-      $scope.$emit('list:filtered')
-      $scope.$apply();
+      $scope.reset();
     });
     $('.subjectSelect').on("select2:unselect", function(e) {
-      var i2 = $scope.ruleset["class"].indexOf(e.params.data.id);
-      $scope.ruleset["class"].splice(i2, 1);
-      for (obj in $scope.showTitle) {
-        $scope.showTitle[obj] = false;
-      }
-      $scope.currSubject = 2;
-      $scope.data = {
-        "Accounting": []
-      };
-      $scope.numShown = 0;
-      $scope.$emit('list:filtered')
-      $scope.$apply();
-
-
+      var i = $scope.ruleset["class"].indexOf(e.params.data.id);
+      $scope.ruleset["class"].splice(i, 1);
+      $scope.reset();
     });
     $('.gurSelect').select2({
       data: gurData
     });
     $('.gurSelect').on("select2:select", function(e) {
       $scope.ruleset.gur.push(e.params.data.id);
-      for (obj in $scope.showTitle) {
-        $scope.showTitle[obj] = false;
-      }
-      $scope.currSubject = 2;
-      $scope.data = {
-        "Accounting": []
-      };
-      $scope.numShown = 0;
-      $scope.$emit('list:filtered')
-      $scope.$apply();
+      $scope.reset();
     });
     $('.gurSelect').on("select2:unselect", function(e) {
-      var i2 = $scope.ruleset.gur.indexOf(e.params.data.id);
-      $scope.ruleset.gur.splice(i2, 1);
-      for (obj in $scope.showTitle) {
-        $scope.showTitle[obj] = false;
-      }
-      $scope.currSubject = 2;
-      $scope.data = {
-        "Accounting": []
-      };
-      $scope.numShown = 0;
-      $scope.$emit('list:filtered')
-      $scope.$apply();
+      var i = $scope.ruleset.gur.indexOf(e.params.data.id);
+      $scope.ruleset.gur.splice(i, 1);
+      $scope.reset();
     });
     $scope.currSubject = 2;
-
     $scope.$apply();
   });
+  $scope.reset = function() {
+    for (obj in $scope.showTitle) {
+      $scope.showTitle[obj] = false;
+    }
+    $scope.data = {
+      "Accounting": []
+    };
+    $scope.currSubject = 2;
+    $scope.numShown = 0;
+    $scope.$emit('list:filtered');
+
+    $scope.$apply();
+  }
+
 });

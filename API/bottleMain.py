@@ -1,3 +1,5 @@
+#Copyright (C) Brandon Fox 2016
+
 import bottle
 from bottle import HTTPError, run, route, template, request, response, static_file, get, install
 from api import getClasses

@@ -1,3 +1,5 @@
+#Copyright (C) Brandon Fox 2016
+
 import urllib2
 import json
 from classFinderHTMLParsers import menuHTMLParser
