@@ -17,13 +17,13 @@ classApp.controller('HomeCtrl', function($scope, $rootScope) {
     open: "",
     crenum: "0"
   };
-  $scope.$watch('atLeast', $scope.reset);
-  $scope.$watch('exclusive', $scope.reset);
-  $scope.$watch('begin', $scope.reset);
-  $scope.$watch('end', $scope.reset);
-  $scope.$watch('courseNum', $scope.reset);
-  $scope.$watch('ruleset.open', $scope.reset);
-  $scope.$watch('ruleset.crenum', $scope.reset);
+  $scope.$watch('atLeast', function(newValue, oldValue) {$scope.reset()});
+  $scope.$watch('exclusive', function(newValue, oldValue) {$scope.reset()});
+  $scope.$watch('begin', function(newValue, oldValue) {$scope.reset()});
+  $scope.$watch('end', function(newValue, oldValue) {$scope.reset()});
+  $scope.$watch('courseNum', function(newValue, oldValue) {$scope.reset()});
+  $scope.$watch('ruleset.open', function(newValue, oldValue) {$scope.reset()});
+  $scope.$watch('ruleset.crenum', function(newValue, oldValue) {$scope.reset()});
   $scope.addMoreClasses = function() {
     if (!$scope.loaded && $scope.currSubject < $scope.subData.length) {
       var j = 0;
