@@ -9,6 +9,8 @@ classApp.controller('HomeCtrl', function($scope, $rootScope) {
   $scope.exclusive = true;
   $scope.atLeast = true;
   $scope.courseNum = "";
+  $scope.selectedClasses = [];
+  $scope.subData = [];
   $scope.ruleset = {
     "class": [],
     gur: [],
@@ -17,6 +19,7 @@ classApp.controller('HomeCtrl', function($scope, $rootScope) {
     open: "",
     crenum: "0"
   };
+
   $scope.$watch('atLeast', function(newValue, oldValue) {$scope.reset()});
   $scope.$watch('exclusive', function(newValue, oldValue) {$scope.reset()});
   $scope.$watch('begin', function(newValue, oldValue) {$scope.reset()});
@@ -151,6 +154,74 @@ classApp.controller('HomeCtrl', function($scope, $rootScope) {
     $scope.showTitle[subject] = true;
     return true;
   }
+  $scope.showSchedule = function(who) {
+    if ($("#schedBtn").hasClass('schedule--selected')){
+        $("#schedBtn").toggleClass('schedule--selected');
+        $('#schedNum').css("display", "flex");
+        $('.schedule__list').first().css("display","none");
+        $('.schedule').first().css("overflow-y","");
+        $('body').css("overflow-y","auto");
+        $('.asdf').remove();
+    } else {
+      $("#schedBtn").toggleClass('schedule--selected');
+      $('#schedNum').css("display", "none");
+      $('.schedule__list').first().css("display","block");
+      $('.schedule').first().css("overflow-y","auto");
+      $('body').css("overflow-y","hidden");
+
+      $scope.selectedClasses.forEach(function(x){
+        console.log(x);
+        x.day.forEach(function(y){
+          var findSpot = function(time) {
+            var t = time;
+            var part = t%10;
+            t/=10;
+            part += t%10*10;
+            console.log(part);
+            console.log();
+            return (56+62*(Math.floor(time/100)-5)+62*part/60.0);
+          }
+          findSpot(x.beginTime);
+          findSpot(x.endTime);
+          var doo = ["M","T","W","R","F","S","U"];
+          var $newClass = $('<div style="background-color:white;opacity:.8;position:absolute;top:50px">asdf</div>');
+          $newClass.addClass("asdf");
+          $newClass.css("color","black");
+          $newClass.css("top", findSpot(x.beginTime)+"px");
+          // $newClass.css("margin","0 10px");
+          $newClass.css("width",(window.innerWidth*.95)/7.0);
+          $newClass.css("left", 11+(window.innerWidth*.95)/7.0*doo.indexOf(y));
+          $newClass.css("height", findSpot(x.endTime)-findSpot(x.beginTime)+"px");
+          $('.schedule__list').first().append($newClass);
+        })
+
+      });
+    }
+  }
+  $scope.removeClass = function(index) {
+    var id = $scope.selectedClasses[index]["id"];
+    $('#UNIQUELABEL' + id + "_1").css("background-color","#385E0F");
+    $('#'+id+'sign').text("+");
+    $('#'+id+'text').text("Add to Schedule");
+    $scope.selectedClasses.splice(index,1);
+    $scope.$apply();
+  }
+  $scope.increaseClass = function(currClass,id) {
+    currClass["id"] = id;
+    var index = $scope.selectedClasses.indexOf(currClass)
+    if(index > -1) {
+      $scope.selectedClasses.splice(index,1);
+      $('#UNIQUELABEL' + id + "_1").css("background-color","#385E0F");
+      $('#'+id+'sign').text("+");
+      $('#'+id+'text').text("Add to Schedule");
+    } else {
+      currClass["id"] = id
+      $scope.selectedClasses.push(currClass);
+      $('#UNIQUELABEL' + id + "_1").css("background-color","#c40806");
+      $('#'+id+'sign').text("-");
+      $('#'+id+'text').text("Remove from Schedule");
+    }
+  }
   $scope.dayClicked = function(day) {
     var index = $scope.ruleset.day.indexOf(day)
     if (index > -1) {
@@ -167,13 +238,17 @@ classApp.controller('HomeCtrl', function($scope, $rootScope) {
       $scope.scores[data[score].name] = data[score].rating;
     }
   });
-  $.getJSON("http://localhost:4568/v1/class/201620?apikey=mine", function(data) {
-    $scope.allData = data;
-    $scope.loaded = false;
-    $scope.$apply();
-    $scope.reset();
-  });
-  $.getJSON("http://localhost:4568/v1/menu?apikey=mine", function(data) {
+
+
+
+  $.getJSON("http://sub.localhost:4568/menu.json", function(data) {
+    $.getJSON("http://sub.localhost:4568/classes.json", function(data) {
+      console.log(data);
+      $scope.allData = data;
+      $scope.loaded = false;
+      $scope.$apply();
+      $scope.reset();
+    });
     $scope.menuData = data;
     $scope.subData = []
     var gurData = []

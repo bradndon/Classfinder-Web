@@ -1,6 +1,9 @@
 //Copyright (C) Brandon Fox 2016
 $western-blue: #003F87;
 $western-light-blue: #0083D6;
+
+
+
 html {
   font-size: 62.5%;
   background-color: #EEE;
@@ -14,6 +17,63 @@ html {
 body {
   margin: 0;
   padding: 0 0 0 23em;
+}
+.schedule {
+  background-color: $western-blue;
+  position: fixed;
+  top: 10;
+  right: 10;
+  width: 46px;
+  height: 46px;
+  border-radius: 23px;
+  // overflow-y: auto;
+  -webkit-box-shadow: 1px 1px 5px 0 rgba(0,0,0,0.75);
+  -moz-box-shadow: 1px 1px 5px 0 rgba(0,0,0,0.75);
+  box-shadow: 1px 1px 5px 0 rgba(0,0,0,0.75);
+  transition: width 0.35s, height 0.35s, top 0.35s, right 0.35s, border-radius 0.35s;
+  &:hover {
+    background-color: $western-light-blue;
+  }
+  &--selected {
+    width: 100%;
+    height: 100%;
+    border-radius: 0;
+    top: 0;
+    right: 0;
+    &:hover {
+      background-color: $western-blue;
+    }
+  }
+  &__svg {
+    position: absolute;
+    top: 10;
+    right: 10;
+    &:hover {
+      cursor: pointer;
+      opacity: .7;
+    }
+  }
+  &__list {
+    display:none;
+    margin-top:50px;
+  }
+  &__hour {
+    margin-bottom:50px;
+    color:white;
+    float:left;
+  }
+  &__hourline {
+    margin-left: 5px;
+    margin-top: 6px;
+    width:95%;
+    background-color: red;
+    height:2px;
+    float:left;
+  }
+}
+.clearfix {
+  clear:both;
+  zoom:1;
 }
 .sidebar {
   background-color: $western-blue;
@@ -36,14 +96,14 @@ body {
   }
   &__check {
     position: absolute;
-    left:-10000;
+    left: -10000;
     &:checked + .sidebar__checklbl {
       background-color: $western-light-blue;
     }
   }
   &__radio {
     position: absolute;
-    left:-10000;
+    left: -10000;
     &:checked + .sidebar__radiolbl > .sidebar__radiodiv {
       background-color: white;
     }
@@ -61,12 +121,12 @@ body {
     font-size: 1.8em;
     color: white;
   }
-  &__radiodiv{
+  &__radiodiv {
     background-color: $western-blue;
     border: 0.2em solid white;
     margin-left: 4px;
     width: 30px;
-    height:30px;
+    height: 30px;
     border-radius: 15px;
     float: left;
   }
@@ -86,17 +146,15 @@ body {
     }
   }
   &__input {
-    width:100%;
-    padding:.5em;
+    width: 100%;
+    padding: 0.5em;
     font-size: 1.5em !important;
-    color:white;
+    color: white;
     &:focus {
       outline: none;
     }
   }
-
 }
-
 .content {
   background-color: #EEEEEE;
   width: 100%;
@@ -126,33 +184,41 @@ body {
       font-size: 2.4em;
       float: none;
       padding-left: 0.4em;
-
     }
     &--subtitle {
       font-size: 2.0em;
       float: none;
       padding-left: 0.4em;
+    }
+  }
+  &__add {
+    position: absolute;
+    top: 0;
+    right: 0;
+    width: 40px;
+    height: 100%;
+    background-color: #385E0F;
+    margin: 0;
+    transition: width 0.35s, background-color 0.35s;
 
+    &:hover {
+      width: 150px;
+      cursor: pointer;
     }
   }
 }
-
 .false {
   color: rgb(196, 8, 6) !important;
 }
-
 .select2-container {
   font-size: 1.5em !important;
   border-radius: 0;
-
 }
-
 .select2-selection__choice {
   margin-bottom: 5px;
 }
-
 .select2-container--default,
-.select2-selection--multiple{
+.select2-selection--multiple {
   border-radius: 0 !important;
 }
 .sidebar__input,
@@ -160,9 +226,7 @@ body {
   background-color: $western-light-blue !important;
   border: none !important;
 }
-.select2-container--default.select2-container--focus .select2-selection--multiple {
-}
-
+.select2-container--default.select2-container--focus .select2-selection--multiple {}
 input[type=range] {
   -webkit-appearance: none;
   margin: 4px;
@@ -184,7 +248,7 @@ input[type=range]::-webkit-slider-runnable-track {
 input[type=range]::-webkit-slider-thumb {
   height: 28px;
   width: 28px;
-  border-radius:14px;
+  border-radius: 14px;
   background: $western-light-blue;
   cursor: pointer;
   -webkit-appearance: none;
@@ -225,7 +289,7 @@ input[type=range]::-ms-fill-lower {
 input[type=range]::-ms-fill-upper {
   background: #3071a9;
   border-radius: 2.6px;
-  box-shadow: 1px 1px 1px #000000, 0px 0px 1px #0d0d0d;
+  box-shadow: 1px 1px 1px #000000, 0 0 1px #0d0d0d;
 }
 input[type=range]::-ms-thumb {
   height: 28px;
