@@ -3,11 +3,14 @@
 <html ng-app='classApp'>
 
 <head>
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+
   <title>WWU ClassFinder</title>
-  <script src="https://code.jquery.com/jquery-1.12.0.min.js"></script>
-  <script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.2.25/angular.min.js"></script>
   <link href='https://fonts.googleapis.com/css?family=Lato:700,300' rel='stylesheet' type='text/css'>
   <link href="//cdnjs.cloudflare.com/ajax/libs/select2/4.0.1/css/select2.min.css" rel="stylesheet" />
+
+  <script src="https://code.jquery.com/jquery-1.12.0.min.js"></script>
+  <script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.2.25/angular.min.js"></script>
   <script src="//cdnjs.cloudflare.com/ajax/libs/select2/4.0.1/js/select2.min.js"></script>
   <script src="js/ng-infinite-scroll.min.js"></script>
   <script src="js/script.js"></script>
@@ -187,8 +190,8 @@
 
   <div style="z-index:3;" id="schedBtn" class="schedule">
     <svg class="schedule__svg" width="25px" height="25px" version="1.1" xmlns="http://www.w3.org/2000/svg" ng-click="showSchedule('svg')">
-      <line x1="5" y1="5" x2="20" y2="20" style="stroke:rgb(255,255,255);stroke-width:5" />
-      <line x1="20" y1="5" x2="5" y2="20" style="stroke:rgb(255,255,255);stroke-width:5" />
+      <line x1="5" y1="5" x2="20" y2="20" style="stroke-width:5" />
+      <line x1="20" y1="5" x2="5" y2="20" style="stroke-width:5" />
     </svg>
     <div id="schedNum" style="width:20px; height:20px; border-radius:10px; background-color:red; margin-top:-5px; margin-left:-5px; display:flex;align-items:center;justify-content:center;color:white">{{selectedClasses.length}}</div>
     <div class="schedule__list">
@@ -234,15 +237,6 @@
         </div>
       </div> -->
       <div>
-        <p class="schedule__hour">5</p>
-        <div class="schedule__hourline"></div>
-        <div class="clearfix"></div>
-        <p class="schedule__hour">6</p>
-        <div class="schedule__hourline"></div>
-        <div class="clearfix"></div>
-        <p class="schedule__hour">7</p>
-        <div class="schedule__hourline"></div>
-        <div class="clearfix"></div>
         <p class="schedule__hour">8</p>
         <div class="schedule__hourline"></div>
         <div class="clearfix"></div>
@@ -273,46 +267,19 @@
         <p class="schedule__hour">5</p>
         <div class="schedule__hourline"></div>
         <div class="clearfix"></div>
-        <p class="schedule__hour"></p>
+        <p class="schedule__hour">6</p>
         <div class="schedule__hourline"></div>
         <div class="clearfix"></div>
-        <p class="schedule__hour"></p>
+        <p class="schedule__hour">7</p>
         <div class="schedule__hourline"></div>
         <div class="clearfix"></div>
-        <p class="schedule__hour"></p>
+        <p class="schedule__hour">8</p>
         <div class="schedule__hourline"></div>
         <div class="clearfix"></div>
-        <p class="schedule__hour"></p>
+        <p style="margin-bottom:20px" class="schedule__hour">9</p>
         <div class="schedule__hourline"></div>
         <div class="clearfix"></div>
-        <p class="schedule__hour"></p>
-        <div class="schedule__hourline"></div>
-        <div class="clearfix"></div>
-        <p class="schedule__hour"></p>
-        <div class="schedule__hourline"></div>
-        <div class="clearfix"></div>
-        <p class="schedule__hour"></p>
-        <div class="schedule__hourline"></div>
-        <div class="clearfix"></div>
-        <p class="schedule__hour"></p>
-        <div class="schedule__hourline"></div>
-        <div class="clearfix"></div>
-        <p class="schedule__hour"></p>
-        <div class="schedule__hourline"></div>
-        <div class="clearfix"></div>
-        <p class="schedule__hour"></p>
-        <div class="schedule__hourline"></div>
-        <div class="clearfix"></div>
-        <p class="schedule__hour"></p>
-        <div class="schedule__hourline"></div>
-        <div class="clearfix"></div>
-        <div class="schedule__column"></div>
-        <div class="schedule__column"></div>
-        <div class="schedule__column"></div>
-        <div class="schedule__column"></div>
-        <div class="schedule__column"></div>
-        <div class="schedule__column"></div>
-        <div class="schedule__column"></div>
+
       </div>
     </div>
   </div>

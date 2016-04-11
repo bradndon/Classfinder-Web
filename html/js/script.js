@@ -160,14 +160,12 @@ classApp.controller('HomeCtrl', function($scope, $rootScope) {
         $('#schedNum').css("display", "flex");
         $('.schedule__list').first().css("display","none");
         $('.schedule').first().css("overflow-y","");
-        $('body').css("overflow-y","auto");
-        $('.asdf').remove();
+        $('.schedule__tab').remove();
     } else {
       $("#schedBtn").toggleClass('schedule--selected');
       $('#schedNum').css("display", "none");
       $('.schedule__list').first().css("display","block");
       $('.schedule').first().css("overflow-y","auto");
-      $('body').css("overflow-y","hidden");
 
       $scope.selectedClasses.forEach(function(x){
         console.log(x);
@@ -179,18 +177,16 @@ classApp.controller('HomeCtrl', function($scope, $rootScope) {
             part += t%10*10;
             console.log(part);
             console.log();
-            return (56+62*(Math.floor(time/100)-5)+62*part/60.0);
+            return (65+72*(Math.floor(time/100)-8)+72*part/60.0);
           }
           findSpot(x.beginTime);
           findSpot(x.endTime);
-          var doo = ["M","T","W","R","F","S","U"];
-          var $newClass = $('<div style="background-color:white;opacity:.8;position:absolute;top:50px">asdf</div>');
-          $newClass.addClass("asdf");
-          $newClass.css("color","black");
+          var dayList = ["M","T","W","R","F","S","U"];
+          var $newClass = $('<div></div>');
+          $newClass.html("<h4 class='schedule__classtitle'>"+ x.class + "</h4><p class='schedule__classname'>" + x.title+"</p>");
+          $newClass.addClass("schedule__tab");
           $newClass.css("top", findSpot(x.beginTime)+"px");
-          // $newClass.css("margin","0 10px");
-          $newClass.css("width",(window.innerWidth*.95)/7.0);
-          $newClass.css("left", 11+(window.innerWidth*.95)/7.0*doo.indexOf(y));
+          $newClass.css("right", 1+90/5.0*(4-dayList.indexOf(y))+"%");
           $newClass.css("height", findSpot(x.endTime)-findSpot(x.beginTime)+"px");
           $('.schedule__list').first().append($newClass);
         })

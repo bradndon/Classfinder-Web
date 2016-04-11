@@ -1,3 +1,4 @@
 *.pyc
 .vagrant
 .sass-cache
+/html/styles
