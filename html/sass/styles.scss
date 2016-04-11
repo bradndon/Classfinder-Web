@@ -4,6 +4,9 @@ $western-light-blue: #0083D6;
 html {
   font-size: 62.5%;
   background-color: #EEE;
+  @media only screen and (max-width: 500px) {
+    font-size: 50%;
+  }
 }
 * {
   font-family: 'Lato', sans-serif;
@@ -14,6 +17,9 @@ html {
 body {
   margin: 0;
   padding: 0 0 0 23em;
+  @media only screen and (max-width: 500px) {
+    padding:0;
+  }
 }
 .schedule {
   background-color: $western-blue;
@@ -22,13 +28,13 @@ body {
   right: 10;
   width: 46px;
   height: 46px;
-  max-width: 570px;
+  max-width: 520px;
   border-radius: 23px;
   // overflow-y: auto;
   -webkit-box-shadow: 1px 1px 5px 0 rgba(0,0,0,0.75);
   -moz-box-shadow: 1px 1px 5px 0 rgba(0,0,0,0.75);
   box-shadow: 1px 1px 5px 0 rgba(0,0,0,0.75);
-  transition: width 0.3s, height 0.35s, top 0.35s, right 0.35s, border-radius 0.35s;
+  transition: width .5s, height 0.45s, top 0.35s, right 0.35s, border-radius 0.35s;
   &:hover {
     background-color: $western-light-blue;
   }
@@ -63,7 +69,7 @@ body {
   }
   &__hour {
     font-size: 1.8rem;
-    margin-bottom: 50px;
+    margin-bottom: 40px;
     color: #303030;
     float: left;
   }
@@ -76,22 +82,18 @@ body {
     float: right;
   }
   &__tab {
-    background-color: #ADD14C;
     position: absolute;
     top: 50px;
     color:white;
     width: 90%/5.0-1;
-    border-radius: 3px;
-    border: 1px solid darken(#ADD14C, 20%);
+    border-radius: 5px;
   }
   &__classtitle {
     font-size: 1.8rem;
+    letter-spacing: .83px;
     text-align: center;
     margin-bottom: 5px;
-  }
-  &__classname {
-    font-size: 1.4rem;
-    text-align: center;
+    padding: 5px;
   }
 }
 .clearfix {
@@ -110,6 +112,9 @@ body {
   box-shadow: 3px 0 8px 0 rgba(0,0,0,0.75);
   overflow-y: auto;
   overflow-x: hidden;
+  @media only screen and (max-width: 500px){
+    display: none;
+  }
   &__subject {
     width: 100%;
   }
@@ -220,7 +225,6 @@ body {
     right: 0;
     width: 40px;
     height: 100%;
-    background-color: #385E0F;
     margin: 0;
     transition: width 0.35s, background-color 0.35s;
     &:hover {
@@ -248,6 +252,27 @@ body {
   background-color: $western-light-blue !important;
   border: none !important;
 }
+.color1 {
+  background-color: #ADD14C;
+  border: 1px solid darken(#ADD14C, 20%);
+}
+.color2 {
+  background-color: rgb(122,197,236);
+  border: 1px solid darken(rgb(122,197,236), 20%);
+}
+.color3 {
+  background-color: rgb(223,55,38);
+  border: 1px solid darken(rgb(223,55,38), 20%);
+}
+.color4 {
+  background-color: rgb(167,114,177);
+  border: 1px solid darken(rgb(167,114,177), 20%);
+}
+.color5 {
+  background-color: rgb(247,160,28);
+  border: 1px solid darken(rgb(247,160,28), 20%);
+}
+
 .select2-container--default.select2-container--focus .select2-selection--multiple {}
 input[type=range] {
   -webkit-appearance: none;

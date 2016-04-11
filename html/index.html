@@ -177,10 +177,9 @@
               <p class="content__text">RMP score: {{scores[class.inst]}}</p>
             </div>
           </div>
-          <div id="UNIQUELABEL{{$id}}_1" class="content__add" ng-click="increaseClass(class,$id)">
-            <p id="{{$id}}sign" style="margin-left:10px;font-size:3.0em;color:white;opacity:0.3;">+</p>
-            <p id="{{$id}}text" style="color: white;text-align:center; font-size:2.2em;position:absolute;left:45px;top:0px;">Add to
-              <br>Schedule</p>
+          <div id="{{class.crn}}" style="background-color:{{class.color}}" class="content__add" ng-click="increaseClass(class)">
+            <p id="{{class.crn}}sign" style="margin-left:10px;font-size:3.0em;color:white;opacity:0.3;">{{class.add}}</p>
+            <p id="{{class.crn}}text" style="color: white;text-align:center; font-size:2.2em;position:absolute;left:45px;top:0px;">{{class.text}}</p>
           </div>
         </div>
       </div>

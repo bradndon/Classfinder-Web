@@ -58,6 +58,11 @@ classApp.controller('HomeCtrl', function($scope, $rootScope) {
   $scope.$on('list:filtered', $scope.addMoreClasses);
 
   $scope.filter = function(subject, currClass) {
+    if (currClass.day == undefined) {
+      currClass.add = "+"
+      currClass.color = "#385E0F"
+      currClass.text = "Add to Schedule";
+    }
     var days = [];
     var day1 = currClass.time1.split(" ")[0];
     var day2 = "";
@@ -166,8 +171,12 @@ classApp.controller('HomeCtrl', function($scope, $rootScope) {
       $('#schedNum').css("display", "none");
       $('.schedule__list').first().css("display","block");
       $('.schedule').first().css("overflow-y","auto");
-
+      var index = 0;
       $scope.selectedClasses.forEach(function(x){
+        index++;
+        if(index == 6) {
+          index=1;
+        }
         console.log(x);
         x.day.forEach(function(y){
           var findSpot = function(time) {
@@ -175,16 +184,15 @@ classApp.controller('HomeCtrl', function($scope, $rootScope) {
             var part = t%10;
             t/=10;
             part += t%10*10;
-            console.log(part);
-            console.log();
-            return (65+72*(Math.floor(time/100)-8)+72*part/60.0);
+            return (66+62*(Math.floor(time/100)-8)+62*part/60.0);
           }
           findSpot(x.beginTime);
           findSpot(x.endTime);
           var dayList = ["M","T","W","R","F","S","U"];
           var $newClass = $('<div></div>');
-          $newClass.html("<h4 class='schedule__classtitle'>"+ x.class + "</h4><p class='schedule__classname'>" + x.title+"</p>");
+          $newClass.html("<h4 class='schedule__classtitle'>"+ x.class + "</h4>");
           $newClass.addClass("schedule__tab");
+          $newClass.addClass("color"+index);
           $newClass.css("top", findSpot(x.beginTime)+"px");
           $newClass.css("right", 1+90/5.0*(4-dayList.indexOf(y))+"%");
           $newClass.css("height", findSpot(x.endTime)-findSpot(x.beginTime)+"px");
@@ -196,26 +204,25 @@ classApp.controller('HomeCtrl', function($scope, $rootScope) {
   }
   $scope.removeClass = function(index) {
     var id = $scope.selectedClasses[index]["id"];
-    $('#UNIQUELABEL' + id + "_1").css("background-color","#385E0F");
-    $('#'+id+'sign').text("+");
-    $('#'+id+'text').text("Add to Schedule");
+    $('#UNIQUELABEL' + $scope.selectedClasses[index]["crn"] + "_1").css("background-color","#385E0F");
+    $('#'+$scope.selectedClasses[index]["crn"]+'sign').text("+");
+    $('#'+$scope.selectedClasses[index]["crn"]+'text').text("Add to Schedule");
     $scope.selectedClasses.splice(index,1);
     $scope.$apply();
   }
-  $scope.increaseClass = function(currClass,id) {
-    currClass["id"] = id;
+  $scope.increaseClass = function(currClass) {
     var index = $scope.selectedClasses.indexOf(currClass)
     if(index > -1) {
+      currClass.add= "+";
       $scope.selectedClasses.splice(index,1);
-      $('#UNIQUELABEL' + id + "_1").css("background-color","#385E0F");
-      $('#'+id+'sign').text("+");
-      $('#'+id+'text').text("Add to Schedule");
+      currClass.color="#385E0F";
+      currClass.text = "Add to Schedule"
+
     } else {
-      currClass["id"] = id
       $scope.selectedClasses.push(currClass);
-      $('#UNIQUELABEL' + id + "_1").css("background-color","#c40806");
-      $('#'+id+'sign').text("-");
-      $('#'+id+'text').text("Remove from Schedule");
+      currClass.add= "-";
+      currClass.color="#C40806";
+      currClass.text = "Remove from Schedule"
     }
   }
   $scope.dayClicked = function(day) {
