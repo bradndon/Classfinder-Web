@@ -1,0 +1,147 @@
+.sidebar {
+  position: fixed;
+  top: 0;
+  left: 0;
+  height: 100%;
+  width: 23.0em;
+  -webkit-box-shadow: 3px 0 8px 0 rgba(0,0,0,0.75);
+  -moz-box-shadow: 3px 0 8px 0 rgba(0,0,0,0.75);
+  box-shadow: 3px 0 8px 0 rgba(0,0,0,0.75);
+  overflow-y: auto;
+  overflow-x: hidden;
+  z-index: 2;
+  transition: width 0.5s, height 0.45s, top 0.35s, right 0.35s, border-radius 0.35s;
+
+  @media only screen and (max-width: 500px) {
+    position: fixed;
+    top: 10;
+    left: 10;
+    height:46px;
+    width:46px;
+    border-radius: 23px;
+  }
+  &--show {
+    z-index: 5;
+    max-width: 500px;
+    min-width: 270px;
+    width: 94%;
+    height: 95%;
+    padding: 5px;
+    border-radius: 5px;
+    &>.sidebar__container {
+      display: block;
+    }
+  }
+
+  &__svg {
+    display:none;
+    stroke: white;
+    position: absolute;
+    top: 10px;
+    left: 11px;
+    &:hover {
+      cursor: pointer;
+      opacity: 0.7;
+    }
+    @media only screen and (max-width: 500px) {
+        display:block;
+    }
+
+  }
+  &__container {
+    padding-bottom: 35px;
+    @media only screen and (max-width: 500px) {
+      display:none;
+      margin-top: 35px;
+    }
+  }
+  &__subject {
+    width:200px;
+    margin-left: 5%;
+  }
+  &__text {
+    color: white;
+    margin: 5px;
+    font-size: 20px;
+    font-weight: bold;
+  }
+  &__check {
+    position: absolute;
+    left: -10000;
+    &:checked + .sidebar__checklbl {
+      background-color: $western-light-blue;
+    }
+  }
+  &__radio {
+    position: absolute;
+    left: -10000;
+    &:checked + .sidebar__radiolbl > .sidebar__radiodiv {
+    }
+  }
+  &__radiolbl {
+    font-size: 15px;
+    &:hover {
+      cursor: pointer;
+    }
+  }
+  &__slider {
+    width: 200px;
+    margin-left: 10px;
+    font-size: 18px;
+    color: white;
+  }
+  &__checkmark {
+    font-size: 18px;
+    margin-top: 5px;
+    margin-left: 4px;
+  }
+  &__select {
+    width: 200px;
+    margin-left: 5%;
+    padding: 0.5em;
+    margin-left: 10px;
+    background: url(http://i62.tinypic.com/15xvbd5.png) no-repeat 96% 0;
+    height:29px;
+    overflow: hidden;
+    background-color: #fff;
+  }
+  &__select select {
+      width:110%;
+      font-size: 15px;
+      background: transparent;
+      border: none;
+      &:focus {
+        outline: none;
+      }
+  }
+  &__radiodiv {
+    border: 0.15em solid white;
+    margin-left: 10px;
+    width: 30px;
+    height: 30px;
+    border-radius: 15px;
+    float: left;
+  }
+  &__checklbl {
+    float: left;
+    color: white;
+    width: 28px;
+    height: 28px;
+    font-size: 15px;
+    border-radius: 15px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    margin-left: 4px;
+    &:hover {
+      cursor: pointer;
+    }
+  }
+  &__input {
+    width: 200px;
+    margin-left: 10px;
+    padding: 0.5em;
+    font-size: 15px !important;
+    &:focus {}
+  }
+}

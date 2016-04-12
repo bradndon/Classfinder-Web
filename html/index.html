@@ -19,11 +19,16 @@
 
   <script src="//cdnjs.cloudflare.com/ajax/libs/select2/4.0.1/js/select2.min.js"></script>
   <script src="js/ng-infinite-scroll.min.js"></script>
-  <script src="js/script.js"></script>
 </head>
 
 <body ng-controller="HomeCtrl">
-  <div style="z-index:2;" class="sidebar">
+
+  <div class="sidebar">
+    <svg class="sidebar__svg" width="25px" height="25px" version="1.1" xmlns="http://www.w3.org/2000/svg" ng-click="showSidebar('svg')">
+      <line x1="5" y1="5" x2="20" y2="20" style="stroke-width:5" />
+      <line x1="20" y1="5" x2="5" y2="20" style="stroke-width:5" />
+    </svg>
+    <div class="sidebar__container">
     <h1 class="sidebar__text">Subjects</h1>
     <select multiple="multiple" class="sidebar__subject subjectSelect"></select>
     <h1 class="sidebar__text">GUR/Course Attributes</h1>
@@ -61,13 +66,13 @@
     <input class="sidebar__radio" ng-model="exclusive" type="radio" id="Exclusive" ng-value="true">
     <label for="Exclusive" class="sidebar__radiolbl">
       <div class="sidebar__radiodiv"><i class="fa fa-check sidebar__checkmark"></i></div>
-      <p style="float:left; margin-top:5px; margin-left: 5px;">Exclusive to these days</p>
+      <p style="float:left; margin-top:7px; margin-left: 5px;letter-spacing: .5px;">Exclusive to these days</p>
     </label>
     <div style="clear:both; padding:4px;"></div>
     <input class="sidebar__radio" ng-model="exclusive" type="radio" id="Included" ng-value="false">
     <label for="Included" class="sidebar__radiolbl">
       <div class="sidebar__radiodiv"><i class="fa fa-check sidebar__checkmark"></i></div>
-      <p style="float:left; margin-top:5px; margin-left: 5px;">Including these days</p>
+      <p style="float:left; margin-top:7px; margin-left: 5px;letter-spacing: .5px;">Including these days</p>
     </label>
     <div style="clear:both; padding:4px;"></div>
     <h1 class="sidebar__text">Course Number</h1>
@@ -125,32 +130,34 @@
     <input class="sidebar__radio" ng-model="ruleset.open" ng-true-value="true" ng-false-value="" type="checkbox" id="onlyOpen">
     <label for="onlyOpen" class="sidebar__radiolbl">
       <div class="sidebar__radiodiv"><i class="fa fa-check sidebar__checkmark"></i></div>
-      <p style="float:left; margin-top:5px; margin-left: 5px;">Only Open Courses</p>
+      <p style="float:left; margin-top:5px; margin-left: 5px;letter-spacing: .5px;">Only Open Courses</p>
     </label>
     <div style="clear:both; padding:4px;"></div>
 
     <h1 class="sidebar__text">Credit Hours</h1>
     <input type="range" style="float:left" min="0" max="18" ng-model="ruleset.crenum" />
-    <p style="float: left; margin-top:6px; margin-left: 5px; font-size: 1.8em;
+    <p style="float: left; margin-top:6px; margin-left: 5px; font-size: 18px;
     color: white;">{{ruleset.crenum}}</p>
     <div style="clear:both; padding:4px;"></div>
     <input class="sidebar__radio" ng-model="atLeast" type="radio" id="AtLeast" ng-value="true">
     <label for="AtLeast" class="sidebar__radiolbl">
       <div class="sidebar__radiodiv"><i class="fa fa-check sidebar__checkmark"></i></div>
-      <p style="float:left; margin-top:5px; margin-left: 5px;">At Least this many</p>
+      <p style="float:left; margin-top:5px; margin-left: 5px;letter-spacing: .5px;">At Least this many</p>
     </label>
     <div style="clear:both; padding:4px;"></div>
     <input class="sidebar__radio" ng-model="atLeast" type="radio" id="Exactly" ng-value="false">
     <label for="Exactly" class="sidebar__radiolbl">
       <div class="sidebar__radiodiv"><i class="fa fa-check sidebar__checkmark"></i></div>
-      <p style="float:left; margin-top:5px; margin-left: 5px;">Exactly this many</p>
+      <p style="float:left; margin-top:5px; margin-left: 5px;letter-spacing: .5px;">Exactly this many</p>
     </label>
+    <div style="height:40px;width:100%;"></div>
+  </div>
   </div>
   <div style="height:100%" ng-switch="loaded">
     <div ng-switch-when="true" style="display:flex;align-items:center;justify-content:center;height:100%;"><h1 style="font-size:4.8rem;font-weight:bold;">LOADING</h1></div>
     <div ng-switch-when="false" class="content" infinte-scroll-disabled="$parent.loaded" infinite-scroll="addMoreClasses()" infinite-scroll-distance="4" infinite-scroll-listen-for-event="filtered">
       <div ng-repeat="(subject,classes) in data">
-        <h1 ng-show="$parent.showTitle[subject]" style="margin-left:0.6em; font-size: 3.0em;font-weight:bold;margin-top:20px;">{{subject}}</h1>
+        <h1 ng-show="$parent.showTitle[subject]" class="content__subjecttitle">{{subject}}</h1>
         <div style="overflow:hidden;position:relative" ng-repeat="class in classes" class="content__class">
           <div style="float:left; width: 40%;">
             <h2 class="content__text content__text--title" ng-class="class.open">{{class.class}} - {{class.title}}</h2>
@@ -297,6 +304,7 @@
       </div>
     </div>
   </div>
+  <script src="js/script.js"></script>
 
 </body>
 

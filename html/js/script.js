@@ -170,7 +170,9 @@ classApp.controller('HomeCtrl', function($scope, $rootScope) {
     }
     $scope.showTitle[subject] = true;
     return  true;
-;
+  }
+  $scope.showSidebar = function() {
+    $(".sidebar").toggleClass("sidebar--show");
   }
   $scope.showSchedule = function(who) {
     if ($("#schedBtn").hasClass('schedule--selected')){

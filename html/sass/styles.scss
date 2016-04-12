@@ -26,6 +26,7 @@ $western-light-blue: #0083D6;
     color: $western-blue;
   }
   &__radiolbl {
+    color:white;
     &:hover {
       cursor: pointer;
     }
@@ -71,7 +72,7 @@ $western-light-blue: #0083D6;
 }
 .sidebar__input,
 .select2-selection--multiple {
-  background-color: $western-light-blue !important;
+  background-color: white !important;
   border: none !important;
 }
 input[type=range]::-webkit-slider-runnable-track {

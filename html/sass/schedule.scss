@@ -1,0 +1,74 @@
+.schedule {
+  position: fixed;
+  top: 10;
+  right: 10;
+  width: 46px;
+  height: 46px;
+  max-width: 520px;
+  border-radius: 23px;
+  // overflow-y: auto;
+  -webkit-box-shadow: 1px 1px 5px 0 rgba(0,0,0,0.75);
+  -moz-box-shadow: 1px 1px 5px 0 rgba(0,0,0,0.75);
+  box-shadow: 1px 1px 5px 0 rgba(0,0,0,0.75);
+  transition: width 0.5s, height 0.45s, top 0.35s, right 0.35s, border-radius 0.35s;
+  &:hover {
+    background-color: $western-light-blue;
+  }
+  &--selected {
+    max-width: 500px;
+    min-width: 270px;
+    width: 94%;
+    height: 75%;
+    padding: 5px;
+    border-radius: 5px;
+    background-color: #EEE;
+    &:hover {
+      background-color: #EEE;
+    }
+    &>.schedule__svg {
+      stroke: black;
+    }
+  }
+  &__svg {
+    stroke: white;
+    position: absolute;
+    top: 10;
+    right: 10;
+    &:hover {
+      cursor: pointer;
+      opacity: 0.7;
+    }
+  }
+  &__list {
+    display: none;
+    margin-top: 50px;
+  }
+  &__hour {
+    font-size: 1.8rem;
+    margin-bottom: 40px;
+    color: #303030;
+    float: left;
+  }
+  &__hourline {
+    margin-right: 5px;
+    margin-top: 10px;
+    width: 90%;
+    background-color: #303030;
+    height: 1px;
+    float: right;
+  }
+  &__tab {
+    position: absolute;
+    top: 50px;
+    color: white;
+    width: 90%/5.0-1;
+    border-radius: 5px;
+  }
+  &__classtitle {
+    font-size: 1.8rem;
+    letter-spacing: 0.83px;
+    text-align: center;
+    margin-bottom: 5px;
+    padding: 5px;
+  }
+}
