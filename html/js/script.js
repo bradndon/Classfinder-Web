@@ -1,5 +1,5 @@
 //Copyright (C) Brandon Fox 2016
-var classApp = angular.module('classApp', ['infinite-scroll']);
+var classApp = angular.module('classApp', ['infinite-scroll','ngSanitize']);
 classApp.controller('HomeCtrl', function($scope, $rootScope) {
   $scope.loaded = true;
   $scope.begin = 0;
@@ -11,6 +11,7 @@ classApp.controller('HomeCtrl', function($scope, $rootScope) {
   $scope.courseNum = "";
   $scope.selectedClasses = [];
   $scope.subData = [];
+  $scope.credits = 0;
   $scope.ruleset = {
     "class": [],
     gur: [],
@@ -156,8 +157,20 @@ classApp.controller('HomeCtrl', function($scope, $rootScope) {
       }
       index++;
     }
+    if ($scope.selectedClasses.indexOf(currClass)<=-1){
+      if(!$scope.overlapsWithSchedule(currClass)) {
+        currClass.add = "<i class='fa fa-ban'></i>";
+        currClass.color = "#303030"
+        currClass.text = "Overlaps with schedule";
+      } else {
+        currClass.add = "<i class='fa fa-plus'></i>"
+        currClass.color = "#385E0F"
+        currClass.text = "Add to Schedule";
+      }
+    }
     $scope.showTitle[subject] = true;
-    return true;
+    return  true;
+;
   }
   $scope.showSchedule = function(who) {
     if ($("#schedBtn").hasClass('schedule--selected')){
@@ -171,36 +184,41 @@ classApp.controller('HomeCtrl', function($scope, $rootScope) {
       $('#schedNum').css("display", "none");
       $('.schedule__list').first().css("display","block");
       $('.schedule').first().css("overflow-y","auto");
-      var index = 0;
-      $scope.selectedClasses.forEach(function(x){
-        index++;
-        if(index == 6) {
-          index=1;
-        }
-        console.log(x);
-        x.day.forEach(function(y){
-          var findSpot = function(time) {
-            var t = time;
-            var part = t%10;
-            t/=10;
-            part += t%10*10;
-            return (66+62*(Math.floor(time/100)-8)+62*part/60.0);
-          }
-          findSpot(x.beginTime);
-          findSpot(x.endTime);
-          var dayList = ["M","T","W","R","F","S","U"];
-          var $newClass = $('<div></div>');
-          $newClass.html("<h4 class='schedule__classtitle'>"+ x.class + "</h4>");
-          $newClass.addClass("schedule__tab");
-          $newClass.addClass("color"+index);
-          $newClass.css("top", findSpot(x.beginTime)+"px");
-          $newClass.css("right", 1+90/5.0*(4-dayList.indexOf(y))+"%");
-          $newClass.css("height", findSpot(x.endTime)-findSpot(x.beginTime)+"px");
-          $('.schedule__list').first().append($newClass);
-        })
+      $scope.createSchedule();
 
-      });
     }
+  }
+  $scope.createSchedule = function() {
+    $('.schedule__tab').remove();
+    $scope.credits = 0;
+    var index = 0;
+    $scope.selectedClasses.forEach(function(x){
+      index++;
+      if(index == 6) {
+        index=1;
+      }
+      console.log(x);
+      $scope.credits += parseInt(x.crenum);
+      x.daytime.forEach(function(y){
+        var findSpot = function(time) {
+          var t = time;
+          var part = t%10;
+          t/=10;
+          part += t%10*10;
+          return (66+62*(Math.floor(time/100)-8)+62*part/60.0);
+        }
+        var dayList = ["M","T","W","R","F","S","U"];
+        var $newClass = $('<div></div>');
+        $newClass.html("<h4 class='schedule__classtitle'>"+ x.class + "</h4>");
+        $newClass.addClass("schedule__tab");
+        $newClass.addClass("color"+index);
+        $newClass.css("top", findSpot(y[1])+"px");
+        $newClass.css("right", 1+90/5.0*(4-dayList.indexOf(y[0]))+"%");
+        $newClass.css("height", findSpot(y[2])-findSpot(y[1])+"px");
+        $('.schedule__list').first().append($newClass);
+      })
+
+    });
   }
   $scope.removeClass = function(index) {
     var id = $scope.selectedClasses[index]["id"];
@@ -213,17 +231,38 @@ classApp.controller('HomeCtrl', function($scope, $rootScope) {
   $scope.increaseClass = function(currClass) {
     var index = $scope.selectedClasses.indexOf(currClass)
     if(index > -1) {
-      currClass.add= "+";
+      currClass.add= "<i class='fa fa-plus'></i>";
       $scope.selectedClasses.splice(index,1);
       currClass.color="#385E0F";
       currClass.text = "Add to Schedule"
 
     } else {
-      $scope.selectedClasses.push(currClass);
-      currClass.add= "-";
-      currClass.color="#C40806";
-      currClass.text = "Remove from Schedule"
+      if (currClass.text.indexOf("Overlaps") <= -1){
+        $scope.selectedClasses.push(currClass);
+        currClass.add= "<i class='fa fa-minus'></i>";
+        currClass.color="#C40806";
+        currClass.text = "Remove from Schedule"
+      }
     }
+    if ($("#schedBtn").hasClass('schedule--selected')){
+      $scope.createSchedule();
+    }
+    $scope.reset();
+  }
+  $scope.overlapsWithSchedule = function(currClass) {
+    var check = true;
+    $scope.selectedClasses.forEach(function(c){
+      c.daytime.forEach(function(y){
+        currClass.daytime.forEach(function(x) {
+            if (y[0] == x[0]) {
+              if((y[1] <= x[1] && y[2]) >= x[1] || (y[1] <= x[2] && y[2] >= x[2])){
+                check = false;
+              }
+            }
+        })
+      })
+    })
+    return check;
   }
   $scope.dayClicked = function(day) {
     var index = $scope.ruleset.day.indexOf(day)

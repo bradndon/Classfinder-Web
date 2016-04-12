@@ -211,6 +211,8 @@ def getClasses(subject, term, verbose=False, test=False):
             else:
                 returns[-1]["gur"] = None
             returns[-1]["time1"] = aClass[counter + 5]
+            beginTime = 0
+            endTime = 0
             for word in aClass[counter + 5].split(" "):
                 if "-" in word:
                     times = word.split("-")
@@ -228,6 +230,12 @@ def getClasses(subject, term, verbose=False, test=False):
                         returns[-1]["endTime"] = endTime
                     except:
                         continue
+            returns[-1]["daytime"] = []
+            days = aClass[counter + 5].split(" ")[0]
+            if days != "TBA":
+                for day in list(days):
+                    returns[-1]["daytime"].append([day,beginTime,endTime])
+
             returns[-1]["room1"] = aClass[counter + 6]
             returns[-1]["crenum"] = aClass[counter + 7]
             length = len(aClass)
@@ -287,6 +295,10 @@ def getClasses(subject, term, verbose=False, test=False):
 
                                 except:
                                     continue
+                        days = aClass[counter + 8].split(" ")[0]
+                        if days != "TBA":
+                            for day in list(days):
+                                returns[-1]["daytime"].append([day,beginTime,endTime])
                         counter += 1
                         returns[-1]["room2"] = aClass[counter + 8]
 

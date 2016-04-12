@@ -8,13 +8,16 @@
   <title>WWU ClassFinder</title>
   <link href='https://fonts.googleapis.com/css?family=Lato:700,300' rel='stylesheet' type='text/css'>
   <link href="//cdnjs.cloudflare.com/ajax/libs/select2/4.0.1/css/select2.min.css" rel="stylesheet" />
+  <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.6.0/css/font-awesome.min.css">
+  <link rel="stylesheet" type="text/css" href="styles/styles.css">
 
   <script src="https://code.jquery.com/jquery-1.12.0.min.js"></script>
   <script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.2.25/angular.min.js"></script>
+  <script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.2.24/angular-sanitize.min.js"></script>
+
   <script src="//cdnjs.cloudflare.com/ajax/libs/select2/4.0.1/js/select2.min.js"></script>
   <script src="js/ng-infinite-scroll.min.js"></script>
   <script src="js/script.js"></script>
-  <link rel="stylesheet" type="text/css" href="styles/styles.css">
 </head>
 
 <body ng-controller="HomeCtrl">
@@ -178,7 +181,7 @@
             </div>
           </div>
           <div id="{{class.crn}}" style="background-color:{{class.color}}" class="content__add" ng-click="increaseClass(class)">
-            <p id="{{class.crn}}sign" style="margin-left:10px;font-size:3.0em;color:white;opacity:0.3;">{{class.add}}</p>
+            <p id="{{class.crn}}sign" style="margin-top:5px;margin-left:7px;font-size:3.0em;color:white;opacity:0.8;" ng-bind-html="class.add"></p>
             <p id="{{class.crn}}text" style="color: white;text-align:center; font-size:2.2em;position:absolute;left:45px;top:0px;">{{class.text}}</p>
           </div>
         </div>
@@ -235,6 +238,7 @@
             <br>Schedule</p>
         </div>
       </div> -->
+      <p style="position:absolute;top:20px;left:20px;font-size:2.2rem;">{{credits}} Credits</p>
       <div>
         <p class="schedule__hour">8</p>
         <div class="schedule__hourline"></div>
