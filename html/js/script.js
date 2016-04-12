@@ -161,7 +161,7 @@ classApp.controller('HomeCtrl', function($scope, $rootScope) {
       if(!$scope.overlapsWithSchedule(currClass)) {
         currClass.add = "<i class='fa fa-ban'></i>";
         currClass.color = "#303030"
-        currClass.text = "Overlaps with schedule";
+        currClass.text = "Overlaps with Schedule";
       } else {
         currClass.add = "<i class='fa fa-plus'></i>"
         currClass.color = "#385E0F"
@@ -205,7 +205,7 @@ classApp.controller('HomeCtrl', function($scope, $rootScope) {
           var part = t%10;
           t/=10;
           part += t%10*10;
-          return (66+62*(Math.floor(time/100)-8)+62*part/60.0);
+          return (66+58*(Math.floor(time/100)-8)+58*part/60.0);
         }
         var dayList = ["M","T","W","R","F","S","U"];
         var $newClass = $('<div></div>');

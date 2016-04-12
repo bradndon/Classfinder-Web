@@ -1,3 +1,5 @@
+#!/usr/bin/env python
+
 #Copyright (C) Brandon Fox 2016
 
 from HTMLParser import HTMLParser
@@ -368,122 +370,8 @@ def getNumClasses(subject):
     return len(crns)
 
 if __name__ == "__main__":
-    subjects = {
-    	"International Business": "IBUS",
-    	"Engineering Technology": "ETEC",
-    	"Canadian/American Studies": "C/AM",
-    	"Info Systms Security": "CISS",
-    	"Modern and Classical Language": "LANG",
-    	"Decision Sciences": "DSCI",
-    	"Philosophy": "PHIL",
-    	"American Cultural Studies": "AMST",
-    	"French": "FREN",
-    	"Entrepreneurship": "ENTR",
-    	"Anthropology": "ANTH",
-    	"Computer Science": "CSCI",
-    	"Communication Sci & Disorders": "CSD",
-    	"Kinesiology": "KIN",
-    	"Rehabilitation Counseling": "RC",
-    	"Italian": "ITAL",
-    	"Art": "ART",
-    	"Nursing": "NURS",
-    	"Early Childhood Education": "ECE",
-    	"Adult and Higher Ed": "AHE",
-    	"Electrical Engineering": "EE",
-    	"Education": "EDUC",
-    	"Sexuality Stdy": "WGSS",
-    	"Materials Science": "MSCI",
-    	"Management": "MGMT",
-    	"Industrial Design": "ID",
-    	"Manufacturing Engineering": "MFGE",
-    	"Secondary Education": "SEC",
-    	"Environmental Sciences": "ESCI",
-    	"Eurasian Studies": "EUS",
-    	"Health Education": "HLED",
-    	"Biology": "BIOL",
-    	"Latin": "LAT",
-    	"Compass to Campus": "C2C",
-    	"Astronomy": "ASTR",
-    	"Elementary Education": "ELED",
-    	"Liberal Studies": "LBRL",
-    	"Fairhaven": "FAIR",
-    	"Economics": "ECON",
-    	"English Language Learners": "ELL",
-    	"Instructional Technology": "I T",
-    	"Greek": "GREK",
-    	"Student Affairs Administration": "SAA",
-    	"English": "ENG",
-    	"Physical Education": "PE",
-    	"Chemistry": "CHEM",
-    	"Chinese": "CHIN",
-    	"Dance": "DNC",
-    	"Energy": "ENRG",
-    	"&": "WGSS",
-    	"Industrial Tech-Vehicle Design": "VHCL",
-    	"Design": "DSGN",
-    	"Arabic": "ARAB",
-    	"Leadership Studies": "LDST",
-    	"Honors": "HNRS",
-    	"Linguistics": "LING",
-    	"Psychology": "PSY",
-    	"Disorders": "CSD",
-    	"Music": "MUS",
-    	"Women, Gender & Sexuality Stdy ": "WGSS",
-    	"Political Science": "PLSC",
-    	"Korean": "KORE",
-    	"Theatre Arts": "THTR",
-    	"East Asian Studies": "EAST",
-    	"Finance": "FIN",
-    	"Geology": "GEOL",
-    	"Science Education": "SCED",
-    	"Russian": "RUSS",
-    	"Operations Management": "OPS",
-    	"History": "HIST",
-    	"Art History": "A/HI",
-    	"Plastics Engineering": "PCE",
-    	"German": "GERM",
-    	"Teaching Eng/Second Language": "TESL",
-    	"Educational Administration": "EDAD",
-    	"Library": "LIBR",
-    	"Mathematics/Computer Science": "M/CS",
-    	"Engineering": "PCE",
-    	"Seminar": "SMNR",
-    	"Sociology": "SOC",
-    	"Management Information Systems": "MIS",
-    	"Mathematics": "MATH",
-    	"Marketing": "MKTG",
-    	"Communication Studies": "COMM",
-    	"Environmental Studies": "ENVS",
-    	"Continuing & College Education": "CCE",
-    	"Coaching Development": "CD",
-    	"Recreation": "RECR",
-    	"Master of Professional ACCT": "MPAC",
-    	"Human Resource Management": "HRM",
-    	"Journalism": "JOUR",
-    	"Classical Studies": "CLST",
-    	"Human Services": "HSP",
-    	"Master of Business Admin": "MBA",
-    	"Physics": "PHYS",
-    	"Portuguese": "PORT",
-    	"Special Education": "SPED",
-    	"College Education": "CCE",
-    	"Japanese": "JAPN",
-    	"Computr & Info Systms Security": "CISS",
-    	"Spanish": "SPAN",
-    	"Accounting": "ACCT",
-    	"International Studies": "INTL",
-    	"Multidisciplinary Studies": "MDS",
-    	"Geography": "EGEO"
-    }
-    verbose = False
-    args = sys.argv
-    if "--verbose" in args:
-        verbose = True
-        args.remove("--verbose")
-    print args
-    print id_generator()
-    if len(args) >= 2:
-        test(args[1], verbose)
-    else:
-        for k,v in subjects.iteritems():
-            test(v, verbose)
+    from shutil import copyfile
+    f = open('./temp.json','w')
+    f.write(getClasses("All", 201620, False, False))
+    f.close()
+    copyfile('./temp.json', '/var/www/html/classes.json')

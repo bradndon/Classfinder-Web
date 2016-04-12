@@ -2,13 +2,13 @@
 $western-blue: #003F87;
 $western-light-blue: #0083D6;
 .schedule {
-  background-color: $western-blue;
+  background-color: $western-light-blue;
   &:hover {
-    background-color: $western-light-blue;
+    background-color: $western-blue;
   }
 }
 .sidebar {
-  background-color: $western-blue;
+  background-color: #303030;
   &__text {
     color: white;
   }
@@ -22,9 +22,6 @@ $western-light-blue: #0083D6;
       background-color: white;
     }
   }
-  &__checkmark {
-    color: $western-blue;
-  }
   &__radiolbl {
     &:hover {
       cursor: pointer;
@@ -34,8 +31,13 @@ $western-light-blue: #0083D6;
     color: white;
   }
   &__radiodiv {
-    background-color: $western-blue;
+    background-color: $western-light-blue;
+    border: 0.15em solid white;
+
     border: 0.2em solid white;
+  }
+  &__checkmark {
+    color: $western-light-blue;
   }
   &__checklbl {
     color: white;
@@ -71,7 +73,7 @@ $western-light-blue: #0083D6;
 }
 .sidebar__input,
 .select2-selection--multiple {
-  background-color: $western-light-blue !important;
+  background-color: white !important;
   border: none !important;
 }
 input[type=range]::-webkit-slider-runnable-track {
