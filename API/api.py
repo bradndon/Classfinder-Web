@@ -183,7 +183,6 @@ def getClasses(subject, term, verbose=False, test=False):
     totalIndex = 0
     for k,v in sorted(data.iteritems()):
         for index, aClass in enumerate(v):
-            print aClass
             rest = False
             prereq = False
             other = False
