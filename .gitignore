@@ -1,4 +1,5 @@
 *.pyc
 .vagrant
 .sass-cache
+classes.json
 /html/styles
