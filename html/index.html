@@ -8,7 +8,7 @@
   <title>WWU ClassFinder</title>
   <link href='https://cdnjs.cloudflare.com/ajax/libs/meyer-reset/2.0/reset.min.css' rel='stylesheet' type='text/css'>
 
-  <link href='https://fonts.googleapis.com/css?family=Lato:700,300' rel='stylesheet' type='text/css'>
+  <link href='https://fonts.googleapis.com/css?family=Lato:400,700,300' rel='stylesheet' type='text/css'>
   <link href="//cdnjs.cloudflare.com/ajax/libs/select2/4.0.1/css/select2.min.css" rel="stylesheet" />
   <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.6.0/css/font-awesome.min.css">
   <link rel="stylesheet" type="text/css" href="styles/styles.css">
@@ -24,7 +24,7 @@
 <body ng-controller="HomeCtrl">
 
   <div class="sidebar">
-    <i class="fa fa-pencil sidebar__svg" aria-hidden="true" ng-click="showSidebar('svg')"></i>
+    <i class="fa fa-search sidebar__svg" aria-hidden="true" ng-click="showSidebar('svg')"></i>
     <div class="sidebar__container">
     <h1 class="sidebar__text">Subjects</h1>
     <select multiple="multiple" class="sidebar__subject subjectSelect"></select>
@@ -156,8 +156,8 @@
       <div ng-repeat="(subject,classes) in data">
         <h1 ng-show="$parent.showTitle[subject]" class="content__subjecttitle">{{subject}}</h1>
         <div style="overflow:hidden;position:relative" ng-repeat="class in classes" class="content__class">
-          <div style="float:left; width: 40%;">
-            <h2 class="content__text content__text--title" ng-class="class.open">{{class.class}} - {{class.title}}</h2>
+          <div class="content__left" >
+            <h2 class="content__text content__text--title" ng-class="class.open"><span style="font-weight:bold;">{{class.class}}</span> - {{class.title}}</h2>
             <h3 ng-if="class.gur" class="content__text content__text--subtitle">GURS: {{class.gur}}</h3>
             <h3 ng-if="class.restrictions" class="content__text content__text--subtitle">Restrictions: {{class.restrictions}}</h3>
             <h3 ng-if="class.prerequisites" class="content__text content__text--subtitle">Prerequisites: {{class.prerequisites}}</h3>
@@ -191,8 +191,8 @@
             </div>
           </div>
           <div id="{{class.crn}}" style="background-color:{{class.color}}" class="content__add" ng-click="increaseClass(class)">
-            <p id="{{class.crn}}sign" style="margin-top:5px;margin-left:7px;font-size:3.0em;color:white;opacity:0.8;" ng-bind-html="class.add"></p>
-            <p id="{{class.crn}}text" style="color: white;text-align:center; font-size:2.2em;position:absolute;left:45px;top:5px;line-height:24px;">{{class.text}}</p>
+            <p id="{{class.crn}}sign" style="margin-top:6px;margin-left:9px;font-size:30px;color:white;opacity:0.8;" ng-bind-html="class.add"></p>
+            <p id="{{class.crn}}text" class="content__addtext">{{class.text}}</p>
           </div>
         </div>
       </div>

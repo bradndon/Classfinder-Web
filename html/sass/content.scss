@@ -20,7 +20,13 @@
     -moz-box-shadow: 2px 3px 10px 0 rgba(0,0,0,0.75);
     box-shadow: 2px 3px 10px 0 rgba(0,0,0,0.75);
     overflow: auto;
-
+  }
+  &__left {
+    float: left;
+    width: 40%;
+    @media only screen and (max-width: 768px) {
+      width: 100%;
+    }
   }
   &__right {
     width: 100%;
@@ -28,21 +34,32 @@
     justify-content: flex-start;
   }
   &__subjecttitle {
-    margin-left:0.6em;
+    margin-left: 0.6em;
     font-size: 30px;
-    font-weight:bold;
-    margin-top:20px;
+    font-weight: bold;
+    margin-top: 20px;
+  }
+  &__addtext {
+    color: white;
+    text-align: center;
+    font-size: 2.2rem;
+    position: absolute;
+    left: 45px;
+    top: 5px;
+    line-height: 24px;
   }
   &__text {
     font-weight: lighter;
     font-size: 1.98em;
     padding: 0 0.8em;
     &--title {
-      font-weight: bold;
+      font-weight: 400;
       font-size: 2.4em;
       float: none;
-
       padding-left: 0.4em;
+      @media only screen and (max-width: 768px) {
+        text-align: center;
+      }
     }
     &--subtitle {
       font-size: 2.0em;
@@ -52,15 +69,21 @@
   }
   &__add {
     position: absolute;
-    top: 0;
+    bottom: 0;
     right: 0;
     width: 40px;
     height: 100%;
     margin: 0;
     transition: width 0.35s, background-color 0.35s;
+    @media only screen and (max-width: 768px) {
+      height: 40px;
+    }
     &:hover {
       width: 150px;
       cursor: pointer;
+      @media only screen and (max-width: 768px) {
+        width: 40px;
+      }
     }
   }
 }
