@@ -24,10 +24,7 @@
 <body ng-controller="HomeCtrl">
 
   <div class="sidebar">
-    <svg class="sidebar__svg" width="25px" height="25px" version="1.1" xmlns="http://www.w3.org/2000/svg" ng-click="showSidebar('svg')">
-      <line x1="5" y1="5" x2="20" y2="20" style="stroke-width:5" />
-      <line x1="20" y1="5" x2="5" y2="20" style="stroke-width:5" />
-    </svg>
+    <i class="fa fa-pencil sidebar__svg" aria-hidden="true" ng-click="showSidebar('svg')"></i>
     <div class="sidebar__container">
     <h1 class="sidebar__text">Subjects</h1>
     <select multiple="multiple" class="sidebar__subject subjectSelect"></select>
@@ -204,10 +201,7 @@
   </div>
 
   <div style="z-index:3;" id="schedBtn" class="schedule">
-    <svg class="schedule__svg" width="25px" height="25px" version="1.1" xmlns="http://www.w3.org/2000/svg" ng-click="showSchedule('svg')">
-      <line x1="5" y1="5" x2="20" y2="20" style="stroke-width:5" />
-      <line x1="20" y1="5" x2="5" y2="20" style="stroke-width:5" />
-    </svg>
+    <i class="fa fa-calendar schedule__svg" aria-hidden="true" ng-click="showSchedule('svg')"></i>
     <div id="schedNum" style="width:20px; height:20px; border-radius:10px; background-color:red; margin-top:-5px; margin-left:-5px; display:flex;align-items:center;justify-content:center;color:white">{{selectedClasses.length}}</div>
     <div class="schedule__list">
       <!-- <div style="overflow:hidden;position:relative" ng-repeat="class in selectedClasses" class="content__class">

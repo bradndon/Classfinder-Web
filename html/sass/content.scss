@@ -1,6 +1,14 @@
 .content {
   background-color: #EEEEEE;
   width: 100%;
+  &--noflow {
+    overflow: hidden;
+  }
+  &--noflowsmall {
+    @media only screen and (max-width: 500px) {
+      overflow: hidden;
+    }
+  }
   &__class {
     padding: 1em;
     background-color: white;
@@ -12,6 +20,7 @@
     -moz-box-shadow: 2px 3px 10px 0 rgba(0,0,0,0.75);
     box-shadow: 2px 3px 10px 0 rgba(0,0,0,0.75);
     overflow: auto;
+
   }
   &__right {
     width: 100%;

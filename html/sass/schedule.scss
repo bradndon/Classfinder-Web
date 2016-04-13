@@ -1,3 +1,6 @@
+$western-blue: #003F87;
+$western-light-blue: #0083D6;
+
 .schedule {
   position: fixed;
   top: 10;
@@ -26,14 +29,15 @@
       background-color: #EEE;
     }
     &>.schedule__svg {
-      stroke: black;
+      color: black;
     }
   }
   &__svg {
-    stroke: white;
+    color: white;
     position: absolute;
     top: 10;
-    right: 10;
+    right: 12;
+    font-size: 22px;
     &:hover {
       cursor: pointer;
       opacity: 0.7;

@@ -173,22 +173,26 @@ classApp.controller('HomeCtrl', function($scope, $rootScope) {
   }
   $scope.showSidebar = function() {
     $(".sidebar").toggleClass("sidebar--show");
+    $('.sidebar__svg').toggleClass("fa-pencil");
+    $('.sidebar__svg').toggleClass("fa-times");
+    $('.content').toggleClass("content--noflow");
   }
   $scope.showSchedule = function(who) {
     if ($("#schedBtn").hasClass('schedule--selected')){
-        $("#schedBtn").toggleClass('schedule--selected');
         $('#schedNum').css("display", "flex");
         $('.schedule__list').first().css("display","none");
         $('.schedule').first().css("overflow-y","");
         $('.schedule__tab').remove();
     } else {
-      $("#schedBtn").toggleClass('schedule--selected');
       $('#schedNum').css("display", "none");
       $('.schedule__list').first().css("display","block");
       $('.schedule').first().css("overflow-y","auto");
       $scope.createSchedule();
-
     }
+    $("#schedBtn").toggleClass('schedule--selected');
+    $('.schedule__svg').toggleClass("fa-calendar");
+    $('.schedule__svg').toggleClass("fa-times");
+    $('.content').toggleClass("content--noflowsmall");
   }
   $scope.createSchedule = function() {
     $('.schedule__tab').remove();
