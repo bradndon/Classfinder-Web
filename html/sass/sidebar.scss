@@ -35,7 +35,16 @@ $western-light-blue: #0083D6;
       display: block;
     }
   }
-
+  &__link {
+    color:$western-light-blue;
+    text-decoration: none;
+    font-weight: bold;
+    margin-left: 3px;
+    transition: color .3s;
+    &:hover {
+      color:white;
+    }
+  }
   &__svg {
     display:none;
     color: white;
