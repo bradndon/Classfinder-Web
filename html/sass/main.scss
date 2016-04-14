@@ -4,7 +4,7 @@ $western-light-blue: #0083D6;
 html {
   font-size: 62.5%;
   background-color: #EEE;
-  @media only screen and (max-width: 500px) {
+  @media only screen and (max-width: 768px) {
     font-size: 50%;
   }
 }
@@ -23,7 +23,7 @@ body {
 
   margin: 0;
   padding: 0 0 0 23em;
-  @media only screen and (max-width: 500px) {
+  @media only screen and (max-width: 768px) {
     padding: 0;
   }
 }

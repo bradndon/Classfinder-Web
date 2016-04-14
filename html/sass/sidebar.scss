@@ -6,7 +6,7 @@ $western-light-blue: #0083D6;
   top: 0;
   left: 0;
   height: 100%;
-  width: 23.0em;
+  width: 24.0em;
   -webkit-box-shadow: 3px 0 8px 0 rgba(0,0,0,0.75);
   -moz-box-shadow: 3px 0 8px 0 rgba(0,0,0,0.75);
   box-shadow: 3px 0 8px 0 rgba(0,0,0,0.75);
@@ -15,7 +15,7 @@ $western-light-blue: #0083D6;
   z-index: 2;
   transition: width 0.5s, height 0.45s, top 0.35s, right 0.35s, border-radius 0.35s;
 
-  @media only screen and (max-width: 500px) {
+  @media only screen and (max-width: 768px) {
     position: fixed;
     top: 10;
     left: 10;
@@ -47,14 +47,14 @@ $western-light-blue: #0083D6;
       cursor: pointer;
       opacity: 0.7;
     }
-    @media only screen and (max-width: 500px) {
+    @media only screen and (max-width: 768px) {
         display:block;
     }
 
   }
   &__container {
     padding-bottom: 35px;
-    @media only screen and (max-width: 500px) {
+    @media only screen and (max-width: 768px) {
       display:none;
       margin-top: 35px;
     }
