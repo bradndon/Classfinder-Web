@@ -204,7 +204,17 @@ def getClasses(subject, term, verbose=False, test=False):
             returns[-1]["cap"] = int(aClass[counter])
             returns[-1]["enrol"] = int(aClass[counter + 1])
             returns[-1]["avail"] = int(aClass[counter + 2])
-            returns[-1]["inst"] = aClass[counter + 3]
+            temp = aClass[counter+3].split(" ")
+            instr = ""
+            if len(temp) > 1:
+                for i, s in enumerate(temp):
+                    instr +=  s + " "
+                    if "," in s:
+                        instr += temp[i+1]
+                        break;
+            else:
+                instr = aClass[counter+3]
+            returns[-1]["inst"] = instr
             returns[-1]["dates"] = aClass[counter + 4]
             if ('color', 'black') in classattr[k][index][counter + 5]:
                 returns[-1]["gur"] = aClass[counter + 5]

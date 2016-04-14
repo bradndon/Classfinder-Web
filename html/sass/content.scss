@@ -1,3 +1,6 @@
+$western-blue: #003F87;
+$western-light-blue: #0083D6;
+
 .content {
   background-color: #EEEEEE;
   width: 100%;
@@ -10,7 +13,7 @@
     }
   }
   &__class {
-    padding: 1em;
+    padding: 2.4rem;
     background-color: white;
     width: 100%;
     height: auto;
@@ -23,18 +26,17 @@
   }
   &__left {
     float: left;
-    width: 40%;
+    width: 60%;
+
     @media only screen and (max-width: 768px) {
       width: 100%;
     }
   }
   &__right {
     width: 100%;
-    display: flex;
-    justify-content: flex-start;
   }
   &__subjecttitle {
-    margin-left: 0.6em;
+    margin-left: 2rem;
     font-size: 30px;
     font-weight: bold;
     margin-top: 20px;
@@ -48,23 +50,72 @@
     top: 5px;
     line-height: 24px;
   }
-  &__text {
-    font-weight: lighter;
-    font-size: 1.98em;
-    padding: 0 0.8em;
-    &--title {
-      font-weight: 400;
-      font-size: 2.4em;
-      float: none;
-      padding-left: 0.4em;
+  &__size {
+    width: 100%;
+    @media only screen and (max-width: 768px) {
+      width: 100%;
+    }
+    &--small {
+      display: none;
       @media only screen and (max-width: 768px) {
-        text-align: center;
+        display: block;
       }
     }
-    &--subtitle {
-      font-size: 2.0em;
+    &--big {
+      width:50%;
+      @media only screen and (max-width: 768px) {
+        display: none;
+      }
+    }
+  }
+  &__span {
+    font-weight:bold;
+    font-size:1.6rem;
+    color: $western-light-blue;
+  }
+  &__text {
+    font-weight: normal;
+    font-size: 1.98rem;
+    line-height: 2rem;
+    margin-bottom: 5px;
+    color: #303030;
+    float:left;
+    @media only screen and (min-width: 768px) {
+      margin-right: 30px
+    }
+    &--small {
+      &25 {
+        @media only screen and (max-width: 768px) {
+          width: 25%;
+        }
+      }
+      &35 {
+        @media only screen and (max-width: 768px) {
+          width: 35%;
+        }
+      }&40 {
+        @media only screen and (max-width: 768px) {
+          width: 40%;
+        }
+      }
+      &60 {
+        @media only screen and (max-width: 768px) {
+          width: 60%;
+        }
+      }
+    }
+    &--title {
+      font-weight: 400;
+      font-size: 2.4rem;
       float: none;
-      padding-left: 0.4em;
+      // padding-left: 0.4rem;
+      line-height: 3rem;
+      margin-bottom: 5px;
+
+    }
+    &--subtitle {
+      font-size:1.98rem;
+      float: none;
     }
   }
   &__add {
