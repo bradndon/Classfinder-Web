@@ -8,6 +8,7 @@ classApp.controller('HomeCtrl', function($scope, $rootScope) {
   $scope.showTitle = {};
   $scope.exclusive = true;
   $scope.atLeast = true;
+  $scope.fileToRead = "classes";
   $scope.courseNum = "";
   $scope.selectedClasses = [];
   $scope.subData = [];
@@ -20,6 +21,7 @@ classApp.controller('HomeCtrl', function($scope, $rootScope) {
     open: "",
     crenum: "0"
   };
+  $scope.$watch('fileToRead', function(newValue, oldValue) {$scope.readClasses()});
 
   $scope.$watch('atLeast', function(newValue, oldValue) {$scope.reset()});
   $scope.$watch('exclusive', function(newValue, oldValue) {$scope.reset()});
@@ -286,17 +288,19 @@ classApp.controller('HomeCtrl', function($scope, $rootScope) {
       $scope.scores[data[score].name] = data[score].rating;
     }
   });
-
-
-  // $.getJSON("http://wwuclassfinder.com/menu.json", function(data) {
-  //     $.getJSON("http://wwuclassfinder.com/classes.json", function(data) {
-  $.getJSON("http://sub.localhost:4568/menu.json", function(data) {
-      $.getJSON("http://sub.localhost:4568/classes.json", function(data) {
+  $scope.readClasses = function() {
+    $.getJSON("http://wwuclassfinder.com/" + $scope.fileToRead + ".json", function(data) {
+    // $.getJSON("http://sub.localhost:4568/" + $scope.fileToRead + ".json", function(data) {
       $scope.allData = data;
       $scope.loaded = false;
       $scope.$apply();
       $scope.reset();
     });
+  }
+
+  $.getJSON("http://wwuclassfinder.com/menu.json", function(data) {
+  // $.getJSON("http://sub.localhost:4568/menu.json", function(data) {
+    $scope.readClasses();
     $scope.menuData = data;
     $scope.subData = []
     var gurData = []
