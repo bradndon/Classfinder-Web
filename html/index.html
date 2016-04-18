@@ -22,196 +22,219 @@
 </head>
 
 <body ng-controller="HomeCtrl">
-
-  <div class="sidebar">
-    <i class="fa fa-search sidebar__svg" aria-hidden="true" ng-click="showSidebar('svg')"></i>
-    <div class="sidebar__container">
-    <h1 class="sidebar__text">Term</h1>
-    <div class="sidebar__select">
-    <select ng-model="fileToRead">
-      <option value="classes" selected>Fall 2016</option>
-      <option value="classes2">Summer 2016</option>
-    </select>
-  </div>
-    <h1 class="sidebar__text">Subjects</h1>
-    <select multiple="multiple" class="sidebar__subject subjectSelect"></select>
-    <h1 class="sidebar__text">GUR/Course Attributes</h1>
-    <select multiple="multiple" class="sidebar__subject gurSelect"></select>
-    <h1 class="sidebar__text">Days</h1>
-    <input class="sidebar__check" type="checkbox" id="Monday" ng-click="dayClicked('M')">
-    <label for="Monday" class="sidebar__checklbl">
-      <div class="sidebar__checkdiv">M</div>
-    </label>
-    <input class="sidebar__check" type="checkbox" id="Tuesday" ng-click="dayClicked('T')">
-    <label for="Tuesday" class="sidebar__checklbl">
-      <div class="sidebar__checkdiv">T</div>
-    </label>
-    <input class="sidebar__check" type="checkbox" id="Wednesday" ng-click="dayClicked('W')">
-    <label for="Wednesday" class="sidebar__checklbl">
-      <div class="sidebar__checkdiv">W</div>
-    </label>
-    <input class="sidebar__check" type="checkbox" id="Thursday" ng-click="dayClicked('R')">
-    <label for="Thursday" class="sidebar__checklbl">
-      <div class="sidebar__checkdiv">R</div>
-    </label>
-    <input class="sidebar__check" type="checkbox" id="Friday" ng-click="dayClicked('F')">
-    <label for="Friday" class="sidebar__checklbl">
-      <div class="sidebar__checkdiv">F</div>
-    </label>
-    <input class="sidebar__check" type="checkbox" id="Saturday" ng-click="dayClicked('S')">
-    <label for="Saturday" class="sidebar__checklbl">
-      <div class="sidebar__checkdiv">S</div>
-    </label>
-    <input class="sidebar__check" type="checkbox" id="Sunday" ng-click="dayClicked('U')">
-    <label for="Sunday" class="sidebar__checklbl">
-      <div class="sidebar__checkdiv">U</div>
-    </label>
-    <div style="clear:both; padding:4px;"></div>
-    <input class="sidebar__radio" ng-model="exclusive" type="radio" id="Exclusive" ng-value="true">
-    <label for="Exclusive" class="sidebar__radiolbl">
-      <div class="sidebar__radiodiv"><i class="fa fa-check sidebar__checkmark"></i></div>
-      <p style="float:left; margin-top:7px; margin-left: 5px;letter-spacing: .5px;">Exclusive to these days</p>
-    </label>
-    <div style="clear:both; padding:4px;"></div>
-    <input class="sidebar__radio" ng-model="exclusive" type="radio" id="Included" ng-value="false">
-    <label for="Included" class="sidebar__radiolbl">
-      <div class="sidebar__radiodiv"><i class="fa fa-check sidebar__checkmark"></i></div>
-      <p style="float:left; margin-top:7px; margin-left: 5px;letter-spacing: .5px;">Including these days</p>
-    </label>
-    <div style="clear:both; padding:4px;"></div>
-    <h1 class="sidebar__text">Course Number</h1>
-    <input type="text" ng-model="courseNum" class="sidebar__input" style="height 29px;">
-    <h1 class="sidebar__text">Begin Time</h1>
-    <div class="sidebar__select">
-    <select ng-model="begin">
-      <option value="0" selected>Any</option>
-      <option value="600">6 am</option>
-      <option value="700">7 am</option>
-      <option value="800">8 am</option>
-      <option value="900">9 am</option>
-      <option value="1000">10 am</option>
-      <option value="1100">11 am</option>
-      <option value="1200">12 pm</option>
-      <option value="1300">1 pm</option>
-      <option value="1400">2 pm</option>
-      <option value="1500">3 pm</option>
-      <option value="1600">4 pm</option>
-      <option value="1700">5 pm</option>
-      <option value="1800">6 pm</option>
-      <option value="1900">7 pm</option>
-      <option value="2000">8 pm</option>
-      <option value="2100">9 pm</option>
-      <option value="2200">10 pm</option>
-      <option value="2300">11 pm</option>
-    </select>
-  </div>
-    <h1 class="sidebar__text">End Time</h1>
-    <div class="sidebar__select">
-    <select ng-model="end">
-      <option value="2500" selected>Any</option>
-      <option value="600">6 am</option>
-      <option value="700">7 am</option>
-      <option value="800">8 am</option>
-      <option value="900">9 am</option>
-      <option value="1000">10 am</option>
-      <option value="1100">11 am</option>
-      <option value="1200">12 pm</option>
-      <option value="1300">1 pm</option>
-      <option value="1400">2 pm</option>
-      <option value="1500">3 pm</option>
-      <option value="1600">4 pm</option>
-      <option value="1700">5 pm</option>
-      <option value="1800">6 pm</option>
-      <option value="1900">7 pm</option>
-      <option value="2000">8 pm</option>
-      <option value="2100">9 pm</option>
-      <option value="2200">10 pm</option>
-      <option value="2300">11 pm</option>
-    </select>
-  </div>
-    <div style="clear:both; padding:4px;"></div>
-
-    <input class="sidebar__radio" ng-model="ruleset.open" ng-true-value="true" ng-false-value="" type="checkbox" id="onlyOpen">
-    <label for="onlyOpen" class="sidebar__radiolbl">
-      <div class="sidebar__radiodiv"><i class="fa fa-check sidebar__checkmark"></i></div>
-      <p style="float:left; margin-top:5px; margin-left: 5px;letter-spacing: .5px;">Only Open Courses</p>
-    </label>
-    <div style="clear:both; padding:4px;"></div>
-
-    <h1 class="sidebar__text">Credit Hours</h1>
-    <input type="range" style="float:left" min="0" max="18" ng-model="ruleset.crenum" />
-    <p style="float: left; margin-top:6px; margin-left: 5px; font-size: 18px;
-    color: white;">{{ruleset.crenum}}</p>
-    <div style="clear:both; padding:4px;"></div>
-    <input class="sidebar__radio" ng-model="atLeast" type="radio" id="AtLeast" ng-value="true">
-    <label for="AtLeast" class="sidebar__radiolbl">
-      <div class="sidebar__radiodiv"><i class="fa fa-check sidebar__checkmark"></i></div>
-      <p style="float:left; margin-top:5px; margin-left: 5px;letter-spacing: .5px;">At Least this many</p>
-    </label>
-    <div style="clear:both; padding:4px;"></div>
-    <input class="sidebar__radio" ng-model="atLeast" type="radio" id="Exactly" ng-value="false">
-    <label for="Exactly" class="sidebar__radiolbl">
-      <div class="sidebar__radiodiv"><i class="fa fa-check sidebar__checkmark"></i></div>
-      <p style="float:left; margin-top:5px; margin-left: 5px;letter-spacing: .5px;">Exactly this many</p>
-    </label>
-    <div style="clear:both; padding:4px;"></div>
-
-    <div style="height:40px;width:100%;"><p style="margin-top:20px;font-size:18px; font-weight:normal;" class="sidebar__text">Created by <a target="_blank" class="sidebar__link" href="https://facebook.com/bradndon123">Brandon Fox</a></p></div>
-  </div>
-  </div>
-  <div style="height:100%" ng-switch="loaded">
-    <div ng-switch-when="true" style="display:flex;align-items:center;justify-content:center;height:100%;"><h1 style="font-size:4.8rem;font-weight:bold;">LOADING</h1></div>
+  <div ng-switch="loaded">
+    <div ng-switch-when="true" style="display:flex;align-items:center;justify-content:center;height:100%; width:100%;position:absolute;top:0;left:0;">
+      <h1 style="font-size:4.8rem;font-weight:bold;">LOADING</h1></div>
     <div ng-switch-when="false" class="content" infinte-scroll-disabled="$parent.loaded" infinite-scroll="addMoreClasses()" infinite-scroll-distance="4" infinite-scroll-listen-for-event="filtered">
-      <div ng-repeat="(subject,classes) in data">
-        <h1 ng-show="$parent.showTitle[subject]" class="content__subjecttitle">{{subject}}</h1>
-        <div style="overflow:hidden;position:relative" ng-repeat="class in classes" class="content__class">
-          <div class="content__left" >
-            <h2 class="content__text content__text--title" ng-class="class.open"><span style="font-weight:bold;">{{class.class}}</span> - {{class.title}}</h2>
-
+      <div class="sidebar">
+        <i class="fa fa-search sidebar__svg" aria-hidden="true" ng-click="showSidebar('svg')"></i>
+        <div class="sidebar__container">
+          <h1 class="sidebar__text">Term</h1>
+          <div class="sidebar__select">
+            <select ng-model="fileToRead">
+              <option value="classes" selected>Fall 2016</option>
+              <option value="classes2">Summer 2016</option>
+            </select>
           </div>
-          <div style="clear:both;"></div>
-
-          <div style="width: 100%;">
-            <div class="content__size--big">
-              <p ng-if="class.gur" class="content__text content__text--subtitle"><span class="content__span">GUR</span><br>{{class.gur}}</p>
-              <p ng-if="class.restrictions" class="content__text content__text--subtitle"><span class="content__span">Restrictions</span><br>{{class.restrictions}}</p>
-              <p ng-if="class.prerequisites" class="content__text content__text--subtitle"><span class="content__span">Prerequisites</span><br>{{class.prerequisites}}</p>
-            </div>
-                <p class="content__text content__text--small25"><span class="content__span">Class Size</span><br>{{class.cap}}</p>
-                <p class="content__text content__text--small35"><span class="content__span">Available Seats</span><br>{{class.avail}}</p>
-                <p class="content__text"><span class="content__span">Number of Credits</span><br>{{class.crenum}}</p>
-                <p class="content__text content__text--small60"><span class="content__span">Instructor</span><br>{{class.inst}}</p>
-                <p class="content__text" ng-if="scores[class.inst]"><span class="content__span">RMP score</span><br>{{scores[class.inst]}}</p>
-              <p class="content__text content__text--small60"><span class="content__span">Time</span><br>{{class.time1}}<br>{{class.time2}}</p>
-              <p class="content__text content__text--small40"><span class="content__span">Place</span><br>{{class.room1}}<br>{{class.room2}}</p>
-              <p class="content__text content__text--small60"><span class="content__span">CRN</span><br>{{class.crn}}</p>
-              <p class="content__text" ng-if="class.addl"><span class="content__span">Additional Cost</span><br>{{class.addl}}</p>
-            <div style="clear:both;"></div>
-            <div class="content__size--big">
-              <p ng-if="class.other" class="content__text content__text--subtitle"><span class="content__span">Other Information</span><br>{{class.other}}</p>
-            </div>
-            <div class="content__size--small">
-              <p ng-if="class.gur" class="content__text" style="margin-right:30px;"><span class="content__span">GUR</span><br>{{class.gur}}</p>
-              <p ng-if="class.restrictions" class="content__text" style="margin-right:30px;"><span class="content__span">Restrictions</span><br>{{class.restrictions}}</p>
-              <p ng-if="class.prerequisites" class="content__text" style="margin-right:30px;"><span class="content__span">Prerequisites</span><br>{{class.prerequisites}}</p>
-              <p ng-if="class.other" class="content__text" style="margin-right:20px;"><span class="content__span">Other Information</span><br>{{class.other}}</p>
-            </div>
+          <h1 class="sidebar__text">Subjects</h1>
+          <select multiple="multiple" class="sidebar__subject subjectSelect"></select>
+          <h1 class="sidebar__text">GUR/Course Attributes</h1>
+          <select multiple="multiple" class="sidebar__subject gurSelect"></select>
+          <h1 class="sidebar__text">Days</h1>
+          <input class="sidebar__check" type="checkbox" id="Monday" ng-click="dayClicked('M')">
+          <label for="Monday" class="sidebar__checklbl">
+            <div class="sidebar__checkdiv">M</div>
+          </label>
+          <input class="sidebar__check" type="checkbox" id="Tuesday" ng-click="dayClicked('T')">
+          <label for="Tuesday" class="sidebar__checklbl">
+            <div class="sidebar__checkdiv">T</div>
+          </label>
+          <input class="sidebar__check" type="checkbox" id="Wednesday" ng-click="dayClicked('W')">
+          <label for="Wednesday" class="sidebar__checklbl">
+            <div class="sidebar__checkdiv">W</div>
+          </label>
+          <input class="sidebar__check" type="checkbox" id="Thursday" ng-click="dayClicked('R')">
+          <label for="Thursday" class="sidebar__checklbl">
+            <div class="sidebar__checkdiv">R</div>
+          </label>
+          <input class="sidebar__check" type="checkbox" id="Friday" ng-click="dayClicked('F')">
+          <label for="Friday" class="sidebar__checklbl">
+            <div class="sidebar__checkdiv">F</div>
+          </label>
+          <input class="sidebar__check" type="checkbox" id="Saturday" ng-click="dayClicked('S')">
+          <label for="Saturday" class="sidebar__checklbl">
+            <div class="sidebar__checkdiv">S</div>
+          </label>
+          <input class="sidebar__check" type="checkbox" id="Sunday" ng-click="dayClicked('U')">
+          <label for="Sunday" class="sidebar__checklbl">
+            <div class="sidebar__checkdiv">U</div>
+          </label>
+          <div style="clear:both; padding:4px;"></div>
+          <input class="sidebar__radio" ng-model="exclusive" type="radio" id="Exclusive" ng-value="true">
+          <label for="Exclusive" class="sidebar__radiolbl">
+            <div class="sidebar__radiodiv"><i class="fa fa-check sidebar__checkmark"></i></div>
+            <p style="float:left; margin-top:7px; margin-left: 5px;letter-spacing: .5px;">Exclusive to these days</p>
+          </label>
+          <div style="clear:both; padding:4px;"></div>
+          <input class="sidebar__radio" ng-model="exclusive" type="radio" id="Included" ng-value="false">
+          <label for="Included" class="sidebar__radiolbl">
+            <div class="sidebar__radiodiv"><i class="fa fa-check sidebar__checkmark"></i></div>
+            <p style="float:left; margin-top:7px; margin-left: 5px;letter-spacing: .5px;">Including these days</p>
+          </label>
+          <div style="clear:both; padding:4px;"></div>
+          <h1 class="sidebar__text">Course Number</h1>
+          <input type="text" ng-model="courseNum" class="sidebar__input" style="height 29px;">
+          <h1 class="sidebar__text">Begin Time</h1>
+          <div class="sidebar__select">
+            <select ng-model="begin">
+              <option value="0" selected>Any</option>
+              <option value="600">6 am</option>
+              <option value="700">7 am</option>
+              <option value="800">8 am</option>
+              <option value="900">9 am</option>
+              <option value="1000">10 am</option>
+              <option value="1100">11 am</option>
+              <option value="1200">12 pm</option>
+              <option value="1300">1 pm</option>
+              <option value="1400">2 pm</option>
+              <option value="1500">3 pm</option>
+              <option value="1600">4 pm</option>
+              <option value="1700">5 pm</option>
+              <option value="1800">6 pm</option>
+              <option value="1900">7 pm</option>
+              <option value="2000">8 pm</option>
+              <option value="2100">9 pm</option>
+              <option value="2200">10 pm</option>
+              <option value="2300">11 pm</option>
+            </select>
           </div>
-          <div id="{{class.crn}}" style="background-color:{{class.color}}" class="content__add" ng-click="increaseClass(class)">
-            <p id="{{class.crn}}sign" style="margin-top:6px;margin-left:9px;font-size:30px;color:white;opacity:0.8;" ng-bind-html="class.add"></p>
-            <p id="{{class.crn}}text" class="content__addtext">{{class.text}}</p>
+          <h1 class="sidebar__text">End Time</h1>
+          <div class="sidebar__select">
+            <select ng-model="end">
+              <option value="2500" selected>Any</option>
+              <option value="600">6 am</option>
+              <option value="700">7 am</option>
+              <option value="800">8 am</option>
+              <option value="900">9 am</option>
+              <option value="1000">10 am</option>
+              <option value="1100">11 am</option>
+              <option value="1200">12 pm</option>
+              <option value="1300">1 pm</option>
+              <option value="1400">2 pm</option>
+              <option value="1500">3 pm</option>
+              <option value="1600">4 pm</option>
+              <option value="1700">5 pm</option>
+              <option value="1800">6 pm</option>
+              <option value="1900">7 pm</option>
+              <option value="2000">8 pm</option>
+              <option value="2100">9 pm</option>
+              <option value="2200">10 pm</option>
+              <option value="2300">11 pm</option>
+            </select>
+          </div>
+          <div style="clear:both; padding:4px;"></div>
+
+          <input class="sidebar__radio" ng-model="ruleset.open" ng-true-value="true" ng-false-value="" type="checkbox" id="onlyOpen">
+          <label for="onlyOpen" class="sidebar__radiolbl">
+            <div class="sidebar__radiodiv"><i class="fa fa-check sidebar__checkmark"></i></div>
+            <p style="float:left; margin-top:5px; margin-left: 5px;letter-spacing: .5px;">Only Open Courses</p>
+          </label>
+          <div style="clear:both; padding:4px;"></div>
+
+          <h1 class="sidebar__text">Credit Hours</h1>
+          <input type="range" style="float:left" min="0" max="18" ng-model="ruleset.crenum" />
+          <p style="float: left; margin-top:6px; margin-left: 5px; font-size: 18px;
+    color: white;">{{ruleset.crenum}}</p>
+          <div style="clear:both; padding:4px;"></div>
+          <input class="sidebar__radio" ng-model="atLeast" type="radio" id="AtLeast" ng-value="true">
+          <label for="AtLeast" class="sidebar__radiolbl">
+            <div class="sidebar__radiodiv"><i class="fa fa-check sidebar__checkmark"></i></div>
+            <p style="float:left; margin-top:5px; margin-left: 5px;letter-spacing: .5px;">At Least this many</p>
+          </label>
+          <div style="clear:both; padding:4px;"></div>
+          <input class="sidebar__radio" ng-model="atLeast" type="radio" id="Exactly" ng-value="false">
+          <label for="Exactly" class="sidebar__radiolbl">
+            <div class="sidebar__radiodiv"><i class="fa fa-check sidebar__checkmark"></i></div>
+            <p style="float:left; margin-top:5px; margin-left: 5px;letter-spacing: .5px;">Exactly this many</p>
+          </label>
+          <div style="clear:both; padding:4px;"></div>
+
+          <div style="height:40px;width:100%;">
+            <p style="margin-top:20px;font-size:18px; font-weight:normal;" class="sidebar__text">Created by <a target="_blank" class="sidebar__link" href="https://facebook.com/bradndon123">Brandon Fox</a></p>
           </div>
         </div>
       </div>
-    </div>
-    <div style='clear: both;'></div>
-  </div>
+      <div style="height:100%">
+        <div class="content" infinte-scroll-disabled="$parent.loaded" infinite-scroll="addMoreClasses()" infinite-scroll-distance="4" infinite-scroll-listen-for-event="filtered">
+          <div ng-repeat="(subject,classes) in data">
+            <h1 ng-show="$parent.showTitle[subject]" class="content__subjecttitle">{{subject}}</h1>
+            <div style="overflow:hidden;position:relative" ng-repeat="class in classes" class="content__class">
+              <div class="content__left">
+                <h2 class="content__text content__text--title" ng-class="class.open"><span style="font-weight:bold;">{{class.class}}</span> - {{class.title}}</h2>
 
-  <div style="z-index:3;" id="schedBtn" class="schedule">
-    <i class="fa fa-calendar schedule__svg" aria-hidden="true" ng-click="showSchedule('svg')"></i>
-    <div id="schedNum" style="width:20px; height:20px; border-radius:10px; background-color:red; margin-top:-5px; margin-left:-5px; display:flex;align-items:center;justify-content:center;color:white">{{selectedClasses.length}}</div>
-    <div class="schedule__list">
-      <!-- <div style="overflow:hidden;position:relative" ng-repeat="class in selectedClasses" class="content__class">
+              </div>
+              <div style="clear:both;"></div>
+
+              <div style="width: 100%;">
+                <div class="content__size--big">
+                  <p ng-if="class.gur" class="content__text content__text--subtitle"><span class="content__span">GUR</span>
+                    <br>{{class.gur}}</p>
+                  <p ng-if="class.restrictions" class="content__text content__text--subtitle"><span class="content__span">Restrictions</span>
+                    <br>{{class.restrictions}}</p>
+                  <p ng-if="class.prerequisites" class="content__text content__text--subtitle"><span class="content__span">Prerequisites</span>
+                    <br>{{class.prerequisites}}</p>
+                </div>
+                <p class="content__text content__text--small25"><span class="content__span">Class Size</span>
+                  <br>{{class.cap}}</p>
+                <p class="content__text content__text--small35"><span class="content__span">Available Seats</span>
+                  <br>{{class.avail}}</p>
+                <p class="content__text"><span class="content__span">Number of Credits</span>
+                  <br>{{class.crenum}}</p>
+                <p class="content__text content__text--small60"><span class="content__span">Instructor</span>
+                  <br>{{class.inst}}</p>
+                <p class="content__text" ng-if="scores[class.inst]"><span class="content__span">RMP score</span>
+                  <br>{{scores[class.inst]}}</p>
+                <p class="content__text content__text--small60"><span class="content__span">Time</span>
+                  <br>{{class.time1}}
+                  <br>{{class.time2}}</p>
+                <p class="content__text content__text--small40"><span class="content__span">Place</span>
+                  <br>{{class.room1}}
+                  <br>{{class.room2}}</p>
+                <p class="content__text content__text--small60"><span class="content__span">CRN</span>
+                  <br>{{class.crn}}</p>
+                <p class="content__text" ng-if="class.addl"><span class="content__span">Additional Cost</span>
+                  <br>{{class.addl}}</p>
+                <div style="clear:both;"></div>
+                <div class="content__size--big">
+                  <p ng-if="class.other" class="content__text content__text--subtitle"><span class="content__span">Other Information</span>
+                    <br>{{class.other}}</p>
+                </div>
+                <div class="content__size--small">
+                  <p ng-if="class.gur" class="content__text" style="margin-right:30px;"><span class="content__span">GUR</span>
+                    <br>{{class.gur}}</p>
+                  <p ng-if="class.restrictions" class="content__text" style="margin-right:30px;"><span class="content__span">Restrictions</span>
+                    <br>{{class.restrictions}}</p>
+                  <p ng-if="class.prerequisites" class="content__text" style="margin-right:30px;"><span class="content__span">Prerequisites</span>
+                    <br>{{class.prerequisites}}</p>
+                  <p ng-if="class.other" class="content__text" style="margin-right:20px;"><span class="content__span">Other Information</span>
+                    <br>{{class.other}}</p>
+                </div>
+              </div>
+              <div id="{{class.crn}}" style="background-color:{{class.color}}" class="content__add" ng-click="increaseClass(class)">
+                <p id="{{class.crn}}sign" style="margin-top:6px;margin-left:9px;font-size:30px;color:white;opacity:0.8;" ng-bind-html="class.add"></p>
+                <p id="{{class.crn}}text" class="content__addtext">{{class.text}}</p>
+              </div>
+            </div>
+          </div>
+        </div>
+        <div style='clear: both;'></div>
+      </div>
+
+      <div style="z-index:3;" id="schedBtn" class="schedule">
+        <i class="fa fa-calendar schedule__svg" aria-hidden="true" ng-click="showSchedule('svg')"></i>
+        <div id="schedNum" style="width:20px; height:20px; border-radius:10px; background-color:red; margin-top:-5px; margin-left:-5px; display:flex;align-items:center;justify-content:center;color:white">{{selectedClasses.length}}</div>
+        <div class="schedule__list">
+          <!-- <div style="overflow:hidden;position:relative" ng-repeat="class in selectedClasses" class="content__class">
         <div style="float:left; width: 40%;">
           <h2 class="content__text content__text--title" ng-class="class.open">{{class.class}} - {{class.title}}</h2>
           <h3 ng-if="class.gur" class="content__text content__text--subtitle">GURS: {{class.gur}}</h3>
@@ -252,56 +275,58 @@
             <br>Schedule</p>
         </div>
       </div> -->
-      <p style="position:absolute;top:10px;left:5px;font-size:2.2rem;">{{credits}} Credits</p>
-      <div>
-        <p class="schedule__hour">8</p>
-        <div class="schedule__hourline"></div>
-        <div class="clearfix"></div>
-        <p class="schedule__hour">9</p>
-        <div class="schedule__hourline"></div>
-        <div class="clearfix"></div>
-        <p class="schedule__hour">10</p>
-        <div class="schedule__hourline"></div>
-        <div class="clearfix"></div>
-        <p class="schedule__hour">11</p>
-        <div class="schedule__hourline"></div>
-        <div class="clearfix"></div>
-        <p class="schedule__hour">12</p>
-        <div class="schedule__hourline"></div>
-        <div class="clearfix"></div>
-        <p class="schedule__hour">1</p>
-        <div class="schedule__hourline"></div>
-        <div class="clearfix"></div>
-        <p class="schedule__hour">2</p>
-        <div class="schedule__hourline"></div>
-        <div class="clearfix"></div>
-        <p class="schedule__hour">3</p>
-        <div class="schedule__hourline"></div>
-        <div class="clearfix"></div>
-        <p class="schedule__hour">4</p>
-        <div class="schedule__hourline"></div>
-        <div class="clearfix"></div>
-        <p class="schedule__hour">5</p>
-        <div class="schedule__hourline"></div>
-        <div class="clearfix"></div>
-        <p class="schedule__hour">6</p>
-        <div class="schedule__hourline"></div>
-        <div class="clearfix"></div>
-        <p class="schedule__hour">7</p>
-        <div class="schedule__hourline"></div>
-        <div class="clearfix"></div>
-        <p class="schedule__hour">8</p>
-        <div class="schedule__hourline"></div>
-        <div class="clearfix"></div>
-        <p class="schedule__hour">9</p>
-        <div class="schedule__hourline"></div>
-        <div class="clearfix"></div>
-        <p class="schedule__hour">10</p>
-        <div class="schedule__hourline"></div>
-        <div class="clearfix"></div>
-        <p style="margin-bottom:20px" class="schedule__hour">11</p>
-        <div class="schedule__hourline"></div>
-        <div class="clearfix"></div>
+          <p style="position:absolute;top:10px;left:5px;font-size:2.2rem;">{{credits}} Credits</p>
+          <div>
+            <p class="schedule__hour">8</p>
+            <div class="schedule__hourline"></div>
+            <div class="clearfix"></div>
+            <p class="schedule__hour">9</p>
+            <div class="schedule__hourline"></div>
+            <div class="clearfix"></div>
+            <p class="schedule__hour">10</p>
+            <div class="schedule__hourline"></div>
+            <div class="clearfix"></div>
+            <p class="schedule__hour">11</p>
+            <div class="schedule__hourline"></div>
+            <div class="clearfix"></div>
+            <p class="schedule__hour">12</p>
+            <div class="schedule__hourline"></div>
+            <div class="clearfix"></div>
+            <p class="schedule__hour">1</p>
+            <div class="schedule__hourline"></div>
+            <div class="clearfix"></div>
+            <p class="schedule__hour">2</p>
+            <div class="schedule__hourline"></div>
+            <div class="clearfix"></div>
+            <p class="schedule__hour">3</p>
+            <div class="schedule__hourline"></div>
+            <div class="clearfix"></div>
+            <p class="schedule__hour">4</p>
+            <div class="schedule__hourline"></div>
+            <div class="clearfix"></div>
+            <p class="schedule__hour">5</p>
+            <div class="schedule__hourline"></div>
+            <div class="clearfix"></div>
+            <p class="schedule__hour">6</p>
+            <div class="schedule__hourline"></div>
+            <div class="clearfix"></div>
+            <p class="schedule__hour">7</p>
+            <div class="schedule__hourline"></div>
+            <div class="clearfix"></div>
+            <p class="schedule__hour">8</p>
+            <div class="schedule__hourline"></div>
+            <div class="clearfix"></div>
+            <p class="schedule__hour">9</p>
+            <div class="schedule__hourline"></div>
+            <div class="clearfix"></div>
+            <p class="schedule__hour">10</p>
+            <div class="schedule__hourline"></div>
+            <div class="clearfix"></div>
+            <p style="margin-bottom:20px" class="schedule__hour">11</p>
+            <div class="schedule__hourline"></div>
+            <div class="clearfix"></div>
+          </div>
+        </div>
       </div>
     </div>
   </div>
