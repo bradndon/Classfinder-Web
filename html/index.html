@@ -25,7 +25,7 @@
   <div ng-switch="loaded">
     <div ng-switch-when="true" style="display:flex;align-items:center;justify-content:center;height:100%; width:100%;position:absolute;top:0;left:0;">
       <h1 style="font-size:4.8rem;font-weight:bold;">LOADING</h1></div>
-    <div ng-switch-when="false" class="content" infinte-scroll-disabled="$parent.loaded" infinite-scroll="addMoreClasses()" infinite-scroll-distance="4" infinite-scroll-listen-for-event="filtered">
+    <div ng-switch-when="false">
       <div class="sidebar">
         <i class="fa fa-search sidebar__svg" aria-hidden="true" ng-click="showSidebar('svg')"></i>
         <div class="sidebar__container">
