@@ -381,6 +381,11 @@ def getNumClasses(subject):
 if __name__ == "__main__":
     from shutil import copyfile
     f = open('./temp.json','w')
-    f.write(getClasses("All", 201620, False, False))
+    f.write(getClasses("All", 201640, False, False))
     f.close()
     copyfile('./temp.json', '/var/www/html/classes.json')
+    f = open('./temp.json','w')
+    f.write(getClasses("All", 201630, False, False))
+    f.close()
+    copyfile('./temp.json', '/var/www/html/classes2.json')
+
