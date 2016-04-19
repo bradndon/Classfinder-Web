@@ -186,6 +186,7 @@ classApp.controller('HomeCtrl', function($scope, $rootScope) {
         $('.schedule').first().css("overflow-y","");
         $('.schedule__tab').remove();
     } else {
+      FlurryAgent.logEvent("Looked at Scedule");
       $('#schedNum').css("display", "none");
       $('.schedule__list').first().css("display","block");
       $('.schedule').first().css("overflow-y","auto");
@@ -228,17 +229,12 @@ classApp.controller('HomeCtrl', function($scope, $rootScope) {
 
     });
   }
-  $scope.removeClass = function(index) {
-    var id = $scope.selectedClasses[index]["id"];
-    $('#UNIQUELABEL' + $scope.selectedClasses[index]["crn"] + "_1").css("background-color","#385E0F");
-    $('#'+$scope.selectedClasses[index]["crn"]+'sign').text("+");
-    $('#'+$scope.selectedClasses[index]["crn"]+'text').text("Add to Schedule");
-    $scope.selectedClasses.splice(index,1);
-    $scope.$apply();
-  }
   $scope.increaseClass = function(currClass) {
+
     var index = $scope.selectedClasses.indexOf(currClass)
     if(index > -1) {
+      FlurryAgent.logEvent("Remove from Schedule", {title: currClass.title, crn: currClass.crn});
+
       currClass.add= "<i class='fa fa-plus'></i>";
       $scope.selectedClasses.splice(index,1);
       currClass.color="#385E0F";
@@ -246,6 +242,8 @@ classApp.controller('HomeCtrl', function($scope, $rootScope) {
 
     } else {
       if (currClass.text.indexOf("Overlaps") <= -1){
+        FlurryAgent.logEvent("Add to Schedule", {title: currClass.title, crn: currClass.crn});
+
         $scope.selectedClasses.push(currClass);
         currClass.add= "<i class='fa fa-minus'></i>";
         currClass.color="#C40806";
@@ -273,6 +271,8 @@ classApp.controller('HomeCtrl', function($scope, $rootScope) {
     return check;
   }
   $scope.dayClicked = function(day) {
+    FlurryAgent.logEvent("Filter by", {filter: "day", value: day});
+
     var index = $scope.ruleset.day.indexOf(day)
     if (index > -1) {
       $scope.ruleset.day.splice(index, 1);
@@ -289,17 +289,47 @@ classApp.controller('HomeCtrl', function($scope, $rootScope) {
     }
   });
   $scope.readClasses = function() {
-    $.getJSON("http://wwuclassfinder.com/" + $scope.fileToRead + ".json", function(data) {
-    // $.getJSON("http://sub.localhost:4568/" + $scope.fileToRead + ".json", function(data) {
-      $scope.allData = data;
-      $scope.loaded = false;
-      $scope.$apply();
-      $scope.reset();
-    });
+    // $.getJSON("http://wwuclassfinder.com/" + $scope.fileToRead + ".json", function(data) {
+
   }
 
-  $.getJSON("http://wwuclassfinder.com/menu.json", function(data) {
-  // $.getJSON("http://sub.localhost:4568/menu.json", function(data) {
+  // $.getJSON("http://wwuclassfinder.com/menu.json", function(data) {
+  $.getJSON("http://sub.localhost:4568/menu.json", function(data) {
+    $.getJSON("http://sub.localhost:4568/" + $scope.fileToRead + ".json", function(data) {
+      $scope.allData = data;
+      $scope.loaded = false;
+
+      $scope.$apply();
+      $('.subjectSelect').select2({
+        data: $scope.subData
+      });
+      $('.subjectSelect').on("select2:select", function(e) {
+        FlurryAgent.logEvent("Filter by", {filter: "subject", value: e.params.data.id});
+
+        $scope.ruleset["class"].push(e.params.data.id);
+        $scope.reset();
+      });
+      $('.subjectSelect').on("select2:unselect", function(e) {
+        var i = $scope.ruleset["class"].indexOf(e.params.data.id);
+        $scope.ruleset["class"].splice(i, 1);
+        $scope.reset();
+      });
+      $('.gurSelect').select2({
+        data: gurData
+      });
+      $('.gurSelect').on("select2:select", function(e) {
+        FlurryAgent.logEvent("Filter by", {filter: "gur", value: e.params.data.id});
+
+        $scope.ruleset.gur.push(e.params.data.id);
+        $scope.reset();
+      });
+      $('.gurSelect').on("select2:unselect", function(e) {
+        var i = $scope.ruleset.gur.indexOf(e.params.data.id);
+        $scope.ruleset.gur.splice(i, 1);
+        $scope.reset();
+      });
+      $scope.reset();
+    });
     $scope.readClasses();
     $scope.menuData = data;
     $scope.subData = []
@@ -325,30 +355,8 @@ classApp.controller('HomeCtrl', function($scope, $rootScope) {
       return a.text.localeCompare(b.text);
     });
     $scope.subData.splice(4, 1);
-    $('.subjectSelect').select2({
-      data: $scope.subData
-    });
-    $('.subjectSelect').on("select2:select", function(e) {
-      $scope.ruleset["class"].push(e.params.data.id);
-      $scope.reset();
-    });
-    $('.subjectSelect').on("select2:unselect", function(e) {
-      var i = $scope.ruleset["class"].indexOf(e.params.data.id);
-      $scope.ruleset["class"].splice(i, 1);
-      $scope.reset();
-    });
-    $('.gurSelect').select2({
-      data: gurData
-    });
-    $('.gurSelect').on("select2:select", function(e) {
-      $scope.ruleset.gur.push(e.params.data.id);
-      $scope.reset();
-    });
-    $('.gurSelect').on("select2:unselect", function(e) {
-      var i = $scope.ruleset.gur.indexOf(e.params.data.id);
-      $scope.ruleset.gur.splice(i, 1);
-      $scope.reset();
-    });
+    console.log($scope.subData);
+
     $scope.currSubject = 2;
     $scope.$apply();
   });
