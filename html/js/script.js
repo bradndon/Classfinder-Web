@@ -355,7 +355,6 @@ classApp.controller('HomeCtrl', function($scope, $rootScope) {
       return a.text.localeCompare(b.text);
     });
     $scope.subData.splice(4, 1);
-    console.log($scope.subData);
 
     $scope.currSubject = 2;
     $scope.$apply();
