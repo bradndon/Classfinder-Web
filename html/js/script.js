@@ -289,8 +289,8 @@ classApp.controller('HomeCtrl', function($scope, $rootScope) {
     }
   });
   $scope.readClasses = function() {
-    $.getJSON("http://wwuclassfinder.com/" + $scope.fileToRead + ".json", function(data) {
-    // $.getJSON("http://sub.localhost:4568/" + $scope.fileToRead + ".json", function(data) {
+    // $.getJSON("http://wwuclassfinder.com/" + $scope.fileToRead + ".json", function(data) {
+    $.getJSON("http://sub.localhost:4568/" + $scope.fileToRead + ".json", function(data) {
       $scope.allData = data;
       $scope.loaded = false;
 
@@ -310,7 +310,7 @@ classApp.controller('HomeCtrl', function($scope, $rootScope) {
         $scope.reset();
       });
       $('.gurSelect').select2({
-        data: gurData
+        data: $scope.gurData
       });
       $('.gurSelect').on("select2:select", function(e) {
         FlurryAgent.logEvent("Filter by", {filter: "gur", value: e.params.data.id});
@@ -327,13 +327,13 @@ classApp.controller('HomeCtrl', function($scope, $rootScope) {
     });
   }
 
-  $.getJSON("http://wwuclassfinder.com/menu.json", function(data) {
-  // $.getJSON("http://sub.localhost:4568/menu.json", function(data) {
+  // $.getJSON("http://wwuclassfinder.com/menu.json", function(data) {
+  $.getJSON("http://sub.localhost:4568/menu.json", function(data) {
 
     $scope.readClasses();
     $scope.menuData = data;
     $scope.subData = []
-    var gurData = []
+    $scope.gurData = []
     for (obj in data.Subject) {
       $scope.subData.push({
         id: data.Subject[obj],
@@ -342,7 +342,7 @@ classApp.controller('HomeCtrl', function($scope, $rootScope) {
       $scope.showTitle[obj] = false;
     }
     for (obj in data["GUR/Course Attribute"]) {
-      gurData.push({
+      $scope.gurData.push({
         id: data["GUR/Course Attribute"][obj],
         text: obj
       });
@@ -351,7 +351,7 @@ classApp.controller('HomeCtrl', function($scope, $rootScope) {
       $scope.subData.sort(function(a, b) {
         return a.text.localeCompare(b.text);
       });
-    gurData.sort(function(a, b) {
+    $scope.gurData.sort(function(a, b) {
       return a.text.localeCompare(b.text);
     });
     $scope.subData.splice(4, 1);
