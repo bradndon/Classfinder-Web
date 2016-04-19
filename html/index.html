@@ -71,23 +71,23 @@
             <div class="sidebar__checkdiv">U</div>
           </label>
           <div style="clear:both; padding:4px;"></div>
-          <input class="sidebar__radio" ng-model="exclusive" type="radio" id="Exclusive" ng-value="true">
+          <input class="sidebar__radio" ng-model="$parent.exclusive" type="radio" id="Exclusive" ng-value="true">
           <label for="Exclusive" class="sidebar__radiolbl">
             <div class="sidebar__radiodiv"><i class="fa fa-check sidebar__checkmark"></i></div>
             <p style="float:left; margin-top:7px; margin-left: 5px;letter-spacing: .5px;">Exclusive to these days</p>
           </label>
           <div style="clear:both; padding:4px;"></div>
-          <input class="sidebar__radio" ng-model="exclusive" type="radio" id="Included" ng-value="false">
+          <input class="sidebar__radio" ng-model="$parent.exclusive" type="radio" id="Included" ng-value="false">
           <label for="Included" class="sidebar__radiolbl">
             <div class="sidebar__radiodiv"><i class="fa fa-check sidebar__checkmark"></i></div>
             <p style="float:left; margin-top:7px; margin-left: 5px;letter-spacing: .5px;">Including these days</p>
           </label>
           <div style="clear:both; padding:4px;"></div>
           <h1 class="sidebar__text">Course Number</h1>
-          <input type="text" ng-model="courseNum" class="sidebar__input" style="height 29px;">
+          <input type="text" ng-model="$parent.courseNum" class="sidebar__input" style="height 29px;">
           <h1 class="sidebar__text">Begin Time</h1>
           <div class="sidebar__select">
-            <select ng-model="begin">
+            <select ng-model="$parent.begin">
               <option value="0" selected>Any</option>
               <option value="600">6 am</option>
               <option value="700">7 am</option>
@@ -111,7 +111,7 @@
           </div>
           <h1 class="sidebar__text">End Time</h1>
           <div class="sidebar__select">
-            <select ng-model="end">
+            <select ng-model="$parent.end">
               <option value="2500" selected>Any</option>
               <option value="600">6 am</option>
               <option value="700">7 am</option>
@@ -135,7 +135,7 @@
           </div>
           <div style="clear:both; padding:4px;"></div>
 
-          <input class="sidebar__radio" ng-model="ruleset.open" ng-true-value="true" ng-false-value="" type="checkbox" id="onlyOpen">
+          <input class="sidebar__radio" ng-model="$parent.ruleset.open" ng-true-value="true" ng-false-value="" type="checkbox" id="onlyOpen">
           <label for="onlyOpen" class="sidebar__radiolbl">
             <div class="sidebar__radiodiv"><i class="fa fa-check sidebar__checkmark"></i></div>
             <p style="float:left; margin-top:5px; margin-left: 5px;letter-spacing: .5px;">Only Open Courses</p>
@@ -147,13 +147,13 @@
           <p style="float: left; margin-top:6px; margin-left: 5px; font-size: 18px;
     color: white;">{{ruleset.crenum}}</p>
           <div style="clear:both; padding:4px;"></div>
-          <input class="sidebar__radio" ng-model="atLeast" type="radio" id="AtLeast" ng-value="true">
+          <input class="sidebar__radio" ng-model="$parent.atLeast" type="radio" id="AtLeast" ng-value="true">
           <label for="AtLeast" class="sidebar__radiolbl">
             <div class="sidebar__radiodiv"><i class="fa fa-check sidebar__checkmark"></i></div>
             <p style="float:left; margin-top:5px; margin-left: 5px;letter-spacing: .5px;">At Least this many</p>
           </label>
           <div style="clear:both; padding:4px;"></div>
-          <input class="sidebar__radio" ng-model="atLeast" type="radio" id="Exactly" ng-value="false">
+          <input class="sidebar__radio" ng-model="$parent.atLeast" type="radio" id="Exactly" ng-value="false">
           <label for="Exactly" class="sidebar__radiolbl">
             <div class="sidebar__radiodiv"><i class="fa fa-check sidebar__checkmark"></i></div>
             <p style="float:left; margin-top:5px; margin-left: 5px;letter-spacing: .5px;">Exactly this many</p>

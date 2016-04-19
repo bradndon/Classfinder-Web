@@ -22,8 +22,7 @@ classApp.controller('HomeCtrl', function($scope, $rootScope) {
     crenum: "0"
   };
   $scope.$watch('fileToRead', function(newValue, oldValue) {$scope.readClasses()});
-
-  $scope.$watch('atLeast', function(newValue, oldValue) {$scope.reset()});
+  $scope.$watch('atLeast', function(newValue, oldValue) {console.log("GASDF");$scope.reset()});
   $scope.$watch('exclusive', function(newValue, oldValue) {$scope.reset()});
   $scope.$watch('begin', function(newValue, oldValue) {$scope.reset()});
   $scope.$watch('end', function(newValue, oldValue) {$scope.reset()});
@@ -186,7 +185,6 @@ classApp.controller('HomeCtrl', function($scope, $rootScope) {
         $('.schedule').first().css("overflow-y","");
         $('.schedule__tab').remove();
     } else {
-      FlurryAgent.logEvent("Looked at Scedule");
       $('#schedNum').css("display", "none");
       $('.schedule__list').first().css("display","block");
       $('.schedule').first().css("overflow-y","auto");
@@ -196,6 +194,8 @@ classApp.controller('HomeCtrl', function($scope, $rootScope) {
     $('.schedule__svg').toggleClass("fa-calendar");
     $('.schedule__svg').toggleClass("fa-times");
     $('.content').toggleClass("content--noflowsmall");
+    FlurryAgent.logEvent("Looked at Scedule");
+
   }
   $scope.createSchedule = function() {
     $('.schedule__tab').remove();
@@ -233,7 +233,6 @@ classApp.controller('HomeCtrl', function($scope, $rootScope) {
 
     var index = $scope.selectedClasses.indexOf(currClass)
     if(index > -1) {
-      FlurryAgent.logEvent("Remove from Schedule", {title: currClass.title, crn: currClass.crn});
 
       currClass.add= "<i class='fa fa-plus'></i>";
       $scope.selectedClasses.splice(index,1);
@@ -242,7 +241,6 @@ classApp.controller('HomeCtrl', function($scope, $rootScope) {
 
     } else {
       if (currClass.text.indexOf("Overlaps") <= -1){
-        FlurryAgent.logEvent("Add to Schedule", {title: currClass.title, crn: currClass.crn});
 
         $scope.selectedClasses.push(currClass);
         currClass.add= "<i class='fa fa-minus'></i>";
@@ -254,6 +252,8 @@ classApp.controller('HomeCtrl', function($scope, $rootScope) {
       $scope.createSchedule();
     }
     $scope.reset();
+    FlurryAgent.logEvent("Add/Remove from Schedule", {title: currClass.title, crn: currClass.crn});
+
   }
   $scope.overlapsWithSchedule = function(currClass) {
     var check = true;
@@ -271,7 +271,6 @@ classApp.controller('HomeCtrl', function($scope, $rootScope) {
     return check;
   }
   $scope.dayClicked = function(day) {
-    FlurryAgent.logEvent("Filter by", {filter: "day", value: day});
 
     var index = $scope.ruleset.day.indexOf(day)
     if (index > -1) {
@@ -281,6 +280,8 @@ classApp.controller('HomeCtrl', function($scope, $rootScope) {
     }
     $scope.ruleset.day.sort();
     $scope.reset();
+    FlurryAgent.logEvent("Filter by", {filter: "day", value: day});
+
   }
   $.getJSON("js/rmpFixed.json", function(data) {
     $scope.scores = {};
@@ -289,8 +290,8 @@ classApp.controller('HomeCtrl', function($scope, $rootScope) {
     }
   });
   $scope.readClasses = function() {
-    $.getJSON("http://wwuclassfinder.com/" + $scope.fileToRead + ".json", function(data) {
-    // $.getJSON("http://sub.localhost:4568/" + $scope.fileToRead + ".json", function(data) {
+    // $.getJSON("http://wwuclassfinder.com/" + $scope.fileToRead + ".json", function(data) {
+    $.getJSON("http://sub.localhost:4568/" + $scope.fileToRead + ".json", function(data) {
       $scope.allData = data;
       $scope.loaded = false;
 
@@ -299,10 +300,11 @@ classApp.controller('HomeCtrl', function($scope, $rootScope) {
         data: $scope.subData
       });
       $('.subjectSelect').on("select2:select", function(e) {
-        FlurryAgent.logEvent("Filter by", {filter: "subject", value: e.params.data.id});
 
         $scope.ruleset["class"].push(e.params.data.id);
         $scope.reset();
+        FlurryAgent.logEvent("Filter by", {filter: "subject", value: e.params.data.id});
+
       });
       $('.subjectSelect').on("select2:unselect", function(e) {
         var i = $scope.ruleset["class"].indexOf(e.params.data.id);
@@ -313,10 +315,11 @@ classApp.controller('HomeCtrl', function($scope, $rootScope) {
         data: $scope.gurData
       });
       $('.gurSelect').on("select2:select", function(e) {
-        FlurryAgent.logEvent("Filter by", {filter: "gur", value: e.params.data.id});
 
         $scope.ruleset.gur.push(e.params.data.id);
         $scope.reset();
+        FlurryAgent.logEvent("Filter by", {filter: "gur", value: e.params.data.id});
+
       });
       $('.gurSelect').on("select2:unselect", function(e) {
         var i = $scope.ruleset.gur.indexOf(e.params.data.id);
@@ -327,8 +330,8 @@ classApp.controller('HomeCtrl', function($scope, $rootScope) {
     });
   }
 
-  $.getJSON("http://wwuclassfinder.com/menu.json", function(data) {
-  // $.getJSON("http://sub.localhost:4568/menu.json", function(data) {
+  $.getJSON("http://sub.localhost:4568/menu.json", function(data) {
+  // $.getJSON("http://wwuclassfinder.com/menu.json", function(data) {
 
     $scope.readClasses();
     $scope.menuData = data;
@@ -360,6 +363,7 @@ classApp.controller('HomeCtrl', function($scope, $rootScope) {
     $scope.$apply();
   });
   $scope.reset = function() {
+    console.log("HERE");
     for (obj in $scope.showTitle) {
       $scope.showTitle[obj] = false;
     }
