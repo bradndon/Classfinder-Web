@@ -388,4 +388,7 @@ if __name__ == "__main__":
     f.write(getClasses("All", 201630, False, False))
     f.close()
     copyfile('./temp.json', '/var/www/html/classes2.json')
-
+    f = open('./temp.json','w')
+    f.write(getClasses("All", 201620, False, False))
+    f.close()
+    copyfile('./temp.json', '/var/www/html/classes3.json')
