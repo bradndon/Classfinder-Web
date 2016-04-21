@@ -290,8 +290,8 @@ classApp.controller('HomeCtrl', function($scope, $rootScope) {
     }
   });
   $scope.readClasses = function() {
-    $.getJSON("http://wwuclassfinder.com/" + $scope.fileToRead + ".json", function(data) {
-    // $.getJSON("http://sub.localhost:4568/" + $scope.fileToRead + ".json", function(data) {
+    // $.getJSON("http://wwuclassfinder.com/" + $scope.fileToRead + ".json", function(data) {
+      $.getJSON("http://sub.localhost:4568/" + $scope.fileToRead + ".json", function(data) {
       $scope.allData = data;
       $scope.loaded = false;
 
@@ -303,6 +303,8 @@ classApp.controller('HomeCtrl', function($scope, $rootScope) {
 
         $scope.ruleset["class"].push(e.params.data.id);
         $scope.reset();
+        $scope.$apply();
+
         FlurryAgent.logEvent("Filter by", {filter: "subject", value: e.params.data.id});
 
       });
@@ -310,6 +312,8 @@ classApp.controller('HomeCtrl', function($scope, $rootScope) {
         var i = $scope.ruleset["class"].indexOf(e.params.data.id);
         $scope.ruleset["class"].splice(i, 1);
         $scope.reset();
+        $scope.$apply();
+
       });
       $('.gurSelect').select2({
         data: $scope.gurData
@@ -318,6 +322,8 @@ classApp.controller('HomeCtrl', function($scope, $rootScope) {
 
         $scope.ruleset.gur.push(e.params.data.id);
         $scope.reset();
+        $scope.$apply();
+
         FlurryAgent.logEvent("Filter by", {filter: "gur", value: e.params.data.id});
 
       });
@@ -325,13 +331,14 @@ classApp.controller('HomeCtrl', function($scope, $rootScope) {
         var i = $scope.ruleset.gur.indexOf(e.params.data.id);
         $scope.ruleset.gur.splice(i, 1);
         $scope.reset();
+        $scope.$apply();
       });
       $scope.reset();
     });
   }
 
-  // $.getJSON("http://sub.localhost:4568/menu.json", function(data) {
-  $.getJSON("http://wwuclassfinder.com/menu.json", function(data) {
+  $.getJSON("http://sub.localhost:4568/menu.json", function(data) {
+  // $.getJSON("http://wwuclassfinder.com/menu.json", function(data) {
 
     $scope.readClasses();
     $scope.menuData = data;
@@ -373,7 +380,6 @@ classApp.controller('HomeCtrl', function($scope, $rootScope) {
     $scope.numShown = 0;
     $scope.$emit('list:filtered');
 
-    $scope.$apply();
   }
 
 });
