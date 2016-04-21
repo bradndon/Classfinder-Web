@@ -293,8 +293,8 @@ classApp.controller('HomeCtrl', function($scope, $rootScope) {
     }
   });
   $scope.readClasses = function() {
-    // $.getJSON("http://wwuclassfinder.com/" + $scope.fileToRead + ".json", function(data) {
-      $.getJSON("http://sub.localhost:4568/" + $scope.fileToRead + ".json", function(data) {
+    $.getJSON("http://wwuclassfinder.com/" + $scope.fileToRead + ".json", function(data) {
+      // $.getJSON("http://sub.localhost:4568/" + $scope.fileToRead + ".json", function(data) {
       $scope.allData = data;
       $scope.loaded = false;
 
@@ -340,8 +340,8 @@ classApp.controller('HomeCtrl', function($scope, $rootScope) {
     });
   }
 
-  $.getJSON("http://sub.localhost:4568/menu.json", function(data) {
   // $.getJSON("http://wwuclassfinder.com/menu.json", function(data) {
+  $.getJSON("http://sub.localhost:4568/menu.json", function(data) {
 
     $scope.readClasses();
     $scope.menuData = data;
