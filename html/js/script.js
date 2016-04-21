@@ -39,6 +39,9 @@ classApp.controller('HomeCtrl', function($scope, $rootScope) {
           currSubText = $scope.subData[$scope.currSubject].text;
           while ($scope.allData[currSubText] == null) {
             $scope.currSubject++;
+            if($scope.currSubject  >= $scope.subData.length){
+              return;
+            }
             currSubText = $scope.subData[$scope.currSubject].text;
           }
           currSubText = $scope.subData[$scope.currSubject].text;
