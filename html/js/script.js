@@ -22,7 +22,7 @@ classApp.controller('HomeCtrl', function($scope, $rootScope) {
     crenum: "0"
   };
   $scope.$watch('fileToRead', function(newValue, oldValue) {$scope.readClasses()});
-  $scope.$watch('atLeast', function(newValue, oldValue) {console.log("GASDF");$scope.reset()});
+  $scope.$watch('atLeast', function(newValue, oldValue) {$scope.reset()});
   $scope.$watch('exclusive', function(newValue, oldValue) {$scope.reset()});
   $scope.$watch('begin', function(newValue, oldValue) {$scope.reset()});
   $scope.$watch('end', function(newValue, oldValue) {$scope.reset()});
@@ -206,7 +206,7 @@ classApp.controller('HomeCtrl', function($scope, $rootScope) {
       if(index == 6) {
         index=1;
       }
-      console.log(x);
+      (x);
       $scope.credits += parseInt(x.crenum);
       x.daytime.forEach(function(y){
         var findSpot = function(time) {
@@ -363,7 +363,6 @@ classApp.controller('HomeCtrl', function($scope, $rootScope) {
     $scope.$apply();
   });
   $scope.reset = function() {
-    console.log("HERE");
     for (obj in $scope.showTitle) {
       $scope.showTitle[obj] = false;
     }
