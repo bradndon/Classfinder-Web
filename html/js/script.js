@@ -340,8 +340,8 @@ classApp.controller('HomeCtrl', function($scope, $rootScope) {
     });
   }
 
-  // $.getJSON("http://wwuclassfinder.com/menu.json", function(data) {
-  $.getJSON("http://sub.localhost:4568/menu.json", function(data) {
+  $.getJSON("http://wwuclassfinder.com/menu.json", function(data) {
+  // $.getJSON("http://sub.localhost:4568/menu.json", function(data) {
 
     $scope.readClasses();
     $scope.menuData = data;
