@@ -22,7 +22,7 @@ classApp.controller('HomeCtrl', function($scope, $rootScope) {
     crenum: "0"
   };
   $scope.$watch('fileToRead', function(newValue, oldValue) {$scope.readClasses()});
-  $scope.$watch('atLeast', function(newValue, oldValue) {console.log("GASDF");$scope.reset()});
+  $scope.$watch('atLeast', function(newValue, oldValue) {$scope.reset()});
   $scope.$watch('exclusive', function(newValue, oldValue) {$scope.reset()});
   $scope.$watch('begin', function(newValue, oldValue) {$scope.reset()});
   $scope.$watch('end', function(newValue, oldValue) {$scope.reset()});
@@ -39,6 +39,9 @@ classApp.controller('HomeCtrl', function($scope, $rootScope) {
           currSubText = $scope.subData[$scope.currSubject].text;
           while ($scope.allData[currSubText] == null) {
             $scope.currSubject++;
+            if($scope.currSubject  >= $scope.subData.length){
+              return;
+            }
             currSubText = $scope.subData[$scope.currSubject].text;
           }
           currSubText = $scope.subData[$scope.currSubject].text;
@@ -206,7 +209,7 @@ classApp.controller('HomeCtrl', function($scope, $rootScope) {
       if(index == 6) {
         index=1;
       }
-      console.log(x);
+      (x);
       $scope.credits += parseInt(x.crenum);
       x.daytime.forEach(function(y){
         var findSpot = function(time) {
@@ -291,7 +294,7 @@ classApp.controller('HomeCtrl', function($scope, $rootScope) {
   });
   $scope.readClasses = function() {
     $.getJSON("http://wwuclassfinder.com/" + $scope.fileToRead + ".json", function(data) {
-    // $.getJSON("http://sub.localhost:4568/" + $scope.fileToRead + ".json", function(data) {
+      // $.getJSON("http://sub.localhost:4568/" + $scope.fileToRead + ".json", function(data) {
       $scope.allData = data;
       $scope.loaded = false;
 
@@ -303,6 +306,8 @@ classApp.controller('HomeCtrl', function($scope, $rootScope) {
 
         $scope.ruleset["class"].push(e.params.data.id);
         $scope.reset();
+        $scope.$apply();
+
         FlurryAgent.logEvent("Filter by", {filter: "subject", value: e.params.data.id});
 
       });
@@ -310,6 +315,8 @@ classApp.controller('HomeCtrl', function($scope, $rootScope) {
         var i = $scope.ruleset["class"].indexOf(e.params.data.id);
         $scope.ruleset["class"].splice(i, 1);
         $scope.reset();
+        $scope.$apply();
+
       });
       $('.gurSelect').select2({
         data: $scope.gurData
@@ -318,6 +325,8 @@ classApp.controller('HomeCtrl', function($scope, $rootScope) {
 
         $scope.ruleset.gur.push(e.params.data.id);
         $scope.reset();
+        $scope.$apply();
+
         FlurryAgent.logEvent("Filter by", {filter: "gur", value: e.params.data.id});
 
       });
@@ -325,13 +334,14 @@ classApp.controller('HomeCtrl', function($scope, $rootScope) {
         var i = $scope.ruleset.gur.indexOf(e.params.data.id);
         $scope.ruleset.gur.splice(i, 1);
         $scope.reset();
+        $scope.$apply();
       });
       $scope.reset();
     });
   }
 
-  // $.getJSON("http://sub.localhost:4568/menu.json", function(data) {
   $.getJSON("http://wwuclassfinder.com/menu.json", function(data) {
+  // $.getJSON("http://sub.localhost:4568/menu.json", function(data) {
 
     $scope.readClasses();
     $scope.menuData = data;
@@ -363,7 +373,6 @@ classApp.controller('HomeCtrl', function($scope, $rootScope) {
     $scope.$apply();
   });
   $scope.reset = function() {
-    console.log("HERE");
     for (obj in $scope.showTitle) {
       $scope.showTitle[obj] = false;
     }
@@ -374,7 +383,6 @@ classApp.controller('HomeCtrl', function($scope, $rootScope) {
     $scope.numShown = 0;
     $scope.$emit('list:filtered');
 
-    $scope.$apply();
   }
 
 });
