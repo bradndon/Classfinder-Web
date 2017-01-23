@@ -321,7 +321,8 @@ def getClasses(subject, term, verbose=False, test=False):
                     returns[-1][part] = None
         allReturns[k] = returns
         returns = []
-    allReturns[k][-1]["crn"] = crn
+    if allReturns:
+        allReturns[k][-1]["crn"] = crn
     if verbose:
         print json.dumps(allReturns)
     if test:

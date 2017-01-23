@@ -3,24 +3,24 @@
 import bottle
 from bottle import HTTPError, run, route, template, request, response, static_file, get, install
 from api import getClasses
-from sql_ex import Base, Apikey
-from bottle.ext import sqlalchemy
-from sqlalchemy import create_engine
+# from sql_ex import Base, Apikey
+# from bottle.ext import sqlalchemy
+# from sqlalchemy import create_engine
 
 import menu
 import json
 
-engine = create_engine('mysql+pymysql://root:7rebrahuxetrewuc@localhost/apidb?charset=utf8&use_unicode=0', pool_recycle=3600)
-Base.metadata.bind = engine
-
-plugin = sqlalchemy.Plugin(
-    engine, # SQLAlchemy engine created with create_engine function.
-    keyword='db', # Keyword used to inject session database in a route (default 'db').
-    create=False, # If it is true, execute `metadata.create_all(engine)` when plugin is applied (default False).
-    commit=True, # If it is true, plugin commit changes after route is executed (default True).
-    use_kwargs=False # If it is true and keyword is not defined, plugin uses **kwargs argument to inject session database (default False).
-)
-install(plugin)
+# engine = create_engine('mysql+pymysql://root:7rebrahuxetrewuc@localhost/apidb?charset=utf8&use_unicode=0', pool_recycle=3600)
+# Base.metadata.bind = engine
+#
+# plugin = sqlalchemy.Plugin(
+#     engine, # SQLAlchemy engine created with create_engine function.
+#     keyword='db', # Keyword used to inject session database in a route (default 'db').
+#     create=False, # If it is true, execute `metadata.create_all(engine)` when plugin is applied (default False).
+#     commit=True, # If it is true, plugin commit changes after route is executed (default True).
+#     use_kwargs=False # If it is true and keyword is not defined, plugin uses **kwargs argument to inject session database (default False).
+# )
+# install(plugin)
 
 # Static Routes
 @get('/<filename:re:.*\.js>')
@@ -67,16 +67,16 @@ def mainPage():
 @apiSuccess {String[]} Subject  Dictionary of the subjects and their associated acronyms
 """
 @route('/v1/menu')
-def getMenu(db):
-    if not request.GET.get('apikey','').strip():
-        return json.dumps({"message": "Not authorized - No Key"})
-    try:
-        apikey = request.GET.get('apikey','').strip()
-        key = db.query(Apikey).filter(Apikey.apikey == apikey).one()
-        if key:
-            return menu.extractData(menu.getHTTP())
-    except:
-        return json.dumps({"message": "Not authorized - Invalid Key"})
+def getMenu():
+    # if not request.GET.get('apikey','').strip():
+    #     return json.dumps({"message": "Not authorized - No Key"})
+    # try:
+    #     apikey = request.GET.get('apikey','').strip()
+    #     key = db.query(Apikey).filter(Apikey.apikey == apikey).one()
+    #     if key:
+    return menu.extractData(menu.getHTTP())
+    # except:
+    #     return json.dumps({"message": "Not authorized - Invalid Key"})
 
 
 """
@@ -111,22 +111,22 @@ def getMenu(db):
 @apiSuccess {Number} Classes.Class.enrol  Class restrictions
 """
 @route('/v1/class/:term')
-def getAllClasses(db, term):
-    if not request.GET.get('apikey','').strip():
-        return json.dumps({"message": "Not authorized - No Key"})
-    try:
-        apikey = request.GET.get('apikey','').strip()
-        key = db.query(Apikey).filter(Apikey.apikey == apikey).one()
-        if key:
-            return getClasses('All', term)
-    except:
-        return json.dumps({"message": "Not authorized - Invalid Key"})
+def getAllClasses(term):
+#    if not request.GET.get('apikey','').strip():
+#        return json.dumps({"message": "Not authorized - No Key"})
+#    try:
+#        apikey = request.GET.get('apikey','').strip()
+#        key = db.query(Apikey).filter(Apikey.apikey == apikey).one()
+#        if key:
+    return getClasses('All', term)
+#    except:
+#        return json.dumps({"message": "Not authorized - Invalid Key"})
 
 
 
-# run(
-#         host     = '0.0.0.0',
-#         port     = 8080,
-#         reloader = True,        # restarts the server every time edit a module file
-#         debug    = True         # Comment out it before deploy
-#         )
+run(
+        host     = '0.0.0.0',
+        port     = 8080,
+        reloader = True,        # restarts the server every time edit a module file
+        debug    = True         # Comment out it before deploy
+        )
